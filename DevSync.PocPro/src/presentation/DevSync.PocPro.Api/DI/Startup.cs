@@ -1,4 +1,5 @@
 using DevSync.PocPro.Persistence.Data.TenantManagement;
+using DevSync.PocPro.Persistence.DI;
 using FastEndpoints;
 using Scalar.AspNetCore;
 
@@ -10,6 +11,8 @@ public static class Startup
     {
         builder.AddServiceDefaults();
         builder.Services.AddOpenApi();
+
+        builder.Services.AddPersistence();
         
         builder.Services.AddAuthentication()
             .AddKeycloakJwtBearer(serviceName: "", realm: "", options =>

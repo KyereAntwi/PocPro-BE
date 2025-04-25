@@ -36,4 +36,7 @@ public class TenantsDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(TenantsDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
     }
+
+    public DbSet<Tenant> Tenants => Set<Tenant>();
+    public DbSet<ApplicationUser> ApplicationUsers => Set<ApplicationUser>();
 }

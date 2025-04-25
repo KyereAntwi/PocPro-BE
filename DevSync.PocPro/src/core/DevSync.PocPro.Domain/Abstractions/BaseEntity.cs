@@ -1,11 +1,6 @@
 namespace DevSync.PocPro.Domain.Abstractions;
 
-public interface IEntity<T> : IEntity
-{
-    public T Id { get; set; }
-}
-
-public interface IEntity
+public abstract class BaseEntity<T> : IEntity<T>
 {
     public DateTimeOffset? CreatedAt { get; set; }
     public string? CreatedBy { get; set; }
@@ -13,4 +8,5 @@ public interface IEntity
     public string? UpdatedBy { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
     public string? DeletedBy { get; set; }
+    public T Id { get; set; }
 }
