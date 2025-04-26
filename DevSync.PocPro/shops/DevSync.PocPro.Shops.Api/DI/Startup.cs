@@ -1,31 +1,25 @@
-using DevSync.PocPro.Accounts.Api.Services;
+using DevSync.PocPro.Shops.Api.Data;
+using FastEndpoints;
 using Scalar.AspNetCore;
 
-namespace DevSync.PocPro.Accounts.Api.DI;
+namespace DevSync.PocPro.Shops.Api.DI;
 
 public static class Startup
 {
     public static WebApplication AddServices(this WebApplicationBuilder builder)
     {
-        var tenantDatabaseSettings = new TenantDatabaseSettings();
-        builder.Configuration.GetSection("TenantDatabaseSettings").Bind(tenantDatabaseSettings);
-        builder.Services.AddSingleton(tenantDatabaseSettings);
-        
-        builder.AddNpgsqlDbContext<AccountsDbContext>("PocProAccountsManagement");
+        builder.AddNpgsqlDbContext<MainShopDbContext>("PocProAccountsManagement");
         //builder.AddSeqEndpoint(connectionName: "seq");
         builder.AddRabbitMQClient(connectionName: "messaging");
         
         builder.AddServiceDefaults();
         builder.Services.AddOpenApi();
         
-        builder.Services.AddScoped<IApplicationDbContext, AccountsDbContext>();
-        builder.Services.AddScoped<ITenantServices, TenantServices>();
-        
         builder.Services.AddAuthentication()
             .AddKeycloakJwtBearer(serviceName: "keycloak", realm: "account", options =>
             {
                 options.RequireHttpsMetadata = false;
-                options.Audience = "account-api";
+                options.Audience = "shops-api";
             });
         
         builder.Services.AddHttpContextAccessor();
@@ -46,17 +40,17 @@ public static class Startup
         
         return builder.Build();
     }
-
+    
     public static WebApplication AddPipeline(this WebApplication app)
     {
         if (app.Environment.IsDevelopment())
         {
-            app.ConfigureDatabaseAsync();
+            //app.ConfigureDatabaseAsync();
             app.MapOpenApi();
             app.MapScalarApiReference(options =>
             {
                 options
-                    .WithTitle("DevSync's PocPro Accounts API")
+                    .WithTitle("DevSync's PocPro Main Shops API")
                     .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
             });
         }

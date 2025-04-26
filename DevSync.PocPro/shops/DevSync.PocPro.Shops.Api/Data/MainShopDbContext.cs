@@ -1,11 +1,12 @@
-namespace DevSync.PocPro.Accounts.Api.Data;
+using DevSync.PocPro.Shops.StocksModule.Domains;
 
-public class AccountsDbContext : DbContext, IApplicationDbContext
+namespace DevSync.PocPro.Shops.Api.Data;
+
+public class MainShopDbContext : DbContext
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
-
-    public AccountsDbContext(
-        DbContextOptions<AccountsDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
+    
+    public MainShopDbContext(DbContextOptions<MainShopDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
     {
         _httpContextAccessor = httpContextAccessor;
     }
@@ -32,11 +33,12 @@ public class AccountsDbContext : DbContext, IApplicationDbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AccountsDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(MainShopDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
     }
 
-    public DbSet<ApplicationUser> ApplicationUsers => Set<ApplicationUser>();
-    public DbSet<Tenant> Tenants => Set<Tenant>();
-    public DbSet<Permission> Permissions => Set<Permission>();
+    public DbSet<Product> Products => Set<Product>();
+    public DbSet<Stock> Stocks => Set<Stock>();
+    public DbSet<Supplier> Suppliers => Set<Supplier>();
+    public DbSet<Contact> Contacts => Set<Contact>();
 }

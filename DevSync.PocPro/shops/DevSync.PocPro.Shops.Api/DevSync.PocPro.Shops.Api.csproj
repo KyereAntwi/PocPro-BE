@@ -9,25 +9,27 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4"/>
         <PackageReference Include="Aspire.Keycloak.Authentication" Version="9.0.0-preview.5.24551.3" />
-        <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
         <PackageReference Include="Aspire.RabbitMQ.Client" Version="9.0.0" />
         <PackageReference Include="Aspire.Seq" Version="9.0.0" />
-        <PackageReference Include="FastEndpoints" Version="6.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.4" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Scalar.AspNetCore" Version="2.2.1" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\boostraps\DevSync.PocPro.ServiceDiscovery\DevSync.PocPro.ServiceDiscovery.csproj" />
-      <ProjectReference Include="..\..\..\shared\DevSync.PocPro.Shared.Domain\DevSync.PocPro.Shared.Domain.csproj" />
+      <ProjectReference Include="..\..\boostraps\DevSync.PocPro.ServiceDiscovery\DevSync.PocPro.ServiceDiscovery.csproj" />
+      <ProjectReference Include="..\stocks\DevSync.PocPro.Shops.StocksModule\DevSync.PocPro.Shops.StocksModule.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Services\" />
     </ItemGroup>
 
 </Project>

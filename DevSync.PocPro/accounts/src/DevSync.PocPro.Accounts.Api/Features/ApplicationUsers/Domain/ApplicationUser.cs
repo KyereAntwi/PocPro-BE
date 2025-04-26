@@ -5,13 +5,13 @@ public class ApplicationUser : BaseEntity<ApplicationUserId>
     private readonly Collection<Permission> _permissions = [];
     public IReadOnlyCollection<Permission> Permissions => _permissions;
     
-    public static ApplicationUser Create(
-        Guid tenantId, string firstName, string lastName, string otherNames, string email, string userId, string photoUrl, Permission[] permissions)
+    public static ApplicationUser Create(string firstName, string lastName, string otherNames, string email, 
+        string userId, string photoUrl, Permission[] permissions, TenantId? tenantId = null)
     {
         var application = new ApplicationUser
         {
+            TenantId = tenantId,
             Id = ApplicationUserId.Of(Guid.CreateVersion7()),
-            TenantId = TenantId.Of(tenantId),
             FirstName = firstName,
             LastName = lastName,
             OtherNames = otherNames,
@@ -30,13 +30,13 @@ public class ApplicationUser : BaseEntity<ApplicationUserId>
         return application;
     }
 
-    public TenantId? TenantId { get; set; }
-    public required string FirstName { get; set; }
-    public required string LastName { get; set; }
-    public string? OtherNames { get; set; }
-    public string? Email { get; set; }
-    public required string UserId { get; set; }
-    public string? PhotoUrl { get; set; }
+    public TenantId? TenantId { get; private set; }
+    public string FirstName { get; private set; }
+    public string LastName { get; private set; }
+    public string? OtherNames { get; private set; }
+    public string? Email { get; private set; }
+    public string UserId { get; private set; }
+    public string? PhotoUrl { get; private set; }
     
     public Result AddPermission(Tenant tenant, ApplicationUser user, Permission permission)
     {
@@ -77,11 +77,16 @@ public class ApplicationUser : BaseEntity<ApplicationUserId>
         
         return Result.Ok();
     }
+
+    public bool HasPermission(PermissionType permissionType)
+    {
+        return _permissions.Select(p => p.PermissionType).Contains(permissionType);
+    }
 }
 
 public record ApplicationUserId
 {
-    public Guid Value { get; set; } = Guid.Empty;
+    public Guid Value { get; } = Guid.Empty!;
 
     private ApplicationUserId(Guid value) => Value = value;
 
@@ -89,7 +94,7 @@ public record ApplicationUserId
     {
         if (value == Guid.Empty)
         {
-            throw new DomainExceptions("Invalid value for ApplicationUserId");
+            throw new DomainExceptions("User Id cannot be empty or null");
         }
 
         return new ApplicationUserId(value);
