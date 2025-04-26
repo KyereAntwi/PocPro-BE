@@ -1,6 +1,0 @@
-@DevSync.PocPro.Api_HostAddress = http://localhost:5100
-
-GET {{DevSync.PocPro.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
