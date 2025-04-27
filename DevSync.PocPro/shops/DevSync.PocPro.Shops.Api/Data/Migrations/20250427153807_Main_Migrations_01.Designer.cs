@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DevSync.PocPro.Shops.Api.Data.Migrations
 {
     [DbContext(typeof(MainShopTemplateDbContext))]
-    [Migration("20250427105610_Initial")]
-    partial class Initial
+    [Migration("20250427153807_Main_Migrations_01")]
+    partial class Main_Migrations_01
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,8 +30,9 @@ namespace DevSync.PocPro.Shops.Api.Data.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("ContactType")
-                        .HasColumnType("integer");
+                    b.Property<string>("ContactType")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");

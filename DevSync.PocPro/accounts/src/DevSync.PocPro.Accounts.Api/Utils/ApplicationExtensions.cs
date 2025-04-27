@@ -30,21 +30,6 @@ public static class ApplicationExtensions
     
     private static async Task ApplyMigrationsAsync(AccountsDbContext accountsDbContext)
     {
-        var strategy = accountsDbContext.Database.CreateExecutionStrategy();
-        
-        await strategy.ExecuteAsync(async () =>
-        {
-            await using var transaction = await accountsDbContext.Database.BeginTransactionAsync();
-            try
-            {
-                await accountsDbContext.Database.MigrateAsync();
-                await transaction.CommitAsync();
-            }
-            catch (Exception)
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
-        });
+        await accountsDbContext.Database.MigrateAsync();
     }
 }

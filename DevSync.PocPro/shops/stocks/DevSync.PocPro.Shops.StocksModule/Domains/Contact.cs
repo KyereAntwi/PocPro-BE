@@ -1,5 +1,3 @@
-using DevSync.PocPro.Shops.StocksModule.Domains.Enums;
-
 namespace DevSync.PocPro.Shops.StocksModule.Domains;
 
 public class Contact : BaseEntity<ContactId>

@@ -1,10 +1,9 @@
-using System.Net;
 using DevSync.PocPro.Accounts.Api.Features.Tenants.V1.GetTenantDetails;
 
 namespace DevSync.PocPro.Accounts.Api.Features.Tenants.V1.CreateATenant;
 
 public class CreateATenantEndpoint(
-    IApplicationDbContext applicationDbContext, ILogger<CreateATenantEndpoint> logger, ITenantServices tenantServices) 
+    IApplicationDbContext applicationDbContext, ILogger<CreateATenantEndpoint> logger) 
     : Endpoint<CreateATenantRequest, BaseResponse<CreateATenantResponse>>
 {
     public override void Configure()
@@ -26,17 +25,8 @@ public class CreateATenantEndpoint(
         
         await applicationDbContext.Tenants.AddAsync(tenant, ct);
         await applicationDbContext.SaveChangesAsync(ct);
-
-        try
-        {
-            await tenantServices.GenerateTenantDatabase(req.UniqueIdentifier, ct);
-            await tenantServices.ApplyMigrationAsync(connectionString, ct);
-        }
-        catch (Exception e)
-        {
-            logger.LogCritical(e.Message);
-            await SendErrorsAsync((int)HttpStatusCode.InternalServerError, ct);
-        }
+        
+        // TODO - send for database implementation
 
         await SendCreatedAtAsync<GetTenantDetailsEndpoint>(new { tenant.Id }, 
             new BaseResponse<CreateATenantResponse>("Tenant created successfully", true)

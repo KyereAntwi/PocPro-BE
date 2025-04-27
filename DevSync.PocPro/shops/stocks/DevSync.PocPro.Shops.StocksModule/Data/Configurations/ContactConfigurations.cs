@@ -9,5 +9,9 @@ public class ContactConfigurations : IEntityTypeConfiguration<Contact>
             .HasConversion(vehicleId => vehicleId.Value, dbId => ContactId.Of(dbId));
         
         builder.Property(a => a.SupplierId).HasConversion(a => a.Value, dbId => SupplierId.Of(dbId));
+        
+        builder.Property(t => t.ContactType)
+            .HasConversion(t => t.ToString(),
+                dbType => Enum.Parse<ContactType>(dbType!));
     }
 }

@@ -27,8 +27,9 @@ namespace DevSync.PocPro.Shops.Api.Data.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("ContactType")
-                        .HasColumnType("integer");
+                    b.Property<string>("ContactType")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");

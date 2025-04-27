@@ -24,15 +24,17 @@ var messaging = builder
     .WithDataVolume()
     .WithExternalHttpEndpoints();
 
+var accountsApi = builder.AddProject<Projects.DevSync_PocPro_Accounts_Api>("accounts-api")
+    .WithReference(keycloak).WaitFor(keycloak)
+    .WithReference(postgres).WaitFor(postgres)
+    .WithReference(messaging)
+    .WithExternalHttpEndpoints();
+//.WithReference(seq);
+
 builder.AddProject<Projects.DevSync_PocPro_Shops_Api>("shops-api")
     .WithReference(keycloak).WaitFor(keycloak)
     .WithReference(postgres).WaitFor(postgres)
-    .WithReference(messaging);
-
-builder.AddProject<Projects.DevSync_PocPro_Accounts_Api>("accounts-api")
-    .WithReference(keycloak).WaitFor(keycloak)
-    .WithReference(postgres).WaitFor(postgres)
-    .WithReference(messaging);
-    //.WithReference(seq);
+    .WithReference(messaging)
+    .WithReference(accountsApi).WaitFor(accountsApi);
 
 builder.Build().Run();

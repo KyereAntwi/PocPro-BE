@@ -6,7 +6,7 @@ public class GetTenantDetailsEndpoint : Endpoint<GetTenantDetailsRequest, GetTen
     {
         Get("/api/v1/accounts/tenants/{UserId}");
         Description(x => x
-            .WithName("GetUsers")
+            .WithName("GetTenantDetails")
             .Produces<BaseResponse<GetTenantDetailsResponse>>()
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound));

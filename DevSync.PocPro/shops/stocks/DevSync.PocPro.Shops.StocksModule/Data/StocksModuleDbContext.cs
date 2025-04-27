@@ -43,7 +43,7 @@ public class StocksModuleDbContext : DbContext
 
         if (tenant == null) throw new BadRequestException("Invalid Tenant from the request headers.");
             
-        optionsBuilder.UseNpgsql(tenant!.ConnectionString);
+        optionsBuilder.UseNpgsql(tenant.ConnectionString);
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)

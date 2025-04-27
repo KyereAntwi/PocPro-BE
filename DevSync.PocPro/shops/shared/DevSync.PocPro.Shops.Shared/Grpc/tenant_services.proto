@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "DevSync.PocPro.Accounts.Api.Features.Tenants.Grpc";
+option csharp_namespace = "DevSync.PocPro.Shops.Shard.Grpc";
 
 service TenantService {
   rpc GetTenantDetails (GetTenantDetailsRequest) returns (GetTenantDetailsResponse);

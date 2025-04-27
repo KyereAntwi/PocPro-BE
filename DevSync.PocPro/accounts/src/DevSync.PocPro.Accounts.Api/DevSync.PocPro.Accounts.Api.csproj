@@ -40,4 +40,8 @@
         <Protobuf Include="Features\Tenants\Grpc\tenant_services.proto" GrpcServices="Server" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Services\" />
+    </ItemGroup>
+
 </Project>

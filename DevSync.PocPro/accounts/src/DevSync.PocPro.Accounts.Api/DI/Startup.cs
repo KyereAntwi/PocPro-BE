@@ -1,4 +1,4 @@
-using DevSync.PocPro.Accounts.Api.Services;
+using DevSync.PocPro.Accounts.Api.Features.Tenants.Grpc;
 using Scalar.AspNetCore;
 
 namespace DevSync.PocPro.Accounts.Api.DI;
@@ -19,7 +19,6 @@ public static class Startup
         builder.Services.AddOpenApi();
         
         builder.Services.AddScoped<IApplicationDbContext, AccountsDbContext>();
-        builder.Services.AddScoped<ITenantServices, TenantServices>();
         
         builder.Services.AddAuthentication()
             .AddKeycloakJwtBearer(serviceName: "keycloak", realm: "account", options =>
@@ -41,7 +40,8 @@ public static class Startup
                     .AllowAnyMethod()
                     .AllowCredentials());
         });
-        
+
+        builder.Services.AddGrpc();
         builder.Services.AddFastEndpoints();
         
         return builder.Build();
@@ -49,7 +49,7 @@ public static class Startup
 
     public static WebApplication AddPipeline(this WebApplication app)
     {
-        app.ConfigureDatabaseAsync();
+        _ = app.ConfigureDatabaseAsync();
         
         if (app.Environment.IsDevelopment())
         {
@@ -65,7 +65,14 @@ public static class Startup
         app.UseCors("Open");
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseRouting();
+        
         app.UseFastEndpoints();
+        
+        app.UseEndpoints(endpoint =>
+        {
+            endpoint.MapGrpcService<TenantsServicesImpl>();
+        });
         app.UseHttpsRedirection();
         
         return app;
