@@ -14,6 +14,8 @@ global using DevSync.PocPro.Shared.Domain.Exceptions;
 global using FastEndpoints;
 global using FluentResults;
 global using FluentValidation;
+global using Grpc.Core;
+global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Npgsql;

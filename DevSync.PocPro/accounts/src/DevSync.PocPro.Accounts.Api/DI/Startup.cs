@@ -49,9 +49,10 @@ public static class Startup
 
     public static WebApplication AddPipeline(this WebApplication app)
     {
+        app.ConfigureDatabaseAsync();
+        
         if (app.Environment.IsDevelopment())
         {
-            app.ConfigureDatabaseAsync();
             app.MapOpenApi();
             app.MapScalarApiReference(options =>
             {

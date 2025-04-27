@@ -1,14 +1,16 @@
-using DevSync.PocPro.Shops.StocksModule.Domains;
+using DevSync.PocPro.Shops.Shared.Services;
 
-namespace DevSync.PocPro.Shops.Api.Data;
+namespace DevSync.PocPro.Shops.StocksModule.Data;
 
-public class MainShopDbContext : DbContext
+public class StocksModuleDbContext : DbContext
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ITenantServices _tenantServices;
     
-    public MainShopDbContext(DbContextOptions<MainShopDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
+    public StocksModuleDbContext(DbContextOptions<StocksModuleDbContext> options, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) : base(options)
     {
         _httpContextAccessor = httpContextAccessor;
+        _tenantServices = tenantServices;
     }
     
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
@@ -31,9 +33,22 @@ public class MainShopDbContext : DbContext
         return base.SaveChangesAsync(cancellationToken);
     }
     
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        var userId = _httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userId)) throw new BadRequestException("Missing User id from the request headers.");
+        
+        var tenant = _tenantServices.GetTenantByUserIdAsync(userId).Result;
+
+        if (tenant == null) throw new BadRequestException("Invalid Tenant from the request headers.");
+            
+        optionsBuilder.UseNpgsql(tenant!.ConnectionString);
+    }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(MainShopDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(StocksModuleDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
     }
 

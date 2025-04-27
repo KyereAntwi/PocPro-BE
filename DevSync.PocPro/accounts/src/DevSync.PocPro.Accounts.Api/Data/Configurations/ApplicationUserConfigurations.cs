@@ -8,6 +8,8 @@ public class ApplicationUserConfigurations : IEntityTypeConfiguration<Applicatio
         builder.Property(x => x.Id)
             .HasConversion(x => x.Value, dbId => ApplicationUserId.Of(dbId));
         
+        builder.Property(a => a.TenantId).HasConversion(a => a.Value, dbId => TenantId.Of(dbId));
+        
         builder
             .HasMany(t => t.Permissions)
             .WithMany();

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option csharp_namespace = "DevSync.PocPro.Accounts.Api.Features.Tenants.Grpc";
+
+service TenantService {
+  rpc GetTenantDetails (GetTenantDetailsRequest) returns (GetTenantDetailsResponse);
+}
+
+message GetTenantDetailsRequest {
+  string userId = 1;
+}
+
+message GetTenantDetailsResponse {
+  string UniqueIdentifier = 1;
+  string ConnectionString = 2;
+  string SubscriptionType = 3;
+}

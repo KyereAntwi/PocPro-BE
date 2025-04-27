@@ -1,14 +1,11 @@
-using DevSync.PocPro.Shops.Api.Data;
-using FastEndpoints;
-using Scalar.AspNetCore;
-
 namespace DevSync.PocPro.Shops.Api.DI;
 
 public static class Startup
 {
     public static WebApplication AddServices(this WebApplicationBuilder builder)
     {
-        builder.AddNpgsqlDbContext<MainShopDbContext>("PocProAccountsManagement");
+        builder.Services.AddStockModule(builder.Configuration);
+        
         //builder.AddSeqEndpoint(connectionName: "seq");
         builder.AddRabbitMQClient(connectionName: "messaging");
         

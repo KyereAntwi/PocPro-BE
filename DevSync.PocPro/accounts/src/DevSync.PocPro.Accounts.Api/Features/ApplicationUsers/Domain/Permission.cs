@@ -8,6 +8,7 @@ public class Permission : BaseEntity<PermissionId>
     
     public Permission(PermissionType type)
     {
+        Id = PermissionId.Of(Guid.NewGuid());
         PermissionType = type;
     }
 

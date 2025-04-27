@@ -19,9 +19,9 @@ public class TenantServices(TenantDatabaseSettings databaseSettings, IServiceSco
     {
         using var scope = serviceScopeFactory.CreateScope();
         
-        var context = new DbContextOptionsBuilder<TenantTemplateDbContext>().UseNpgsql(connectionString).Options;
+        //var context = new DbContextOptionsBuilder<TenantTemplateDbContext>().UseNpgsql(connectionString).Options;
 
-        await using var dbContext = new TenantTemplateDbContext(context);
-        await dbContext.Database.MigrateAsync(cancellationToken);
+        //await using var dbContext = new TenantTemplateDbContext(context);
+        //await dbContext.Database.MigrateAsync(cancellationToken);
     }
 }
