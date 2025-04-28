@@ -5,7 +5,7 @@ namespace DevSync.PocPro.Shops.Api.EventHandlers;
 public class GenerateTenantDatabaseEventHandler(
     ITenantServices tenantServices,
     ITenantRegistrationServices tenantRegistrationServices,
-    ILogger logger) 
+    ILogger<GenerateTenantDatabaseEventHandler> logger) 
     : IConsumer<GenerateTenantDatabaseEvent>
 {
     public async Task Consume(ConsumeContext<GenerateTenantDatabaseEvent> context)

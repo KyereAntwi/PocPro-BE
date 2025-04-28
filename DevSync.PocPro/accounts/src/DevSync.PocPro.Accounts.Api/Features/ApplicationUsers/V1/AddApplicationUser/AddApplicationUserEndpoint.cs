@@ -44,7 +44,7 @@ public class AddApplicationUserEndpoint(IApplicationDbContext applicationDbConte
         {
             //TODO - to be implemented
         }
-        if (req.PermissionTypes.Any())
+        if (req.PermissionTypes != null && req.PermissionTypes.Any())
         {
             //TODO - to be implemented
         }
@@ -62,5 +62,17 @@ public class AddApplicationUserEndpoint(IApplicationDbContext applicationDbConte
             {
                 Data = new AddApplicationUserResponse(result.Id.Value)
             }, cancellation: ct);
+    }
+}
+
+public class AddApplicationUserRequestValidator : Validator<AddApplicationUserRequest>
+{
+    public AddApplicationUserRequestValidator()
+    {
+        RuleFor(x => x.FirstName).NotEmpty().WithMessage("First name cannot be empty.").NotNull();
+        RuleFor(x => x.LastName).NotEmpty().WithMessage("Last name cannot be empty.").NotNull();
+        RuleFor(x => x.Email).EmailAddress().WithMessage("Email should be a valid email address").NotNull();
+        RuleFor(x => x.Username).NotEmpty().WithMessage("Username cannot be empty.").NotNull();
+        RuleFor(x => x.TenantId).NotEmpty().WithMessage("Tenant id cannot be empty.").NotNull();
     }
 }

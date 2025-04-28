@@ -1,3 +1,5 @@
+using DevSync.PocPro.Shops.Api.Services;
+
 namespace DevSync.PocPro.Shops.Api.DI;
 
 public static class Startup
@@ -5,7 +7,8 @@ public static class Startup
     public static WebApplication AddServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddStockModule(builder.Configuration);
-        builder.Services.AddSingleton<ITenantServices, TenantServices>();
+        builder.Services.AddTransient<ITenantServices, TenantServices>();
+        builder.Services.AddScoped<ITenantRegistrationServices, TenantRegistrationServices>();
         
         builder.AddNpgsqlDbContext<MainShopTemplateDbContext>("PocProAccountsManagement");
         //builder.AddSeqEndpoint(connectionName: "seq");
@@ -33,10 +36,10 @@ public static class Startup
                 .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
         
         builder.Services.AddAuthentication()
-            .AddKeycloakJwtBearer(serviceName: "keycloak", realm: "account", options =>
+            .AddKeycloakJwtBearer(serviceName: "keycloak", realm: "pocpro", options =>
             {
                 options.RequireHttpsMetadata = false;
-                options.Audience = "shops-api";
+                options.Audience = "account";
             });
         
         builder.Services.AddHttpContextAccessor();
