@@ -53,7 +53,7 @@ public static class Startup
                     .AllowCredentials());
         });
         
-        //builder.Services.AddFastEndpoints();
+        builder.Services.AddFastEndpoints();
         
         return builder.Build();
     }
@@ -76,7 +76,7 @@ public static class Startup
         app.UseCors("Open");
         app.UseAuthentication();
         app.UseAuthorization();
-        //app.UseFastEndpoints();
+        app.UseFastEndpoints();
         app.UseHttpsRedirection();
         
         return app;

@@ -8,6 +8,8 @@ public static class StockModuleRegistration
         {
             opt.UseNpgsql("postgres");
         });
+
+        services.AddScoped<IShopDbContext, StocksModuleDbContext>();
         
         return services;
     }

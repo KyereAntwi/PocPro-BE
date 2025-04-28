@@ -8,6 +8,9 @@ public class ProductConfigurations : IEntityTypeConfiguration<Product>
         builder.Property(x => x.Id)
             .HasConversion(vehicleId => vehicleId.Value, dbId => ProductId.Of(dbId));
         
+        builder.Property(x => x.CategoryId)
+            .HasConversion(categoryId => categoryId.Value, dbId => CategoryId.Of(dbId));
+        
         builder
             .HasMany(v => v.Stocks)
             .WithOne()
