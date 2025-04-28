@@ -11,6 +11,17 @@ public static class Startup
         //builder.AddSeqEndpoint(connectionName: "seq");
         builder.AddRabbitMQClient(connectionName: "messaging");
         
+        builder.Services.AddMassTransit(x =>
+        {
+            x.AddConsumer<GenerateTenantDatabaseEventHandler>();
+            
+            x.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.Host("messaging");
+                cfg.ConfigureEndpoints(context);
+            });
+        });
+        
         builder.AddServiceDefaults();
         builder.Services.AddOpenApi();
 

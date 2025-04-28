@@ -1,4 +1,5 @@
 using DevSync.PocPro.Accounts.Api.Features.Tenants.Grpc;
+using MassTransit;
 using Scalar.AspNetCore;
 
 namespace DevSync.PocPro.Accounts.Api.DI;
@@ -19,6 +20,15 @@ public static class Startup
         builder.Services.AddOpenApi();
         
         builder.Services.AddScoped<IApplicationDbContext, AccountsDbContext>();
+
+        builder.Services.AddMassTransit(x =>
+        {
+            x.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.Host("messaging");
+                cfg.ConfigureEndpoints(context);
+            });
+        });
         
         builder.Services.AddAuthentication()
             .AddKeycloakJwtBearer(serviceName: "keycloak", realm: "account", options =>

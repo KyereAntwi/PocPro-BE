@@ -1,6 +1,7 @@
 // Global using directives
 
 global using System.Collections.ObjectModel;
+global using System.Net;
 global using System.Security.Claims;
 global using DevSync.PocPro.Accounts.Api.Data;
 global using DevSync.PocPro.Accounts.Api.Features.ApplicationUsers.Domain;

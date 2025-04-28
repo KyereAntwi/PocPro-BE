@@ -5,6 +5,7 @@ option csharp_namespace = "DevSync.PocPro.Accounts.Api.Features.Tenants.Grpc";
 service TenantService {
   rpc GetTenantDetails (GetTenantDetailsRequest) returns (GetTenantDetailsResponse);
   rpc GetAllTenants (GetAllTenantsRequest) returns (GetAllTenantsResponse);
+  rpc DoesUserHaveRequiredPermission (DoesUserRequiredPermissionRequest) returns (DoesUserRequiredPermissionResponse);
 }
 
 message GetTenantDetailsRequest {
@@ -22,4 +23,13 @@ message GetAllTenantsRequest {
 
 message GetAllTenantsResponse {
   repeated GetTenantDetailsResponse tenants = 1;
+}
+
+message DoesUserRequiredPermissionRequest {
+  string UserId = 1;
+  string Permission = 2;
+}
+
+message DoesUserRequiredPermissionResponse {
+  bool Response = 1;
 }

@@ -38,7 +38,7 @@ public class ApplicationUser : BaseEntity<ApplicationUserId>
     public string UserId { get; private set; }
     public string? PhotoUrl { get; private set; }
     
-    public Result AddPermission(Tenant tenant, ApplicationUser user, Permission permission)
+    public Result UpdatePermission(Tenant tenant, ApplicationUser user, Permission[] permissions, string type)
     {
         if (!user.Permissions.Select(p => p.PermissionType).Contains(PermissionType.MANAGE_PERMISSIONS))
         {
@@ -55,25 +55,40 @@ public class ApplicationUser : BaseEntity<ApplicationUserId>
             return Result.Fail(
                 $"User with userId {user.UserId} is not permitted to assign permission to users in tenant {tenant}");
         }
-        
-        if (_permissions.Contains(permission))
-        {
-            return Result.Fail($"User already has this permission. {permission.PermissionType}");
-        }
 
-        _permissions.Add(permission);
-        
-        return Result.Ok();
-    }
-    
-    public Result RemovePermission(Permission permission)
-    {
-        if (!_permissions.Contains(permission))
+        switch (type)
         {
-            return Result.Fail($"User does not have this permission. {permission.PermissionType}");
-        }
+            case "Add":
+            {
+                foreach (var permission in permissions)
+                {
+                    if (_permissions.Contains(permission))
+                    {
+                        return Result.Fail($"User already has this permission. {permission.PermissionType}");
+                    }
 
-        _permissions.Remove(permission);
+                    _permissions.Add(permission);
+                }
+
+                break;
+            }
+            case "Remove":
+            {
+                foreach (var permission in permissions)
+                {
+                    if (!_permissions.Contains(permission))
+                    {
+                        return Result.Fail($"User does not have this permission. {permission.PermissionType}");
+                    }
+
+                    _permissions.Remove(permission);
+                }
+
+                break;
+            }
+            default:
+                return Result.Fail("Invalid operation type");
+        }
         
         return Result.Ok();
     }
@@ -81,6 +96,15 @@ public class ApplicationUser : BaseEntity<ApplicationUserId>
     public bool HasPermission(PermissionType permissionType)
     {
         return _permissions.Select(p => p.PermissionType).Contains(permissionType);
+    }
+    
+    public void Update(string firstName, string lastName, string? otherNames, string? email, string? photoUrl)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        OtherNames = otherNames;
+        Email = email;
+        PhotoUrl = photoUrl;
     }
 }
 
