@@ -28,6 +28,7 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
         <PackageReference Include="Scalar.AspNetCore" Version="2.2.1" />
     </ItemGroup>
 
@@ -41,6 +42,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="EventsHandlers\" />
       <Folder Include="Services\" />
     </ItemGroup>
 

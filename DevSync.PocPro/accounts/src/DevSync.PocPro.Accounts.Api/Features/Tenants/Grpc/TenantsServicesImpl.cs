@@ -61,4 +61,26 @@ public class TenantsServicesImpl : TenantService.TenantServiceBase
         
         return response;
     }
+
+    public override async Task<DoesUserRequiredPermissionResponse> DoesUserHaveRequiredPermission(DoesUserRequiredPermissionRequest request, ServerCallContext context)
+    {
+        var user = await _applicationDbContext
+            .ApplicationUsers
+            .Include(a => a.Permissions)
+            .AsNoTracking()
+            .AsSplitQuery()
+            .FirstOrDefaultAsync(u => u.UserId == request.UserId);
+        
+        if (user == null) return new DoesUserRequiredPermissionResponse { Response = false };
+        
+        return user.HasPermission(Enum.Parse<PermissionType>(request.Permission))
+            ? new DoesUserRequiredPermissionResponse
+            {
+                Response = true
+            }
+            : new DoesUserRequiredPermissionResponse
+            {
+                Response = false
+            };
+    }
 }

@@ -33,19 +33,28 @@ public class GetAllApplicationUsersForTenantEndpoint(IApplicationDbContext appli
             await SendNotFoundAsync(ct);
         }
         
-        var applicationUsers = await applicationDbContext.ApplicationUsers
+        var applicationUsers = applicationDbContext.ApplicationUsers
             .Where(a => a.TenantId == TenantId.Of(req.Id))
             .Select(a => new GetApplicationUsersForTenantResponse(
+                a.UserId,
                 a.FirstName,
                 a.LastName,
                 a.Email ?? string.Empty,
                 a.OtherNames ?? string.Empty,
-                a.PhotoUrl ?? string.Empty))
-            .ToListAsync(ct);
+                a.PhotoUrl ?? string.Empty));
+
+        if (!string.IsNullOrWhiteSpace(req.SearchKeyword))
+        {
+            applicationUsers = applicationUsers
+                .Where(a => a.FirstName.ToLower().Contains(req.SearchKeyword.ToLower()) ||
+                            a.LastName.ToLower().Contains(req.SearchKeyword.ToLower()) ||
+                            a.Email.ToLower().Contains(req.SearchKeyword.ToLower()) ||
+                            a.OtherName.ToLower().Contains(req.SearchKeyword.ToLower()));
+        }
 
         await SendOkAsync(new BaseResponse<IEnumerable<GetApplicationUsersForTenantResponse>>("Users fetched successfully", true)
         {
-            Data = applicationUsers
+            Data = await applicationUsers.ToArrayAsync(ct)
         }, cancellation: ct);
     }
 }

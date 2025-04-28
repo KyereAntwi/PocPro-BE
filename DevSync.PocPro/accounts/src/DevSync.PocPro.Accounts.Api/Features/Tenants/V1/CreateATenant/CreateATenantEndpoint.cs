@@ -1,9 +1,12 @@
 using DevSync.PocPro.Accounts.Api.Features.Tenants.V1.GetTenantDetails;
+using MassTransit;
 
 namespace DevSync.PocPro.Accounts.Api.Features.Tenants.V1.CreateATenant;
 
 public class CreateATenantEndpoint(
-    IApplicationDbContext applicationDbContext, ILogger<CreateATenantEndpoint> logger) 
+    IApplicationDbContext applicationDbContext, 
+    ILogger<CreateATenantEndpoint> logger,
+    IPublishEndpoint publishEndpoint) 
     : Endpoint<CreateATenantRequest, BaseResponse<CreateATenantResponse>>
 {
     public override void Configure()
@@ -26,7 +29,21 @@ public class CreateATenantEndpoint(
         await applicationDbContext.Tenants.AddAsync(tenant, ct);
         await applicationDbContext.SaveChangesAsync(ct);
         
-        // TODO - send for database implementation
+        // send an event for database creation and migration implementation
+        var integrationEvent = new GenerateTenantDatabaseEvent
+        {
+            TenantId = tenant.Id.Value,
+            DatabaseName = tenant.UniqueIdentifier
+        };
+
+        try
+        {
+            await publishEndpoint.Publish(integrationEvent, ct);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e.Message, $"Error publishing integration event {nameof(GenerateTenantDatabaseEvent)}");
+        }
 
         await SendCreatedAtAsync<GetTenantDetailsEndpoint>(new { tenant.Id }, 
             new BaseResponse<CreateATenantResponse>("Tenant created successfully", true)

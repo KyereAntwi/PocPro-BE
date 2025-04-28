@@ -32,8 +32,20 @@ public class AccountsDbContext : DbContext, IApplicationDbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AccountsDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
+        
+        var permissions = Enum.GetValues<PermissionType>()
+            .Select(permissionType => new Permission(permissionType)
+            {
+                Id = PermissionId.Of(Guid.CreateVersion7()),
+                CreatedBy = "System",
+                CreatedAt = DateTimeOffset.Now
+            })
+            .ToArray();
+
+        modelBuilder.Entity<Permission>().HasData(permissions);
+        
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AccountsDbContext).Assembly);
     }
 
     public DbSet<ApplicationUser> ApplicationUsers => Set<ApplicationUser>();
