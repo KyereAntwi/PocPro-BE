@@ -8,6 +8,7 @@ public class Permission : BaseEntity<PermissionId>
     
     public Permission(PermissionType type)
     {
+        Id = PermissionId.Of(Guid.NewGuid());
         PermissionType = type;
     }
 
@@ -16,7 +17,7 @@ public class Permission : BaseEntity<PermissionId>
 
 public record PermissionId
 {
-    public Guid Value { get; set; } = Guid.Empty;
+    public Guid Value { get; } = Guid.Empty!;
 
     private PermissionId(Guid value) => Value = value;
 
@@ -24,7 +25,7 @@ public record PermissionId
     {
         if (value == Guid.Empty)
         {
-            throw new DomainExceptions("Invalid value for PermissionId");
+            throw new DomainExceptions("Permission Id cannot be empty or null");
         }
 
         return new PermissionId(value);

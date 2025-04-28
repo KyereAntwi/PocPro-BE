@@ -20,7 +20,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\accounts\src\DevSync.PocPro.Accounts.Api\DevSync.PocPro.Accounts.Api.csproj" />
+      <ProjectReference Include="..\..\accounts\src\DevSync.PocPro.Accounts.Api\DevSync.PocPro.Accounts.Api.csproj" />
+      <ProjectReference Include="..\..\shops\DevSync.PocPro.Shops.Api\DevSync.PocPro.Shops.Api.csproj" />
     </ItemGroup>
 
 </Project>

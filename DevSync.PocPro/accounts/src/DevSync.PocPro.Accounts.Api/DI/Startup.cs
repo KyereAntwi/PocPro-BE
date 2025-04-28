@@ -1,4 +1,4 @@
-using DevSync.PocPro.Accounts.Api.Data;
+using DevSync.PocPro.Accounts.Api.Features.Tenants.Grpc;
 using Scalar.AspNetCore;
 
 namespace DevSync.PocPro.Accounts.Api.DI;
@@ -7,18 +7,25 @@ public static class Startup
 {
     public static WebApplication AddServices(this WebApplicationBuilder builder)
     {
+        var tenantDatabaseSettings = new TenantDatabaseSettings();
+        builder.Configuration.GetSection("TenantDatabaseSettings").Bind(tenantDatabaseSettings);
+        builder.Services.AddSingleton(tenantDatabaseSettings);
+        
+        builder.AddNpgsqlDbContext<AccountsDbContext>("PocProAccountsManagement");
+        //builder.AddSeqEndpoint(connectionName: "seq");
+        builder.AddRabbitMQClient(connectionName: "messaging");
+        
         builder.AddServiceDefaults();
         builder.Services.AddOpenApi();
         
-        builder.Services.AddAuthentication()
-            .AddKeycloakJwtBearer(serviceName: "", realm: "", options =>
-            {
-                options.Audience = "api";
-            });
+        builder.Services.AddScoped<IApplicationDbContext, AccountsDbContext>();
         
-        builder.AddNpgsqlDbContext<AccountsDbContext>("PocProAccountsManagement");
-        builder.AddSeqEndpoint(connectionName: "seq");
-        builder.AddRabbitMQClient(connectionName: "messaging");
+        builder.Services.AddAuthentication()
+            .AddKeycloakJwtBearer(serviceName: "keycloak", realm: "account", options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.Audience = "account-api";
+            });
         
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddEndpointsApiExplorer();
@@ -33,7 +40,8 @@ public static class Startup
                     .AllowAnyMethod()
                     .AllowCredentials());
         });
-        
+
+        builder.Services.AddGrpc();
         builder.Services.AddFastEndpoints();
         
         return builder.Build();
@@ -41,6 +49,8 @@ public static class Startup
 
     public static WebApplication AddPipeline(this WebApplication app)
     {
+        _ = app.ConfigureDatabaseAsync();
+        
         if (app.Environment.IsDevelopment())
         {
             app.MapOpenApi();
@@ -55,7 +65,14 @@ public static class Startup
         app.UseCors("Open");
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseRouting();
+        
         app.UseFastEndpoints();
+        
+        app.UseEndpoints(endpoint =>
+        {
+            endpoint.MapGrpcService<TenantsServicesImpl>();
+        });
         app.UseHttpsRedirection();
         
         return app;

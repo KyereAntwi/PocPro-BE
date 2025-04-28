@@ -11,12 +11,12 @@ var postgres = builder
     .WithExternalHttpEndpoints()
     .AddDatabase("PocProAccountsManagement");
 
-var seq = builder.AddSeq("seq")
-    .WithDataVolume()
-    .ExcludeFromManifest()
-    .WithEndpoint(5341)
-    .WithLifetime(ContainerLifetime.Persistent)
-    .WithEnvironment("ACCEPT_EULA", "Y");
+// var seq = builder.AddSeq("seq")
+//     .WithDataVolume()
+//     .ExcludeFromManifest()
+//     .WithEndpoint(5341)
+//     .WithLifetime(ContainerLifetime.Persistent)
+//     .WithEnvironment("ACCEPT_EULA", "Y");
 
 var messaging = builder
     .AddRabbitMQ("messaging", port: 5433)
@@ -24,10 +24,17 @@ var messaging = builder
     .WithDataVolume()
     .WithExternalHttpEndpoints();
 
-builder.AddProject<Projects.DevSync_PocPro_Accounts_Api>("accounts-api")
+var accountsApi = builder.AddProject<Projects.DevSync_PocPro_Accounts_Api>("accounts-api")
     .WithReference(keycloak).WaitFor(keycloak)
     .WithReference(postgres).WaitFor(postgres)
     .WithReference(messaging)
-    .WithReference(seq);
+    .WithExternalHttpEndpoints();
+//.WithReference(seq);
+
+builder.AddProject<Projects.DevSync_PocPro_Shops_Api>("shops-api")
+    .WithReference(keycloak).WaitFor(keycloak)
+    .WithReference(postgres).WaitFor(postgres)
+    .WithReference(messaging)
+    .WithReference(accountsApi).WaitFor(accountsApi);
 
 builder.Build().Run();
