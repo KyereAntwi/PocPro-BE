@@ -1,0 +1,23 @@
+namespace DevSync.PocPro.Shops.StocksModule.Features.Categories.V1.GetAllCategories;
+
+public class GetAllCategoriesEndpoint(IShopDbContext shopDbContext) 
+    : EndpointWithoutRequest<BaseResponse<GetAllCategoriesResponse>>
+{
+    public override void Configure()
+    {
+        Get("/api/v1/categories");
+    }
+
+    public override async Task HandleAsync(CancellationToken ct)
+    {
+        var categories = await shopDbContext
+            .Categories
+            .Select(c => new GetCategoryResponse(c.Title, c.Id.Value))
+            .ToListAsync(cancellationToken: ct);
+        
+        await SendOkAsync(new BaseResponse<GetAllCategoriesResponse>("Categories", true)
+        {
+            Data = new GetAllCategoriesResponse(categories)
+        }, cancellation: ct);
+    }
+}

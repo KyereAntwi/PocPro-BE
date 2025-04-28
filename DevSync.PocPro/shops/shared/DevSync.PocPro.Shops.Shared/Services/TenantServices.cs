@@ -1,3 +1,4 @@
+using DevSync.PocPro.Shared.Domain.Enums;
 using DevSync.PocPro.Shops.Shard.Grpc;
 using Microsoft.Extensions.Logging;
 
@@ -39,6 +40,27 @@ public class TenantServices(TenantService.TenantServiceClient tenantServiceClien
         {
             logger.LogError("Error fetching tenants: {Message}", e.Message);
             throw new Exception("Error fetching tenants", e);
+        }
+    }
+
+    public async Task<bool> UserHasRequiredPermissionAsync(PermissionType permissionType, string userId)
+    {
+        try
+        {
+            var request = new DoesUserRequiredPermissionRequest
+            {
+                Permission = permissionType.ToString(),
+                UserId = userId
+            };
+
+            var response = await tenantServiceClient.DoesUserHaveRequiredPermissionAsync(request);
+
+            return response.Response;
+        }
+        catch (Exception e)
+        {
+            logger.LogError("Error fetching permission: {Message}", e.Message);
+            throw new Exception("Error fetching user permission", e);
         }
     }
 }

@@ -19,6 +19,7 @@ public class MainShopTemplateDbContext : DbContext
     public DbSet<Stock> Stocks => Set<Stock>();
     public DbSet<Supplier> Suppliers => Set<Supplier>();
     public DbSet<Contact> Contacts => Set<Contact>();
+    public DbSet<Category> Categories => Set<Category>();
 }
 
 public class AccountsDbContextFactory : IDesignTimeDbContextFactory<MainShopTemplateDbContext>

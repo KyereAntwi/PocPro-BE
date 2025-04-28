@@ -1,8 +1,6 @@
-using DevSync.PocPro.Shops.Shared.Services;
-
 namespace DevSync.PocPro.Shops.StocksModule.Data;
 
-public class StocksModuleDbContext : DbContext
+public class StocksModuleDbContext : DbContext, IShopDbContext
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ITenantServices _tenantServices;
@@ -56,4 +54,5 @@ public class StocksModuleDbContext : DbContext
     public DbSet<Stock> Stocks => Set<Stock>();
     public DbSet<Supplier> Suppliers => Set<Supplier>();
     public DbSet<Contact> Contacts => Set<Contact>();
+    public DbSet<Category> Categories => Set<Category>();
 }
