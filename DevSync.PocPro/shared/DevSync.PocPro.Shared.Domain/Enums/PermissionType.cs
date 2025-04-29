@@ -9,5 +9,7 @@ public enum PermissionType
     MANAGE_TENANTS = 5,
     VIEW_PRODUCTS = 6,
     MANAGE_PRODUCTS = 7,
-    MANAGE_CATEGORIES = 8
+    MANAGE_CATEGORIES = 8,
+    MANAGE_SUPPLIERS = 9,
+    VIEW_SUPPLIERS = 10
 }
