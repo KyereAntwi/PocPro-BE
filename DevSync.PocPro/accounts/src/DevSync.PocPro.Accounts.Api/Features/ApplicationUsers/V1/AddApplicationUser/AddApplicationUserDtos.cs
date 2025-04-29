@@ -4,9 +4,10 @@ public record AddApplicationUserRequest(
     string FirstName,
     string LastName,
     string Email,
-    string OtherNames,
+    string Username,
+    string? OtherNames,
     IFormFile? PhotoFile,
-    IEnumerable<string> PermissionTypes,
+    IEnumerable<string>? PermissionTypes,
     Guid TenantId);
 
 public record AddApplicationUserResponse(Guid Id);

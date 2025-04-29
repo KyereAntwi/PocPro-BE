@@ -30,17 +30,16 @@ public static class Startup
             });
         });
         
-        builder.Services.AddAuthentication()
-            .AddKeycloakJwtBearer(serviceName: "keycloak", realm: "account", options =>
-            {
-                options.RequireHttpsMetadata = false;
-                options.Audience = "account-api";
-            });
-        
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddEndpointsApiExplorer();
         
         builder.Services.AddAuthorization();
+        builder.Services.AddAuthentication()
+            .AddKeycloakJwtBearer(serviceName: "keycloak", realm: "pocpro", options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.Audience = "account";
+            });
 
         builder.Services.AddCors(options =>
         {
@@ -73,9 +72,11 @@ public static class Startup
         }
         
         app.UseCors("Open");
+        
+        app.UseRouting();
+        
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseRouting();
         
         app.UseFastEndpoints();
         
