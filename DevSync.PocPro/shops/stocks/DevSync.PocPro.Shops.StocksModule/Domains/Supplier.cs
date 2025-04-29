@@ -5,7 +5,7 @@ public class Supplier : BaseEntity<SupplierId>
     private readonly Collection<Contact> _contacts = [];
     public IReadOnlyCollection<Contact> Contacts => _contacts;
     
-    public static Supplier Create(string title, Contact[]? contacts)
+    public static Supplier Create(string title)
     {
         var supplier = new Supplier
         {
@@ -13,14 +13,15 @@ public class Supplier : BaseEntity<SupplierId>
             Title = title
         };
 
-        if (contacts is not { Length: > 0 }) return supplier;
-        
+        return supplier;
+    }
+
+    public void AddContacts(Contact[] contacts)
+    {
         foreach (var contact in contacts)
         {
-            supplier._contacts.Add(contact);
+            _contacts.Add(contact);
         }
-
-        return supplier;
     }
 
     public string Title { get; private set; } = string.Empty;
