@@ -9,6 +9,7 @@ public class Product : BaseEntity<ProductId>
     {
         var product = new Product
         {
+            Id = ProductId.Of(Guid.CreateVersion7()),
             Name = name,
             BarcodeNumber = barcodeNumber,
             PhotoUrl = photoUrl,

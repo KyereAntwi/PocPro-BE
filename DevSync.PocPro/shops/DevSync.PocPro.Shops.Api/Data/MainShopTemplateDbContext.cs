@@ -1,6 +1,3 @@
-using DevSync.PocPro.Shops.StocksModule.Data;
-using Microsoft.EntityFrameworkCore.Design;
-
 namespace DevSync.PocPro.Shops.Api.Data;
 
 public class MainShopTemplateDbContext : DbContext
@@ -12,6 +9,8 @@ public class MainShopTemplateDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(StocksModuleDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(POSModuleDbContext).Assembly);
+        
         base.OnModelCreating(modelBuilder);
     }
 
@@ -20,6 +19,8 @@ public class MainShopTemplateDbContext : DbContext
     public DbSet<Supplier> Suppliers => Set<Supplier>();
     public DbSet<Contact> Contacts => Set<Contact>();
     public DbSet<Category> Categories => Set<Category>();
+    public DbSet<Session> Sessions => Set<Session>();
+    public DbSet<PointOfSale> PointOfSales => Set<PointOfSale>();
 }
 
 public class AccountsDbContextFactory : IDesignTimeDbContextFactory<MainShopTemplateDbContext>
