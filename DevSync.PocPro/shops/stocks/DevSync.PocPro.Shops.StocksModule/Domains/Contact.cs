@@ -18,6 +18,7 @@ public class Contact : BaseEntity<ContactId>
     }
 
     public SupplierId SupplierId { get; set; }
+    public string Person { get; set; }
     public string Value { get; private set; }
     public ContactType ContactType { get; private set; }
 }

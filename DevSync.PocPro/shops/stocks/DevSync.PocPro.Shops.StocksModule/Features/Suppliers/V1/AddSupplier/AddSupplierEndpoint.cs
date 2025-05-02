@@ -5,7 +5,7 @@ public class AddSupplierEndpoint(IShopDbContext shopDbContext, IHttpContextAcces
 {
     public override void Configure()
     {
-        Post("/api/v1/suppliers");
+        Post("/suppliers");
     }
 
     public override async Task HandleAsync(AddSupplierRequest req, CancellationToken ct)
@@ -19,7 +19,7 @@ public class AddSupplierEndpoint(IShopDbContext shopDbContext, IHttpContextAcces
             await SendForbiddenAsync(ct);
         }
 
-        var supplier = Supplier.Create(req.Title);
+        var supplier = Supplier.Create(req.Title, req.Email);
 
         if (req.Contacts.Any())
         {
@@ -37,10 +37,7 @@ public class AddSupplierEndpoint(IShopDbContext shopDbContext, IHttpContextAcces
             new { Id = supplier.Id }, 
             new BaseResponse<AddSupplierResponse>("Supplier added", true)
             {
-                // Data = new AddSupplierResponse(
-                //     supplier.Id.Value, 
-                //     supplier.Title, 
-                //     supplier.Contacts.Select(c => new ContactResponse(c.Id.Value, c.Value, c.ContactType.ToString())).ToArray()
+                Data = new AddSupplierResponse(supplier.Id.Value)
             }, cancellation: ct);
     }
 }
@@ -51,5 +48,6 @@ public class AddSupplierRequestValidator: Validator<AddSupplierRequest>
     {
         RuleFor(x => x.Title)
             .NotEmpty().WithMessage("Title is required.");
+        RuleFor(x => x.Email).EmailAddress().WithMessage("Invalid email address.");
     }
 }

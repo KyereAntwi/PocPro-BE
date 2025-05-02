@@ -8,7 +8,6 @@ var keycloak = builder
 var postgres = builder
     .AddPostgres("postgres", port: 5432)
     .WithDataVolume()
-    .WithExternalHttpEndpoints()
     .AddDatabase("PocProAccountsManagement");
 
 // var seq = builder.AddSeq("seq")
@@ -21,20 +20,23 @@ var postgres = builder
 var messaging = builder
     .AddRabbitMQ("messaging", port: 5433)
     .WithManagementPlugin()
-    .WithDataVolume()
-    .WithExternalHttpEndpoints();
+    .WithDataVolume();
 
 var accountsApi = builder.AddProject<Projects.DevSync_PocPro_Accounts_Api>("accounts-api")
     .WithReference(keycloak).WaitFor(keycloak)
     .WithReference(postgres).WaitFor(postgres)
-    .WithReference(messaging)
-    .WithExternalHttpEndpoints();
+    .WithReference(messaging);
 //.WithReference(seq);
 
-builder.AddProject<Projects.DevSync_PocPro_Shops_Api>("shops-api")
+var shopqpi = builder.AddProject<Projects.DevSync_PocPro_Shops_Api>("shops-api")
     .WithReference(keycloak).WaitFor(keycloak)
     .WithReference(postgres).WaitFor(postgres)
     .WithReference(messaging)
     .WithReference(accountsApi).WaitFor(accountsApi);
+
+builder.AddProject<Projects.DevSync_PocPro_Gateway>("gateway")
+    .WithReference(accountsApi).WaitFor(accountsApi)
+    .WithReference(shopqpi).WaitFor(shopqpi)
+    .WithExternalHttpEndpoints();
 
 builder.Build().Run();

@@ -5,14 +5,14 @@ public class GetAllCategoriesEndpoint(IShopDbContext shopDbContext)
 {
     public override void Configure()
     {
-        Get("/api/v1/categories");
+        Get("/categories");
     }
 
     public override async Task HandleAsync(CancellationToken ct)
     {
         var categories = await shopDbContext
             .Categories
-            .Select(c => new GetCategoryResponse(c.Title, c.Id.Value))
+            .Select(c => new GetCategoryResponse(c.Title, c.Description, c.Status, c.Id.Value, c.CreatedAt, c.UpdatedAt))
             .ToListAsync(cancellationToken: ct);
         
         await SendOkAsync(new BaseResponse<GetAllCategoriesResponse>("Categories", true)

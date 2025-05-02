@@ -5,26 +5,24 @@ public class Product : BaseEntity<ProductId>
     private readonly Collection<Stock> _stocks = [];
     public IReadOnlyCollection<Stock> Stocks => _stocks;
     
-    public static Product Create(string name, string barcodeNumber, string photoUrl, DateTimeOffset expiryDate, CategoryId categoryId)
+    public static Product Create(string name, string barcodeNumber, string photoUrl, CategoryId categoryId)
     {
         var product = new Product
         {
             Name = name,
             BarcodeNumber = barcodeNumber,
             PhotoUrl = photoUrl,
-            ExpiresAt = expiryDate,
             CategoryId = categoryId
         };
         
         return product;
     }
 
-    public void Update(string name, string barcodeNumber, string photoUrl, DateTimeOffset expiryDate, CategoryId categoryId)
+    public void Update(string name, string barcodeNumber, string photoUrl, CategoryId categoryId)
     {
         Name = name;
         BarcodeNumber = barcodeNumber;
         PhotoUrl = photoUrl;
-        ExpiresAt = expiryDate;
         CategoryId = categoryId;
     }
 
@@ -82,6 +80,5 @@ public class Product : BaseEntity<ProductId>
     public string Name { get; private set; } = string.Empty;
     public string? BarcodeNumber { get; private set; }
     public string? PhotoUrl { get; private set; }
-    public DateTimeOffset? ExpiresAt { get; private set; }
     public CategoryId CategoryId { get; private set; }
 }
