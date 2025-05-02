@@ -11,7 +11,7 @@ public class CreateATenantEndpoint(
 {
     public override void Configure()
     {
-        Post("/api/v1/accounts/tenants");
+        Post("/accounts/tenants");
         Description(x => x
             .WithName("CreateTenant")
             .Produces<BaseResponse<CreateATenantResponse>>(StatusCodes.Status201Created)

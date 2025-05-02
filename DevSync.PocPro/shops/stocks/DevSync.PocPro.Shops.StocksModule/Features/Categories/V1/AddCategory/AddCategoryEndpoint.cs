@@ -5,7 +5,7 @@ public class AddCategoryEndpoint(IShopDbContext shopDbContext, IHttpContextAcces
 {
     public override void Configure()
     {
-        Post("/api/v1/categories");
+        Post("/categories");
     }
 
     public override async Task HandleAsync(AddCategoryRequest req, CancellationToken ct)
@@ -26,7 +26,7 @@ public class AddCategoryEndpoint(IShopDbContext shopDbContext, IHttpContextAcces
             return;
         }
         
-        var newCategory = Category.Create(req.Title);
+        var newCategory = Category.Create(req.Title, req.Description);
         await shopDbContext.Categories.AddAsync(newCategory, ct);
         await shopDbContext.SaveChangesAsync(ct);
         

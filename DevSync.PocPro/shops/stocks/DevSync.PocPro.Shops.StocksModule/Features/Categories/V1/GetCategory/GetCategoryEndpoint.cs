@@ -5,7 +5,7 @@ public class GetCategoryEndpoint(IShopDbContext shopDbContext)
 {
     public override void Configure()
     {
-        Get("/api/v1/categories/{Id}");
+        Get("/categories/{Id}");
     }
 
     public override async Task HandleAsync(GetCategoryRequest req, CancellationToken ct)
@@ -20,7 +20,7 @@ public class GetCategoryEndpoint(IShopDbContext shopDbContext)
         
         await SendOkAsync(new BaseResponse<GetCategoryResponse>("Category", true)
         {
-            Data = new GetCategoryResponse(category.Title, category.Id.Value)
+            Data = new GetCategoryResponse(category.Title, category.Description!, category.Status, category.Id.Value, category.CreatedAt, category.UpdatedAt)
         }, cancellation: ct);
     }
 }

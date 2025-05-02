@@ -5,7 +5,7 @@ public class GetSupplierEndpoint(IShopDbContext shopDbContext, IHttpContextAcces
 {
     public override void Configure()
     {
-        Get("/api/v1/suppliers/{Id}");
+        Get("/suppliers/{Id}");
     }
 
     public override async Task HandleAsync(GetSupplierRequest req, CancellationToken ct)
@@ -36,8 +36,11 @@ public class GetSupplierEndpoint(IShopDbContext shopDbContext, IHttpContextAcces
             Data = new GetSupplierResponse(
                 supplier.Id.Value,
                 supplier.Title,
+                supplier.Email ?? string.Empty,
                 supplier.Contacts
-                    .Select(c => new ContactResponse(c.Id.Value, c.Value, c.ContactType.ToString())))
+                    .Select(c => new ContactResponse(c.Id.Value, c.Person, c.Value, c.ContactType.ToString())),
+                supplier.CreatedAt,
+                supplier.UpdatedAt)
         }, cancellation: ct);
     }
 }

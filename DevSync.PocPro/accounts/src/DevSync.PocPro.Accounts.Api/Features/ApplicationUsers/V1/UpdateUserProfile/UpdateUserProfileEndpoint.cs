@@ -5,7 +5,7 @@ public class UpdateUserProfileEndpoint(IApplicationDbContext applicationDbContex
 {
     public override void Configure()
     {
-        Put("/api/v1/accounts/users/{UserId}");
+        Put("/accounts/users/{UserId}");
         Description(x => x
             .WithName("UpdateUserProfile")
             .Produces(StatusCodes.Status204NoContent)

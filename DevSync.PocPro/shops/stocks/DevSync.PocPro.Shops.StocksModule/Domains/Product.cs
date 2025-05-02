@@ -5,39 +5,40 @@ public class Product : BaseEntity<ProductId>
     private readonly Collection<Stock> _stocks = [];
     public IReadOnlyCollection<Stock> Stocks => _stocks;
     
-    public static Product Create(string name, string barcodeNumber, string photoUrl, DateTimeOffset expiryDate, CategoryId categoryId)
+    public static Product Create(string name, string barcodeNumber, string photoUrl, CategoryId categoryId)
     {
         var product = new Product
         {
             Name = name,
             BarcodeNumber = barcodeNumber,
             PhotoUrl = photoUrl,
-            ExpiresAt = expiryDate,
             CategoryId = categoryId
         };
         
         return product;
     }
 
-    public void Update(string name, string barcodeNumber, string photoUrl, DateTimeOffset expiryDate, CategoryId categoryId)
+    public void Update(string name, string barcodeNumber, string photoUrl, CategoryId categoryId)
     {
         Name = name;
         BarcodeNumber = barcodeNumber;
         PhotoUrl = photoUrl;
-        ExpiresAt = expiryDate;
         CategoryId = categoryId;
     }
 
-    public Result StockProduct(Guid supplierId, int quantityPurchased, int quantityLeftInStock, decimal costPrice, decimal sellingPrice,
+    public Result<Guid> StockProduct(Supplier supplier, int quantityPurchased, int quantityLeftInStock, decimal costPrice, decimal sellingPrice,
         decimal taxRate, DateTimeOffset expirationDate)
     {
         if (DateTime.Now.Date > expirationDate.Date)
         {
             return Result.Fail("This stock's products are expired");
         }
+
+        var newStock = new Stock(supplier, Id, quantityPurchased, quantityLeftInStock, costPrice, sellingPrice, taxRate,
+            expirationDate);
         
-        _stocks.Add(new Stock(supplierId, Id, quantityPurchased, quantityLeftInStock, costPrice, sellingPrice, taxRate, expirationDate));
-        return Result.Ok();
+        _stocks.Add(newStock);
+        return Result.Ok(newStock.Id.Value);
     }
 
     public Result MakePurchase(int quantity)
@@ -82,6 +83,5 @@ public class Product : BaseEntity<ProductId>
     public string Name { get; private set; } = string.Empty;
     public string? BarcodeNumber { get; private set; }
     public string? PhotoUrl { get; private set; }
-    public DateTimeOffset? ExpiresAt { get; private set; }
     public CategoryId CategoryId { get; private set; }
 }

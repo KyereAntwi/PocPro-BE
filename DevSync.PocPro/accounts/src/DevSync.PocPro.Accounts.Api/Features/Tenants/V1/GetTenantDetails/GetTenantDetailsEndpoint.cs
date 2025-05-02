@@ -4,7 +4,7 @@ public class GetTenantDetailsEndpoint : Endpoint<GetTenantDetailsRequest, GetTen
 {
     public override void Configure()
     {
-        Get("/api/v1/accounts/tenants/{UserId}");
+        Get("/accounts/tenants/{UserId}");
         Description(x => x
             .WithName("GetTenantDetails")
             .Produces<BaseResponse<GetTenantDetailsResponse>>()
