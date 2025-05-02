@@ -23,13 +23,15 @@ public class GetProductDetailsEndpoint(IShopDbContext shopDbContext)
                     p.UpdatedAt),
                 Stocks = p.Stocks.Select(s => new StockItem(
                     s.Id.Value,
-                    s.SupplierId,
                     s.QuantityPurchased,
                     s.QuantityLeftInStock,
                     s.CostPerPrice,
                     s.SellingPerPrice,
                     s.TaxRate,
                     s.ExpiresAt)
+                    {
+                        Supplier = new SupplierItem(s.Supplier.Id.Value, s.Supplier.Title, s.Supplier.Email ?? string.Empty)
+                    }
                 ).ToArray()
             })
             .FirstOrDefaultAsync(ct);

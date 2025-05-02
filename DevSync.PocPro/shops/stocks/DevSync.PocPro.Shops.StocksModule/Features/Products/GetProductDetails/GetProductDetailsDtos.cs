@@ -13,7 +13,6 @@ public record GetProductDetailsResponseItem(
 
 public record StockItem(
     Guid Id,
-    Guid SupplierId,
     int QuantityPurchased,
     int QuantityLeftInStock,
     decimal CostPerPrice,
@@ -21,7 +20,12 @@ public record StockItem(
     decimal TaxRate,
     DateTimeOffset ExpiresAt)
 {
-    public SupplierItem Supplier { get; set; }
+    public SupplierItem? Supplier { get; set; } = null!;
 };
-    
-public record SupplierItem(Guid Id, string Title, string Email);
+
+public record SupplierItem(Guid Id, string Title, string Email)
+{
+    public IEnumerable<SupplierContactItem> Contact { get; set; } = [];
+}
+
+public record SupplierContactItem(string Value, string Type);

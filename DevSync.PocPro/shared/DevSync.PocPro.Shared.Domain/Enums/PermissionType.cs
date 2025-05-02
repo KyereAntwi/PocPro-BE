@@ -11,5 +11,6 @@ public enum PermissionType
     MANAGE_PRODUCTS = 7,
     MANAGE_CATEGORIES = 8,
     MANAGE_SUPPLIERS = 9,
-    VIEW_SUPPLIERS = 10
+    VIEW_SUPPLIERS = 10,
+    VIEW_STOCKS = 11
 }

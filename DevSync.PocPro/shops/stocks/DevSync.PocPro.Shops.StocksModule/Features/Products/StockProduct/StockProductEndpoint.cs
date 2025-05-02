@@ -1,3 +1,5 @@
+using DevSync.PocPro.Shops.StocksModule.Features.Products.GetStockDetails;
+
 namespace DevSync.PocPro.Shops.StocksModule.Features.Products.StockProduct;
 
 public class StockProductEndpoint(IShopDbContext shopDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 
@@ -27,9 +29,17 @@ public class StockProductEndpoint(IShopDbContext shopDbContext, IHttpContextAcce
             await SendNotFoundAsync(ct);
             return;
         }
+        
+        var supplier = await shopDbContext.Suppliers.FindAsync(SupplierId.Of(req.SupplierId), ct);
+
+        if (supplier == null)
+        {
+            await SendNotFoundAsync(ct);
+            return;
+        }
 
         var result = product.StockProduct(
-            req.SupplierId,
+            supplier,
             req.QuantityPurchased,
             req.QuantityPurchased,
             req.CostPerPrice,
@@ -40,6 +50,13 @@ public class StockProductEndpoint(IShopDbContext shopDbContext, IHttpContextAcce
         shopDbContext.Products.Update(product);
         await shopDbContext.SaveChangesAsync(ct);
 
-        await SendNoContentAsync(ct);
+        await SendCreatedAtAsync<GetStockDetailsEndpoint>(new
+        {
+            ProductId = product.Id.Value,
+            StockId = result.Value
+        }, new BaseResponse<StockProductResponse>("", true)
+        {
+            Data = new StockProductResponse(result.Value)
+        }, cancellation: ct);
     }
 }
