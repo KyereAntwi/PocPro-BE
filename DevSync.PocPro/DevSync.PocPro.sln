@@ -41,6 +41,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gateway", "gateway", "{FC80
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevSync.PocPro.Gateway", "gateway\DevSync.PocPro.Gateway\DevSync.PocPro.Gateway.csproj", "{DE0A0511-F143-4FBA-A507-2A679D54BCAA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevSync.PocPro.Shops.PointOfSalesModule", "shops\pointofsales\DevSync.PocPro.Shops.PointOfSalesModule\DevSync.PocPro.Shops.PointOfSalesModule.csproj", "{41BCE10F-8C99-40EB-8802-B023462A31A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{DE0A0511-F143-4FBA-A507-2A679D54BCAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE0A0511-F143-4FBA-A507-2A679D54BCAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE0A0511-F143-4FBA-A507-2A679D54BCAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41BCE10F-8C99-40EB-8802-B023462A31A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41BCE10F-8C99-40EB-8802-B023462A31A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41BCE10F-8C99-40EB-8802-B023462A31A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41BCE10F-8C99-40EB-8802-B023462A31A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +104,7 @@ Global
 		{75B354F0-5D79-45CF-AEA7-13CA507098DA} = {4AF55281-50A4-426C-930F-8614A9426F68}
 		{46D234A1-E542-4BFC-BCB6-97593DD92B97} = {950FDF3E-FF84-45A3-A9E8-DC2397ABE526}
 		{DE0A0511-F143-4FBA-A507-2A679D54BCAA} = {FC8051FC-B83E-4A3C-8308-DFEF48DD0287}
+		{41BCE10F-8C99-40EB-8802-B023462A31A6} = {F8618855-3671-4A0E-9858-6FE5A858C513}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {243A9E10-3E89-43E9-9C1A-5221DD820C72}
