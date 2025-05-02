@@ -18,6 +18,13 @@ public class PointOfSale : BaseEntity<PointOfSaleId>
 
     public Result<Guid> StartSession()
     {
+        var activeSession = _sessions.FirstOrDefault(s => s.ClosedAt == null);
+
+        if (activeSession != null)
+        {
+            return Result.Fail("There is an active session. You cannot start a new one.");
+        }
+        
         var newSession = new Session(Id);
         _sessions.Add(newSession);
         return Result.Ok(newSession.Id.Value);
@@ -30,6 +37,11 @@ public class PointOfSale : BaseEntity<PointOfSaleId>
         if (session == null)
         {
             return Result.Fail("Session not found");
+        }
+        
+        if (session.ClosedAt != null)
+        {
+            return Result.Fail("Session already closed");
         }
         
         session.ClosedBy = userId;

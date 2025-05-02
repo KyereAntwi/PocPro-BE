@@ -11,4 +11,8 @@
       <ProjectReference Include="..\..\shared\DevSync.PocPro.Shops.Shared\DevSync.PocPro.Shops.Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Grpc\" />
+    </ItemGroup>
+
 </Project>

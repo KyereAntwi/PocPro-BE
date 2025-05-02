@@ -27,6 +27,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\boostraps\DevSync.PocPro.ServiceDiscovery\DevSync.PocPro.ServiceDiscovery.csproj" />
+      <ProjectReference Include="..\pointofsales\DevSync.PocPro.Shops.PointOfSalesModule\DevSync.PocPro.Shops.PointOfSalesModule.csproj" />
       <ProjectReference Include="..\stocks\DevSync.PocPro.Shops.StocksModule\DevSync.PocPro.Shops.StocksModule.csproj" />
     </ItemGroup>
 
