@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option csharp_namespace = "DevSync.PocPro.Shops.PointOfSalesModule.Features.Grpc";
+
+service PointOfSaleService {
+  rpc GetPointOfSaleDetails (GetPointOfSaleDetailsRequest) returns (GetPointOfSaleDetailsResponse);
+}
+
+message GetPointOfSaleDetailsRequest {
+  string id = 1;
+}
+
+message GetPointOfSaleDetailsResponse {
+  string id = 1;
+  string Title = 2;
+}

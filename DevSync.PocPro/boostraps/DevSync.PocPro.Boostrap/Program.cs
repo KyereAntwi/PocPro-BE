@@ -36,7 +36,6 @@ var shopqpi = builder.AddProject<Projects.DevSync_PocPro_Shops_Api>("shops-api")
 
 builder.AddProject<Projects.DevSync_PocPro_Gateway>("gateway")
     .WithReference(accountsApi).WaitFor(accountsApi)
-    .WithReference(shopqpi).WaitFor(shopqpi)
-    .WithExternalHttpEndpoints();
+    .WithReference(shopqpi).WaitFor(shopqpi);
 
 builder.Build().Run();

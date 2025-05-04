@@ -10,6 +10,7 @@ public class MainShopTemplateDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(StocksModuleDbContext).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(POSModuleDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrdersModuleDbContext).Assembly);
         
         base.OnModelCreating(modelBuilder);
     }
@@ -21,14 +22,17 @@ public class MainShopTemplateDbContext : DbContext
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Session> Sessions => Set<Session>();
     public DbSet<PointOfSale> PointOfSales => Set<PointOfSale>();
+    public DbSet<Order> Orders => Set<Order>();
+    public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+    public DbSet<ShippingAddress> ShippingAddresses => Set<ShippingAddress>();
 }
 
-public class AccountsDbContextFactory : IDesignTimeDbContextFactory<MainShopTemplateDbContext>
-{
-    public MainShopTemplateDbContext CreateDbContext(string[] args)
-    {
-        var optionsBuilder = new DbContextOptionsBuilder<MainShopTemplateDbContext>();
-        optionsBuilder.UseNpgsql("postgres");
-        return new MainShopTemplateDbContext(optionsBuilder.Options);
-    }
-}
+// public class AccountsDbContextFactory : IDesignTimeDbContextFactory<MainShopTemplateDbContext>
+// {
+//     public MainShopTemplateDbContext CreateDbContext(string[] args)
+//     {
+//         var optionsBuilder = new DbContextOptionsBuilder<MainShopTemplateDbContext>();
+//         optionsBuilder.UseNpgsql("postgres");
+//         return new MainShopTemplateDbContext(optionsBuilder.Options);
+//     }
+// }

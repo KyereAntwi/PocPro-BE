@@ -14,5 +14,9 @@ public enum PermissionType
     VIEW_SUPPLIERS = 10,
     VIEW_STOCKS = 11,
     MANAGE_POS = 12,
-    GET_POS = 13
+    GET_POS = 13,
+    MANAGE_SALES = 14,
+    VIEW_SALES = 15,
+    MANAGE_PURCHASES = 16,
+    VIEW_PURCHASES = 17,
 }

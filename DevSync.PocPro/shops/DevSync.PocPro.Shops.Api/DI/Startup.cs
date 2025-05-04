@@ -1,4 +1,6 @@
 using DevSync.PocPro.Shops.Api.Services;
+using DevSync.PocPro.Shops.OrdersModule.DI;
+using DevSync.PocPro.Shops.PointOfSales.DI;
 
 namespace DevSync.PocPro.Shops.Api.DI;
 
@@ -7,6 +9,9 @@ public static class Startup
     public static WebApplication AddServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddStockModule(builder.Configuration);
+        builder.Services.RegisterOrderModule();
+        builder.Services.AddPosDependencies();
+        
         builder.Services.AddTransient<ITenantServices, TenantServices>();
         builder.Services.AddScoped<ITenantRegistrationServices, TenantRegistrationServices>();
         

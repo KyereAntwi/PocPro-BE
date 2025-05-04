@@ -9,5 +9,18 @@
     <ItemGroup>
       <ProjectReference Include="..\..\shared\DevSync.PocPro.Shops.Shared\DevSync.PocPro.Shops.Shared.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Google.Protobuf" Version="3.30.2" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.71.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+    
+    <ItemGroup>
+        <Protobuf Include="Features\Grpc\product_services.proto" GrpcServices="Server" />
+    </ItemGroup>
 
 </Project>

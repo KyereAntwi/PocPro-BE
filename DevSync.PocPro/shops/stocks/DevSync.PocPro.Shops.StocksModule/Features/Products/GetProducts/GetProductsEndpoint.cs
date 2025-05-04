@@ -7,7 +7,7 @@ public class GetProductsEndpoint(IShopDbContext shopDbContext)
 {
     public override void Configure()
     {
-        Post("/products");
+        Get("/products");
     }
 
     public override async Task HandleAsync(GetProductsRequests req, CancellationToken ct)
