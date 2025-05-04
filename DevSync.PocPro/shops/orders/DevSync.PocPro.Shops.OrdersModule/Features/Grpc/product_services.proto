@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option csharp_namespace = "DevSync.PocPro.Shops.StocksModule.Features.Grpc";
+
+service ProductService {
+  rpc GetProductDetails (GetProductDetailsRequest) returns (GetProductDetailsResponse);
+}
+
+message GetProductDetailsRequest {
+  string id = 1;
+}
+
+message GetProductDetailsResponse {
+  string id = 1;
+  string name = 2;
+  string photoUrl = 3;
+  double price = 4;
+}
