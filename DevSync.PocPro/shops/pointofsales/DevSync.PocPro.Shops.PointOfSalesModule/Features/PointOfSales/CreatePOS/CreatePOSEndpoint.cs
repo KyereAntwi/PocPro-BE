@@ -6,7 +6,7 @@ public class CreatePOSEndpoint(
 {
     public override void Configure()
     {
-        Post("/pointofsales");
+        Post("/api/v1/pointofsales");
     }
 
     public override async Task HandleAsync(CreatePOSRequest req, CancellationToken ct)

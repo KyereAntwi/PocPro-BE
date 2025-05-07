@@ -5,7 +5,7 @@ public class GetCategoryEndpoint(IShopDbContext shopDbContext)
 {
     public override void Configure()
     {
-        Get("/categories/{Id}");
+        Get("/api/v1/categories/{Id}");
     }
 
     public override async Task HandleAsync(GetCategoryRequest req, CancellationToken ct)

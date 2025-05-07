@@ -5,7 +5,7 @@ public class GetAllApplicationUsersForTenantEndpoint(IApplicationDbContext appli
 {
     public override void Configure()
     {
-        Get("/accounts/tenants/{Id}/users");
+        Get("/api/v1/accounts/tenants/{Id}/users");
         Description(x => x
             .WithName("GetUsers")
             .Produces<BaseResponse<IEnumerable<GetApplicationUsersForTenantResponse>>>()

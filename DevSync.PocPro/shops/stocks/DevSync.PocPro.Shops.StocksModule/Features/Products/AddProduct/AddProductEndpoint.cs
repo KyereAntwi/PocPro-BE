@@ -6,7 +6,7 @@ public class AddProductEndpoint(
 {
     public override void Configure()
     {
-        Post("/products");
+        Post("/api/v1/products");
     }
 
     public override async Task HandleAsync(AddProductRequest req, CancellationToken ct)

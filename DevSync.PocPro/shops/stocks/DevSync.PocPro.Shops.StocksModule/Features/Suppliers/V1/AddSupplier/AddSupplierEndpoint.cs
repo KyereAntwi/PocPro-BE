@@ -5,7 +5,7 @@ public class AddSupplierEndpoint(IShopDbContext shopDbContext, IHttpContextAcces
 {
     public override void Configure()
     {
-        Post("/suppliers");
+        Post("/api/v1/suppliers");
     }
 
     public override async Task HandleAsync(AddSupplierRequest req, CancellationToken ct)

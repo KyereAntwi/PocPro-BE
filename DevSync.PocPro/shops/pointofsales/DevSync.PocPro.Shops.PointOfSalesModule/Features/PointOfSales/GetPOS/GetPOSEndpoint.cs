@@ -6,7 +6,7 @@ public class GetPOSEndpoint(
 {
     public override void Configure()
     {
-        Get("/pointofsales/{Id}");
+        Get("/api/v1/pointofsales/{Id}");
     }
 
     public override async Task HandleAsync(GetPOSRequest req, CancellationToken ct)

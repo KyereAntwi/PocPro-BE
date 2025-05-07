@@ -9,7 +9,7 @@ public class DeleteCategoryEndpoint(
 {
     public override void Configure()
     {
-        Delete("/categories/{Id}");
+        Delete("/api/v1/categories/{Id}");
     }
 
     public override async Task HandleAsync(DeleteCategoryRequest req, CancellationToken ct)

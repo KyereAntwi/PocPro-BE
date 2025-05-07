@@ -5,7 +5,7 @@ public class AddCategoryEndpoint(IShopDbContext shopDbContext, IHttpContextAcces
 {
     public override void Configure()
     {
-        Post("/categories");
+        Post("/api/v1/categories");
     }
 
     public override async Task HandleAsync(AddCategoryRequest req, CancellationToken ct)
