@@ -5,7 +5,7 @@ public class GetSupplierEndpoint(IShopDbContext shopDbContext, IHttpContextAcces
 {
     public override void Configure()
     {
-        Get("/suppliers/{Id}");
+        Get("/api/v1/suppliers/{Id}");
     }
 
     public override async Task HandleAsync(GetSupplierRequest req, CancellationToken ct)

@@ -6,7 +6,7 @@ public class AddSessionEndpoint(
 {
     public override void Configure()
     {
-        Put("/pointofsales/{Id}/session");
+        Put("/api/v1/pointofsales/{Id}/sessions");
     }
 
     public override async Task HandleAsync(AddSessionRequest req, CancellationToken ct)

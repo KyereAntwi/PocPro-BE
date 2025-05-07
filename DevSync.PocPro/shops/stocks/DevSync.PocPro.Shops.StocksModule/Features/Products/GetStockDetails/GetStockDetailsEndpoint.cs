@@ -8,7 +8,7 @@ public class GetStockDetailsEndpoint(
 {
     public override void Configure()
     {
-        Get("/products/{ProductId}/stocks/{StockId}");
+        Get("/api/v1/products/{ProductId}/stocks/{StockId}");
     }
 
     public override async Task HandleAsync(GetStockDetailsRequest req, CancellationToken ct)

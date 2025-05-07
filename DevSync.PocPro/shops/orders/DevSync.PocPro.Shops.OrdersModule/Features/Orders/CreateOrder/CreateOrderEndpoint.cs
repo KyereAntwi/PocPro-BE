@@ -6,7 +6,7 @@ public class CreateOrderEndpoint(
 {
     public override void Configure()
     {
-        Post("/orders");
+        Post("/api/v1/orders");
     }
 
     public override async Task HandleAsync(CreateOrderRequest req, CancellationToken ct)

@@ -4,7 +4,7 @@ public class GetOrderEndpoint : Endpoint<GetOrderRequest, BaseResponse<GetOrderR
 {
     public override void Configure()
     {
-        Get("/orders/{Id}");
+        Get("/api/v1/orders/{Id}");
     }
 
     public override Task HandleAsync(GetOrderRequest req, CancellationToken ct)

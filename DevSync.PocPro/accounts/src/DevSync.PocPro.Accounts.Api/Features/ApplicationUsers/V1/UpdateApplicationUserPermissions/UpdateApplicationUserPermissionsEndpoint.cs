@@ -6,7 +6,7 @@ public class UpdateApplicationUserPermissionsEndpoint(
 {
     public override void Configure()
     {
-        Put("/accounts/users/{UserId}/permissions");
+        Put("/api/v1/accounts/users/{UserId}/permissions");
         Description(x => x
             .WithName("UpdateUserPermissions")
             .Produces(StatusCodes.Status200OK)

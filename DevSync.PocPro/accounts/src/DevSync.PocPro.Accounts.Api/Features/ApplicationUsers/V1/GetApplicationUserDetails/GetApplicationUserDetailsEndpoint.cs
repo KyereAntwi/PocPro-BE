@@ -5,7 +5,7 @@ public class GetApplicationUserDetailsEndpoint(IApplicationDbContext application
 {
     public override void Configure()
     {
-        Get("/accounts/users/{UserId}");
+        Get("/api/v1/accounts/users/{UserId}");
         Description(x => x
             .WithName("GetUserDetails")
             .Produces<BaseResponse<GetApplicationUserDetailsResponse>>(StatusCodes.Status200OK)

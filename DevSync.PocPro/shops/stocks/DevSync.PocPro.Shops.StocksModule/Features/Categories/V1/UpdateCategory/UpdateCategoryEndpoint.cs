@@ -6,7 +6,7 @@ public class UpdateCategoryEndpoint(
 {
     public override void Configure()
     {
-        Put("/categories/{Id}");
+        Put("/api/v1/categories/{Id}");
     }
 
     public override async Task HandleAsync(UpdateCategoryRequest req, CancellationToken ct)
