@@ -35,7 +35,7 @@ public static class Startup
 
         builder.Services.AddGrpcClient<TenantService.TenantServiceClient>(options =>
         {
-            options.Address = new Uri("https://localhost:7165");
+            options.Address = new Uri("https://localhost:7003");
         }).AddPolicyHandler(_ => Policy<HttpResponseMessage>
                 .Handle<Grpc.Core.RpcException>()
                 .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
