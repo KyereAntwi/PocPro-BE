@@ -1,5 +1,4 @@
 using DevSync.PocPro.Accounts.Api.Features.Tenants.V1.GetTenantDetails;
-using MassTransit;
 
 namespace DevSync.PocPro.Accounts.Api.Features.Tenants.V1.CreateATenant;
 

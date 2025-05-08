@@ -1,5 +1,5 @@
 using DevSync.PocPro.Accounts.Api.Features.Tenants.Grpc;
-using MassTransit;
+using DevSync.PocPro.Accounts.Api.Services;
 using Scalar.AspNetCore;
 
 namespace DevSync.PocPro.Accounts.Api.DI;
@@ -20,9 +20,12 @@ public static class Startup
         builder.Services.AddOpenApi();
         
         builder.Services.AddScoped<IApplicationDbContext, AccountsDbContext>();
+        builder.Services.AddHttpClient<IKeycloakServices, KeycloakServices>();
 
         builder.Services.AddMassTransit(x =>
         {
+            x.AddConsumer<RegisterUserLoginEventHandler>();
+            
             x.UsingRabbitMq((context, cfg) =>
             {
                 cfg.Host("messaging");

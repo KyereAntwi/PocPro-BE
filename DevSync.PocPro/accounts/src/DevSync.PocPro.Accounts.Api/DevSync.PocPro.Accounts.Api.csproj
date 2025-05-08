@@ -29,6 +29,7 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Polly" Version="8.5.2" />
         <PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
         <PackageReference Include="Scalar.AspNetCore" Version="2.2.1" />
     </ItemGroup>
@@ -40,11 +41,6 @@
 
     <ItemGroup>
         <Protobuf Include="Features\Tenants\Grpc\tenant_services.proto" GrpcServices="Server" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="EventsHandlers\" />
-      <Folder Include="Services\" />
     </ItemGroup>
 
 </Project>
