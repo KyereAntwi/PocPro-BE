@@ -9,7 +9,7 @@ public class AddApplicationUserEndpoint(
 {
     public override void Configure()
     {
-        Post("api/v1/accounts/users");
+        Post("/api/v1/accounts/users");
         Description(x => x
             .WithName("AddUser")
             .Produces<BaseResponse<AddApplicationUserResponse>>(StatusCodes.Status201Created)

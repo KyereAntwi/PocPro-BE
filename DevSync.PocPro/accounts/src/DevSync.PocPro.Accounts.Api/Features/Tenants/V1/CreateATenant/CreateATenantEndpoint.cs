@@ -1,11 +1,13 @@
 using DevSync.PocPro.Accounts.Api.Features.Tenants.V1.GetTenantDetails;
+using DevSync.PocPro.Shared.Domain.Utils;
 
 namespace DevSync.PocPro.Accounts.Api.Features.Tenants.V1.CreateATenant;
 
 public class CreateATenantEndpoint(
     IApplicationDbContext applicationDbContext, 
     ILogger<CreateATenantEndpoint> logger,
-    IPublishEndpoint publishEndpoint) 
+    IPublishEndpoint publishEndpoint,
+    TenantDatabaseSettings tenantDatabaseSettings) 
     : Endpoint<CreateATenantRequest, BaseResponse<CreateATenantResponse>>
 {
     public override void Configure()
@@ -21,7 +23,16 @@ public class CreateATenantEndpoint(
 
     public override async Task HandleAsync(CreateATenantRequest req, CancellationToken ct)
     {
-        const string connectionString = $"";
+        var existingUniqueIdentifier = await applicationDbContext.Tenants
+            .Where(t => t.UniqueIdentifier.ToLower() == req.UniqueIdentifier.ToLower()).FirstOrDefaultAsync(ct);
+
+        if (existingUniqueIdentifier != null)
+        {
+            await SendErrorsAsync((int)HttpStatusCode.BadRequest, ct);
+            return;
+        }
+        
+        var connectionString = $"Host={tenantDatabaseSettings.Server};Port={tenantDatabaseSettings.Port};Database={req.UniqueIdentifier};User name={tenantDatabaseSettings.Username};Password={tenantDatabaseSettings.Password};";
         _ = Enum.TryParse<SubscriptionType>(req.SubscriptionType, out var subscription);
         var tenant = Tenant.Create(req.UniqueIdentifier, connectionString, subscription);
         

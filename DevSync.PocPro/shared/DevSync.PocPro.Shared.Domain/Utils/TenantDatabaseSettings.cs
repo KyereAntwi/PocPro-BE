@@ -1,4 +1,4 @@
-namespace DevSync.PocPro.Accounts.Api.Utils;
+namespace DevSync.PocPro.Shared.Domain.Utils;
 
 public class TenantDatabaseSettings
 {

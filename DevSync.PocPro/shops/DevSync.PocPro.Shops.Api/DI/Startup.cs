@@ -1,3 +1,4 @@
+using DevSync.PocPro.Shared.Domain.Utils;
 using DevSync.PocPro.Shops.Api.Services;
 using DevSync.PocPro.Shops.OrdersModule.DI;
 using DevSync.PocPro.Shops.PointOfSales.DI;
@@ -8,6 +9,10 @@ public static class Startup
 {
     public static WebApplication AddServices(this WebApplicationBuilder builder)
     {
+        var tenantDatabaseSettings = new TenantDatabaseSettings();
+        builder.Configuration.GetSection("TenantDatabaseSettings").Bind(tenantDatabaseSettings);
+        builder.Services.AddSingleton(tenantDatabaseSettings);
+        
         builder.Services.AddStockModule(builder.Configuration);
         builder.Services.RegisterOrderModule();
         builder.Services.AddPosDependencies();
@@ -21,11 +26,17 @@ public static class Startup
         
         builder.Services.AddMassTransit(x =>
         {
+            x.SetKebabCaseEndpointNameFormatter();
             x.AddConsumer<GenerateTenantDatabaseEventHandler>();
             
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host("messaging");
+                cfg.Host(new Uri(builder.Configuration["MessageBroker:Host"]!), host =>
+                { 
+                    host.Username(builder.Configuration["MessageBroker:Username"]!); 
+                    host.Password(builder.Configuration["MessageBroker:Password"]!); 
+                });
+                
                 cfg.ConfigureEndpoints(context);
             });
         });
