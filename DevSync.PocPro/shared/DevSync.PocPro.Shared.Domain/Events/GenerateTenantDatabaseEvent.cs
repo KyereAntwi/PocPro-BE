@@ -1,4 +1,4 @@
-namespace DevSync.PocPro.Shared.Domain.Exceptions;
+namespace DevSync.PocPro.Shared.Domain.Events;
 
 public record GenerateTenantDatabaseEvent : IntegrationEvents
 {

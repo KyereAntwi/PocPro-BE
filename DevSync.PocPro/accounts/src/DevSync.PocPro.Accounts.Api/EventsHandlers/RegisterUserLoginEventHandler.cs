@@ -1,6 +1,6 @@
 namespace DevSync.PocPro.Accounts.Api.EventsHandlers;
 
-public abstract class RegisterUserLoginEventHandler(
+public class RegisterUserLoginEventHandler(
     ILogger<RegisterUserLoginEventHandler> logger,
     IKeycloakServices keycloakServices) 
     : IConsumer<RegisterUserLoginEvent>

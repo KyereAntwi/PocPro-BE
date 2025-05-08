@@ -1,5 +1,6 @@
 using DevSync.PocPro.Accounts.Api.Features.Tenants.Grpc;
 using DevSync.PocPro.Accounts.Api.Services;
+using DevSync.PocPro.Shared.Domain.Utils;
 using Scalar.AspNetCore;
 
 namespace DevSync.PocPro.Accounts.Api.DI;
@@ -20,15 +21,22 @@ public static class Startup
         builder.Services.AddOpenApi();
         
         builder.Services.AddScoped<IApplicationDbContext, AccountsDbContext>();
+        //builder.Services.AddTransient<IKeycloakServices, KeycloakServices>();
         builder.Services.AddHttpClient<IKeycloakServices, KeycloakServices>();
 
         builder.Services.AddMassTransit(x =>
         {
+            x.SetKebabCaseEndpointNameFormatter();
             x.AddConsumer<RegisterUserLoginEventHandler>();
             
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host("messaging");
+                cfg.Host(new Uri(builder.Configuration["MessageBroker:Host"]!), host =>
+                { 
+                    host.Username(builder.Configuration["MessageBroker:Username"]!); 
+                    host.Password(builder.Configuration["MessageBroker:Password"]!); 
+                });
+                
                 cfg.ConfigureEndpoints(context);
             });
         });

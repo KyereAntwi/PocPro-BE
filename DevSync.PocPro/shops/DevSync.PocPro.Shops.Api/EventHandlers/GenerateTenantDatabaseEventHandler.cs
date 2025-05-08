@@ -1,3 +1,4 @@
+using DevSync.PocPro.Shared.Domain.Events;
 using DevSync.PocPro.Shops.Api.Services;
 
 namespace DevSync.PocPro.Shops.Api.EventHandlers;
