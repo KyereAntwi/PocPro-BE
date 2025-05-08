@@ -43,7 +43,6 @@ public class DeleteCategoryEndpoint(
         catch (Exception e)
         {
             Console.WriteLine(e);
-            throw;
         }
     }
 }

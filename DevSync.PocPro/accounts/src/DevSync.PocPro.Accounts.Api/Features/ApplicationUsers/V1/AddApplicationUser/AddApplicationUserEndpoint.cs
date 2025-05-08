@@ -1,8 +1,10 @@
-using DevSync.PocPro.Accounts.Api.Features.ApplicationUsers.V1.GetApplicationUserDetails;
-
 namespace DevSync.PocPro.Accounts.Api.Features.ApplicationUsers.V1.AddApplicationUser;
 
-public class AddApplicationUserEndpoint(IApplicationDbContext applicationDbContext, IHttpContextAccessor httpContextAccessor) 
+public class AddApplicationUserEndpoint(
+    IApplicationDbContext applicationDbContext, 
+    IHttpContextAccessor httpContextAccessor,
+    IPublishEndpoint publishEndpoint,
+    ILogger<AddApplicationUserEndpoint> logger) 
     : Endpoint<AddApplicationUserRequest, BaseResponse<AddApplicationUserResponse>>
 {
     public override void Configure()
@@ -53,6 +55,19 @@ public class AddApplicationUserEndpoint(IApplicationDbContext applicationDbConte
         
         await applicationDbContext.ApplicationUsers.AddAsync(result, ct);
         await applicationDbContext.SaveChangesAsync(ct);
+
+        try
+        {
+            await publishEndpoint.Publish(new RegisterUserLoginEvent
+            {
+                Username = req.Username,
+                Email = req.Email,
+            }, ct);
+        }
+        catch (Exception e)
+        {
+            logger.LogError("Error occured sending user registration event. Error = {Message}", e.Message);
+        }
 
         await SendCreatedAtAsync<GetApplicationUserDetailsEndpoint>(new
             {
