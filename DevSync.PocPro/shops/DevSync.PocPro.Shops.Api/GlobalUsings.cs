@@ -10,6 +10,8 @@ global using DevSync.PocPro.Shops.OrdersModule.Data;
 global using DevSync.PocPro.Shops.OrdersModule.Domain;
 global using DevSync.PocPro.Shops.PointOfSales.Data;
 global using DevSync.PocPro.Shops.PointOfSales.Domains;
+global using DevSync.PocPro.Shops.PrivateCustomers.Data;
+global using DevSync.PocPro.Shops.PrivateCustomers.Domain;
 global using DevSync.PocPro.Shops.Shard.Grpc;
 global using DevSync.PocPro.Shops.Shared.Services;
 global using DevSync.PocPro.Shops.StocksModule.Data;

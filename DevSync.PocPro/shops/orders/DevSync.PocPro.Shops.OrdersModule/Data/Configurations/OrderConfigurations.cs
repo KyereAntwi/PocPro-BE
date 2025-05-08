@@ -8,6 +8,9 @@ public class OrderConfigurations : IEntityTypeConfiguration<Order>
         builder.Property(x => x.Id)
             .HasConversion(id => id.Value, dbId => OrderId.Of(dbId));
         
+        builder.Property(x => x.CustomerId).HasConversion(id => id.Value, dbId => CustomerId.Of(dbId));
+        builder.Property(x => x.PosSessionId).HasConversion(id => id.Value, dbId => SessionId.Of(dbId));
+        
         builder
             .HasMany(v => v.OrderItems)
             .WithOne()

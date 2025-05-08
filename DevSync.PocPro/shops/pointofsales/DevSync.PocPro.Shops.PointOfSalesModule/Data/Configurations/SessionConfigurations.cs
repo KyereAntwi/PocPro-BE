@@ -1,3 +1,5 @@
+using DevSync.PocPro.Shared.Domain.ValueObjects;
+
 namespace DevSync.PocPro.Shops.PointOfSales.Data.Configurations;
 
 public class SessionConfigurations : IEntityTypeConfiguration<Session>

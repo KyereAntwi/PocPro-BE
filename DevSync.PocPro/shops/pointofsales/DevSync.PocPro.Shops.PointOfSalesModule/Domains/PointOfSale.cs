@@ -1,3 +1,5 @@
+using DevSync.PocPro.Shared.Domain.ValueObjects;
+
 namespace DevSync.PocPro.Shops.PointOfSales.Domains;
 
 public class PointOfSale : BaseEntity<PointOfSaleId>
