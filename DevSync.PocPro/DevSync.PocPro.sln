@@ -45,6 +45,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevSync.PocPro.Shops.Orders
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevSync.PocPro.Gateway", "gateway\DevSync.PocPro.Gateway\DevSync.PocPro.Gateway.csproj", "{76BD9D47-B68A-4FAE-935B-FD3687F799A0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "private-customers", "private-customers", "{473D6BFF-8C99-420E-8ADB-22107316E5BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevSync.PocPro.Shops.PrivateCustomers", "shops\private-customers\DevSync.PocPro.Shops.PrivateCustomers\DevSync.PocPro.Shops.PrivateCustomers.csproj", "{437C7DE1-326D-4043-AC49-92F3C6925234}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +95,10 @@ Global
 		{76BD9D47-B68A-4FAE-935B-FD3687F799A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76BD9D47-B68A-4FAE-935B-FD3687F799A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76BD9D47-B68A-4FAE-935B-FD3687F799A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{437C7DE1-326D-4043-AC49-92F3C6925234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{437C7DE1-326D-4043-AC49-92F3C6925234}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{437C7DE1-326D-4043-AC49-92F3C6925234}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{437C7DE1-326D-4043-AC49-92F3C6925234}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,6 +120,8 @@ Global
 		{41BCE10F-8C99-40EB-8802-B023462A31A6} = {F8618855-3671-4A0E-9858-6FE5A858C513}
 		{59FC0101-B31D-4F9B-A04A-E920C2D89CDE} = {78D8F30B-D370-4993-B4C0-20394F72F833}
 		{76BD9D47-B68A-4FAE-935B-FD3687F799A0} = {FC8051FC-B83E-4A3C-8308-DFEF48DD0287}
+		{473D6BFF-8C99-420E-8ADB-22107316E5BE} = {950FDF3E-FF84-45A3-A9E8-DC2397ABE526}
+		{437C7DE1-326D-4043-AC49-92F3C6925234} = {473D6BFF-8C99-420E-8ADB-22107316E5BE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {243A9E10-3E89-43E9-9C1A-5221DD820C72}

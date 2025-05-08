@@ -11,6 +11,7 @@ public class MainShopTemplateDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(StocksModuleDbContext).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(POSModuleDbContext).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrdersModuleDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(CustomerModuleDbContext).Assembly);
         
         base.OnModelCreating(modelBuilder);
     }
@@ -25,14 +26,5 @@ public class MainShopTemplateDbContext : DbContext
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
     public DbSet<ShippingAddress> ShippingAddresses => Set<ShippingAddress>();
+    public DbSet<Customer> Customers => Set<Customer>();
 }
-
-// public class AccountsDbContextFactory : IDesignTimeDbContextFactory<MainShopTemplateDbContext>
-// {
-//     public MainShopTemplateDbContext CreateDbContext(string[] args)
-//     {
-//         var optionsBuilder = new DbContextOptionsBuilder<MainShopTemplateDbContext>();
-//         optionsBuilder.UseNpgsql("postgres");
-//         return new MainShopTemplateDbContext(optionsBuilder.Options);
-//     }
-// }

@@ -5,7 +5,8 @@ public record CreateOrderRequest(
     ShippingAddressRequest ShippingAddress,
     string PaymentMethod,
     string OrderType,
-    Guid? PosSessionId);
+    Guid PosSessionId,
+    Guid CustomerId);
 
 public record OrderItemRequest(Guid ProductId, int Quantity);
 

@@ -12,16 +12,22 @@ public class Order : BaseEntity<OrderId>
         List<OrderItem> orderItems,
         PaymentMethod? paymentMethod,
         ShippingAddress? shippingAddress = null,
-        Guid? posSessionId = null)
+        Guid posSessionId = default,
+        Guid customerId = default)
     {
         if (orderItems.Count == 0)
         {
             return Result.Fail("Order must have at least one item");
         }
         
-        if(orderType == OrderType.SalesOrder && posSessionId == null)
+        if(orderType == OrderType.SalesOrder && posSessionId == Guid.Empty)
         {
             return Result.Fail("Sales order must have a POS Session ID");
+        }
+
+        if (orderType == OrderType.PurchaseOrder && customerId  == Guid.Empty)
+        {
+            return Result.Fail("Purchase order must have a Customer ID");
         }
         
         var newOrder = new Order
@@ -29,7 +35,8 @@ public class Order : BaseEntity<OrderId>
             Id = OrderId.Of(Guid.CreateVersion7()),
             Type = orderType,
             Status = orderType == OrderType.OnlineOrder ? OrderStatus.Pending : OrderStatus.Delivered,
-            PosSessionId = posSessionId,
+            PosSessionId = posSessionId == Guid.Empty ? null : SessionId.Of(posSessionId),
+            CustomerId = customerId == Guid.Empty ? null : CustomerId.Of(posSessionId),
             PaymentMethod = paymentMethod ?? PaymentMethod.Cash,
             OrderNumber = OrderServices.GenerateOrderNumber(),
         };
@@ -61,6 +68,7 @@ public class Order : BaseEntity<OrderId>
     public string OrderNumber { get; private set; } = string.Empty;
     public OrderType Type { get; private set; }
     public OrderStatus Status { get; private set; }
-    public Guid? PosSessionId { get; private set; }
+    public SessionId? PosSessionId { get; private set; }
+    public CustomerId? CustomerId { get; private set; }
     public PaymentMethod PaymentMethod { get; private set; }
 }

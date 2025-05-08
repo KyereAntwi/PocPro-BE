@@ -43,7 +43,12 @@ public class CreateOrderEndpoint(
         );
         
         var newOrder = Order.Create(
-            type, orderItems, Enum.Parse<PaymentMethod>(req.PaymentMethod), shippingAddress, req.PosSessionId);
+            type, 
+            orderItems, 
+            Enum.Parse<PaymentMethod>(req.PaymentMethod), 
+            shippingAddress, 
+            req.PosSessionId == Guid.Empty ? Guid.Empty : req.PosSessionId,
+            req.CustomerId == Guid.Empty ? Guid.Empty : req.CustomerId);
 
         if (newOrder.IsFailed)
         {
