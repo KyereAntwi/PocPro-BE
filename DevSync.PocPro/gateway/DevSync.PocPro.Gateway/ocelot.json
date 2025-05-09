@@ -392,6 +392,18 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/orders",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/v1/orders",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7002
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/v1/orders",
       "UpstreamHttpMethod": ["Post"],
       "DownstreamPathTemplate": "/api/v1/orders",
       "DownstreamScheme": "https",

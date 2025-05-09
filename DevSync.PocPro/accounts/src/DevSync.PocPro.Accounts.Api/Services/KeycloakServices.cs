@@ -31,7 +31,8 @@ public class KeycloakServices : IKeycloakServices
             {
                 new()
                 {
-                    Type = "password",
+                    Type = "Password",
+                    UserLabel = "My Password",
                     SecretData = "",
                     CredentialData = "",
                     Temporary = false
@@ -54,6 +55,7 @@ public class KeycloakServices : IKeycloakServices
 public record CredentialRepresentation
 {
     public string Type { get; set; } = string.Empty;
+    public string UserLabel { get; set; } = string.Empty;
     public string SecretData { get; set; } = string.Empty;
     public string CredentialData { get; set; } = string.Empty;
     public bool Temporary { get; set; }
