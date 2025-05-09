@@ -16,6 +16,7 @@ global using DevSync.PocPro.Shops.OrdersModule.Domain.Services;
 global using DevSync.PocPro.Shops.OrdersModule.Domain.ValueObjects;
 global using DevSync.PocPro.Shops.OrdersModule.Features.Orders.GetOrder;
 global using DevSync.PocPro.Shops.PointOfSalesModule.Features.Grpc;
+global using DevSync.PocPro.Shops.Shared.Dtos;
 global using DevSync.PocPro.Shops.Shared.Services;
 global using DevSync.PocPro.Shops.StocksModule.Features.Grpc;
 global using FastEndpoints;
