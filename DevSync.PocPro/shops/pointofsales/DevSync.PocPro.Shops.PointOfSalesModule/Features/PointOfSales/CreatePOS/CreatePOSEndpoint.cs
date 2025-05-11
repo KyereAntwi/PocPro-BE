@@ -20,7 +20,11 @@ public class CreatePOSEndpoint(
             return;
         }
         
-        var newPOS = PointOfSale.Create(req.Title);
+        var newPOS = PointOfSale.Create(
+            req.Title, 
+            req.Phone ?? string.Empty, 
+            req.Address ?? string.Empty, 
+            req.Email ?? string.Empty);
         
         await posDbContext.PointOfSales.AddAsync(newPOS, ct);
         await posDbContext.SaveChangesAsync(ct);
@@ -33,5 +37,26 @@ public class CreatePOSEndpoint(
                 Data = new CreatePOSResponse(newPOS.Id.Value)
             },
             cancellation: ct);
+    }
+}
+
+public class CreatePOSRequestValidator : Validator<CreatePOSRequest>
+{
+    public CreatePOSRequestValidator()
+    {
+        RuleFor(x => x.Title)
+            .NotEmpty()
+            .WithMessage("Title is required.")
+            .NotNull();
+        
+        RuleFor(x => x.Email)
+            .EmailAddress()
+            .When(x => !string.IsNullOrEmpty(x.Email))
+            .WithMessage("Provided Email is not valid.");
+        
+        RuleFor(x => x.Phone)
+            .Matches(@"^\+?[0-9]{10,15}$")
+            .When(x => !string.IsNullOrEmpty(x.Phone))
+            .WithMessage("Provided Phone number is not valid.");
     }
 }

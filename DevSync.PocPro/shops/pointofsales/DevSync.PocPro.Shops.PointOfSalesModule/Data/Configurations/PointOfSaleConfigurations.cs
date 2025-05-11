@@ -12,5 +12,9 @@ public class PointOfSaleConfigurations : IEntityTypeConfiguration<PointOfSale>
             .HasMany(v => v.Sessions)
             .WithOne()
             .HasForeignKey(f => f.PointOfSaleId);
+
+        builder.Property(x => x.Email).HasMaxLength(255);
+        builder.Property(x => x.Phone).HasMaxLength(15);
+        builder.Property(x => x.Address).HasMaxLength(200);
     }
 }

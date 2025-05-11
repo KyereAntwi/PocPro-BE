@@ -32,7 +32,7 @@ public class CreateATenantEndpoint(
             return;
         }
         
-        var connectionString = $"Host={tenantDatabaseSettings.Server};Port={tenantDatabaseSettings.Port};Database={req.UniqueIdentifier};User name={tenantDatabaseSettings.Username};Password={tenantDatabaseSettings.Password};";
+        var connectionString = $"Host={tenantDatabaseSettings.Server};Port={tenantDatabaseSettings.Port};Database={req.UniqueIdentifier};Username={tenantDatabaseSettings.Username};Password={tenantDatabaseSettings.Password};SSL Mode=Require;Trust Server Certificate=true;";
         _ = Enum.TryParse<SubscriptionType>(req.SubscriptionType, out var subscription);
         var tenant = Tenant.Create(req.UniqueIdentifier, connectionString, subscription);
         

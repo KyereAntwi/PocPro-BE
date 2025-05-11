@@ -33,5 +33,7 @@ public class OrderConfigurations : IEntityTypeConfiguration<Order>
             .HasConversion(t => t.ToString(),
                 dbType => Enum.Parse<OrderType>(dbType!))
             .IsRequired();
+
+        builder.Property(o => o.CustomerName).HasMaxLength(200);
     }
 }

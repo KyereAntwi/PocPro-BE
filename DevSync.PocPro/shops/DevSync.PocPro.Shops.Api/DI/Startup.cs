@@ -22,10 +22,6 @@ public static class Startup
         builder.Services.AddTransient<ITenantServices, TenantServices>();
         builder.Services.AddScoped<ITenantRegistrationServices, TenantRegistrationServices>();
         
-        builder.AddNpgsqlDbContext<MainShopTemplateDbContext>("PocProAccountsManagement");
-        //builder.AddSeqEndpoint(connectionName: "seq");
-        builder.AddRabbitMQClient(connectionName: "messaging");
-        
         builder.Services.AddMassTransit(x =>
         {
             x.SetKebabCaseEndpointNameFormatter();

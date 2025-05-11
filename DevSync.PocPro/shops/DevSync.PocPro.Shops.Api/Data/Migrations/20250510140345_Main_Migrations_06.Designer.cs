@@ -3,6 +3,7 @@ using System;
 using DevSync.PocPro.Shops.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DevSync.PocPro.Shops.Api.Data.Migrations
 {
     [DbContext(typeof(MainShopTemplateDbContext))]
-    partial class MainShopTemplateDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250510140345_Main_Migrations_06")]
+    partial class Main_Migrations_06
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -7,12 +7,14 @@ public class KeycloakServices : IKeycloakServices
 {
     private readonly HttpClient _httpClient;
     private readonly ILogger<KeycloakServices> _logger;
+    private readonly KeycloakSettings _keycloakSettings;
     private readonly AsyncRetryPolicy<HttpResponseMessage> _retryPolicy;
 
-    public KeycloakServices(HttpClient httpClient, ILogger<KeycloakServices> logger)
+    public KeycloakServices(HttpClient httpClient, ILogger<KeycloakServices> logger, KeycloakSettings keycloakSettings)
     {
         _httpClient = httpClient;
         _logger = logger;
+        _keycloakSettings = keycloakSettings;
 
         _retryPolicy = Policy
             .Handle<HttpRequestException>()
@@ -31,7 +33,7 @@ public class KeycloakServices : IKeycloakServices
             {
                 new()
                 {
-                    Type = "Password",
+                    Type = _keycloakSettings.CredentialType,
                     UserLabel = "My Password",
                     SecretData = "",
                     CredentialData = "",
@@ -42,7 +44,7 @@ public class KeycloakServices : IKeycloakServices
 
         var response = await _retryPolicy
             .ExecuteAsync(() =>
-                _httpClient.PostAsJsonAsync("http://localhost:8000/auth/admin/realms/pocpro/users", userPayload));
+                _httpClient.PostAsJsonAsync(_keycloakSettings.Url, userPayload));
 
         if (!response.IsSuccessStatusCode)
         {

@@ -1,0 +1,15 @@
+namespace DevSync.PocPro.Shops.PointOfSales.Data.Configurations;
+
+public class PointOfSaleManagerConfigurations : IEntityTypeConfiguration<PointOfSaleManager>
+{
+    public void Configure(EntityTypeBuilder<PointOfSaleManager> builder)
+    {
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id)
+            .HasConversion(managerId => managerId.Value, dbId => PosManagerId.Of(dbId));
+        
+        builder.Property(a => a.PointOfSaleId).HasConversion(a => a.Value, dbId => PointOfSaleId.Of(dbId));
+
+        builder.Property(a => a.UserId).IsRequired();
+    }
+}

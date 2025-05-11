@@ -11,8 +11,8 @@ public class AddSessionEndpoint(
 
     public override async Task HandleAsync(AddSessionRequest req, CancellationToken ct)
     {
-        var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-        var hasRequiredPermission = await tenantServices.UserHasRequiredPermissionAsync(PermissionType.MANAGE_POS, userId);
+        var userId = httpContextAccessor?.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+        var hasRequiredPermission = await tenantServices.UserHasRequiredPermissionAsync(PermissionType.MANAGE_POS, userId!);
         
         if (!hasRequiredPermission)
         {
@@ -30,7 +30,7 @@ public class AddSessionEndpoint(
             return;
         }
 
-        var result = pos.StartSession();
+        var result = pos.StartSession(req.OpeningCash);
 
         if (result.IsFailed)
         {

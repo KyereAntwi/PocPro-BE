@@ -11,7 +11,7 @@ public class EndSessionEndpoint(
 
     public override async Task HandleAsync(EndSessionRequest req, CancellationToken ct)
     {
-        var userId = httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userId = httpContextAccessor?.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier);
         var hasRequiredPermission = await tenantServices.UserHasRequiredPermissionAsync(PermissionType.MANAGE_POS, userId!);
 
         if (!hasRequiredPermission)
@@ -28,7 +28,7 @@ public class EndSessionEndpoint(
             return;
         }
         
-        pos.EndSession(req.SessionId, userId);
+        pos.EndSession(req.SessionId, userId!, req.ClosingCash);
         await posDbContext.SaveChangesAsync(ct);
 
         await SendOkAsync(ct);

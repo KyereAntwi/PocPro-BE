@@ -13,15 +13,14 @@ public static class Startup
         builder.Configuration.GetSection("TenantDatabaseSettings").Bind(tenantDatabaseSettings);
         builder.Services.AddSingleton(tenantDatabaseSettings);
         
-        builder.AddNpgsqlDbContext<AccountsDbContext>("PocProAccountsManagement");
-        //builder.AddSeqEndpoint(connectionName: "seq");
-        builder.AddRabbitMQClient(connectionName: "messaging");
+        var keycloakSettings = new KeycloakSettings();
+        builder.Configuration.GetSection("KeycloakSettings").Bind(keycloakSettings);
+        builder.Services.AddSingleton(keycloakSettings);
         
         builder.AddServiceDefaults();
         builder.Services.AddOpenApi();
         
         builder.Services.AddScoped<IApplicationDbContext, AccountsDbContext>();
-        //builder.Services.AddTransient<IKeycloakServices, KeycloakServices>();
         builder.Services.AddHttpClient<IKeycloakServices, KeycloakServices>();
 
         builder.Services.AddMassTransit(x =>
