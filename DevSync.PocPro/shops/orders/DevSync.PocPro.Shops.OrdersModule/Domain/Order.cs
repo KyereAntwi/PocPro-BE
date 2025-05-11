@@ -13,23 +13,27 @@ public class Order : BaseEntity<OrderId>
         PaymentMethod? paymentMethod,
         ShippingAddress? shippingAddress = null,
         Guid posSessionId = default,
-        Guid customerId = default)
+        Guid customerId = default,
+        string? customerName = null,
+        double amountReceived = 0)
     {
         if (orderItems.Count == 0)
         {
             return Result.Fail("Order must have at least one item");
         }
         
-        if(orderType == OrderType.SalesOrder && posSessionId == Guid.Empty)
+        switch (orderType)
         {
-            return Result.Fail("Sales order must have a POS Session ID");
+            case OrderType.SalesOrder when posSessionId == Guid.Empty:
+                return Result.Fail("Sales order must have a POS Session ID");
+            case OrderType.PurchaseOrder when customerId  == Guid.Empty:
+                return Result.Fail("Purchase order must have a Customer ID");
+            case OrderType.OnlineOrder:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(orderType), orderType, null);
         }
 
-        if (orderType == OrderType.PurchaseOrder && customerId  == Guid.Empty)
-        {
-            return Result.Fail("Purchase order must have a Customer ID");
-        }
-        
         var newOrder = new Order
         {
             Id = OrderId.Of(Guid.CreateVersion7()),
@@ -39,6 +43,8 @@ public class Order : BaseEntity<OrderId>
             CustomerId = customerId == Guid.Empty ? null : CustomerId.Of(posSessionId),
             PaymentMethod = paymentMethod ?? PaymentMethod.Cash,
             OrderNumber = OrderServices.GenerateOrderNumber(),
+            CustomerName = customerName,
+            AmountReceived = amountReceived
         };
 
         foreach (var orderItem in orderItems)
@@ -46,7 +52,7 @@ public class Order : BaseEntity<OrderId>
             newOrder._orderItems.Add(orderItem);
         }
 
-        if (shippingAddress != null && orderType == OrderType.OnlineOrder)
+        if (shippingAddress != null)
         {
             newOrder.ShippingAddress = shippingAddress;
         }
@@ -71,4 +77,6 @@ public class Order : BaseEntity<OrderId>
     public SessionId? PosSessionId { get; private set; }
     public CustomerId? CustomerId { get; private set; }
     public PaymentMethod PaymentMethod { get; private set; }
+    public string? CustomerName { get; set; }
+    public double AmountReceived { get; set; }
 }

@@ -23,6 +23,7 @@ public class MainShopTemplateDbContext : DbContext
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Session> Sessions => Set<Session>();
     public DbSet<PointOfSale> PointOfSales => Set<PointOfSale>();
+    public DbSet<PointOfSaleManager> PointOfSaleManagers => Set<PointOfSaleManager>();
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
     public DbSet<ShippingAddress> ShippingAddresses => Set<ShippingAddress>();

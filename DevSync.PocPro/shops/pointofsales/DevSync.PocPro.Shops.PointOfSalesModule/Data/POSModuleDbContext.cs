@@ -52,4 +52,5 @@ public class POSModuleDbContext: DbContext, IPOSDbContext
     
     public DbSet<Session> Sessions => Set<Session>();
     public DbSet<PointOfSale> PointOfSales => Set<PointOfSale>();
+    public DbSet<PointOfSaleManager> PointOfSaleManagers => Set<PointOfSaleManager>();
 }

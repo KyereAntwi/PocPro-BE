@@ -26,6 +26,9 @@ public class GetPOSEndpoint(
                 POS = new POSResponse(
                     x.Id.Value,
                     x.Title,
+                    x.Email ?? string.Empty,
+                    x.Address ?? string.Empty,
+                    x.Phone ?? string.Empty,
                     x.CreatedAt,
                     x.CreatedBy,
                     x.UpdatedAt,
@@ -33,10 +36,14 @@ public class GetPOSEndpoint(
                 
                 Sessions = x.Sessions.Select(s => new GetSessionResponse(
                     s.Id.Value, 
+                    s.OpeningCash,
+                    s.ClosingCash,
                     s.CreatedAt, 
                     s.ClosedAt, 
                     s.ClosedBy, 
-                    s.CreatedBy))
+                    s.CreatedBy)),
+                
+                Managers = x.Managers.Select(m => new GetManagerResponse(m.Id.Value, m.UserId))
             })
             .FirstOrDefaultAsync(x => x.POS.Id == req.Id, ct);
 
@@ -50,5 +57,7 @@ public class GetPOSEndpoint(
         {
             Data = pos
         };
+        
+        await SendOkAsync(response, cancellation: ct);
     }
 }
