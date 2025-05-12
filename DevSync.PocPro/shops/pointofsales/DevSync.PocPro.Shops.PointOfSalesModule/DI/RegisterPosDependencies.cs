@@ -4,10 +4,7 @@ public static class RegisterPosDependencies
 {
     public static IServiceCollection AddPosDependencies(this IServiceCollection services)
     {
-        services.AddDbContext<POSModuleDbContext>(opt =>
-        {
-            opt.UseNpgsql("postgres");
-        });
+        services.AddDbContext<POSModuleDbContext>();
         
         services.AddScoped<IPOSDbContext, POSModuleDbContext>();
         return services;

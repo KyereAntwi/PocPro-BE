@@ -4,10 +4,7 @@ public static class CustomerModuleRegistration
 {
     public static IServiceCollection AddCustomerModule(this IServiceCollection services)
     {
-        services.AddDbContext<CustomerModuleDbContext>(opt =>
-        {
-            opt.UseNpgsql("postgres");
-        });
+        services.AddDbContext<CustomerModuleDbContext>();
 
         services.AddScoped<ICustomerDbContext, CustomerModuleDbContext>();
         

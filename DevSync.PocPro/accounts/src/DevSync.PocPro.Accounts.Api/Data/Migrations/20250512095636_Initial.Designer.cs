@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DevSync.PocPro.Accounts.Api.Data.Migrations
 {
     [DbContext(typeof(AccountsDbContext))]
-    [Migration("20250428144902_Account_Migrations_02")]
-    partial class Account_Migrations_02
+    [Migration("20250512095636_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -128,52 +128,143 @@ namespace DevSync.PocPro.Accounts.Api.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("01967cdf-76ba-73bd-a768-547dd237f588"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 4, 28, 14, 49, 1, 882, DateTimeKind.Unspecified).AddTicks(3537), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0196c3ec-c2ed-7290-bf40-e85e289efc40"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 693, DateTimeKind.Unspecified).AddTicks(4470), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "MANAGE_PERMISSIONS"
                         },
                         new
                         {
-                            Id = new Guid("01967cdf-76bc-73f8-a949-88397f726e20"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 4, 28, 14, 49, 1, 884, DateTimeKind.Unspecified).AddTicks(7016), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0196c3ec-c2f7-7dfc-ae00-dbae0a1bd953"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9240), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "VIEW_USERS"
                         },
                         new
                         {
-                            Id = new Guid("01967cdf-76bc-7045-a591-559006d37fc8"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 4, 28, 14, 49, 1, 884, DateTimeKind.Unspecified).AddTicks(7030), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0196c3ec-c2f7-7e08-892d-4136bbc77b9a"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9250), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "MANAGE_USERS"
                         },
                         new
                         {
-                            Id = new Guid("01967cdf-76bc-75e5-8fb6-767a45feb346"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 4, 28, 14, 49, 1, 884, DateTimeKind.Unspecified).AddTicks(7034), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0196c3ec-c2f7-796e-8865-46b3069c79b6"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9260), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "VIEW_TENANTS"
                         },
                         new
                         {
-                            Id = new Guid("01967cdf-76bc-75d2-b0fe-c7fb302a10c5"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 4, 28, 14, 49, 1, 884, DateTimeKind.Unspecified).AddTicks(7049), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0196c3ec-c2f7-7dd8-b54f-3448ea9b5775"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9270), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "MANAGE_TENANTS"
                         },
                         new
                         {
-                            Id = new Guid("01967cdf-76bc-7144-a6bf-3a40f93ae81b"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 4, 28, 14, 49, 1, 884, DateTimeKind.Unspecified).AddTicks(7052), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0196c3ec-c2f7-7cc9-98f8-64bd8235d996"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9270), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "VIEW_PRODUCTS"
                         },
                         new
                         {
-                            Id = new Guid("01967cdf-76bc-7f40-a739-a3fff151e426"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 4, 28, 14, 49, 1, 884, DateTimeKind.Unspecified).AddTicks(7054), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0196c3ec-c2f7-7b09-9167-ecca27d95f33"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9280), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "MANAGE_PRODUCTS"
+                        },
+                        new
+                        {
+                            Id = new Guid("0196c3ec-c2f7-7795-910c-9fa91a652152"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9290), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "MANAGE_CATEGORIES"
+                        },
+                        new
+                        {
+                            Id = new Guid("0196c3ec-c2f7-7a5e-9ea9-bdaca2f87d9b"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9290), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "MANAGE_SUPPLIERS"
+                        },
+                        new
+                        {
+                            Id = new Guid("0196c3ec-c2f7-794d-90c5-9e446b97091c"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9300), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "VIEW_SUPPLIERS"
+                        },
+                        new
+                        {
+                            Id = new Guid("0196c3ec-c2f7-7956-b31f-c5dce0a4304f"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9310), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "VIEW_STOCKS"
+                        },
+                        new
+                        {
+                            Id = new Guid("0196c3ec-c2f7-7e8c-8223-c4f06fe4826f"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9310), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "MANAGE_POS"
+                        },
+                        new
+                        {
+                            Id = new Guid("0196c3ec-c2f7-73ea-ba9e-ad09416ca88a"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9320), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "GET_POS"
+                        },
+                        new
+                        {
+                            Id = new Guid("0196c3ec-c2f7-7df7-ab6c-656c1d9443d2"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9330), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "MANAGE_SALES"
+                        },
+                        new
+                        {
+                            Id = new Guid("0196c3ec-c2f7-7e3d-9b78-7c35d855c765"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9330), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "VIEW_SALES"
+                        },
+                        new
+                        {
+                            Id = new Guid("0196c3ec-c2f7-78d0-9c85-022ca9bf86da"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9340), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "MANAGE_PURCHASES"
+                        },
+                        new
+                        {
+                            Id = new Guid("0196c3ec-c2f7-785d-bba4-7c9d9a745246"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9350), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "VIEW_PURCHASES"
+                        },
+                        new
+                        {
+                            Id = new Guid("0196c3ec-c2f7-7f9b-a22c-0e15ab14b3cc"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9360), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "MANAGE_CUSTOMERS"
+                        },
+                        new
+                        {
+                            Id = new Guid("0196c3ec-c2f7-7609-b2a5-9f1cfa593fa5"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9360), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "VIEW_CUSTOMERS"
+                        },
+                        new
+                        {
+                            Id = new Guid("0196c3ec-c2f7-7cf8-92f0-47af22e33a75"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 5, 12, 9, 56, 35, 703, DateTimeKind.Unspecified).AddTicks(9370), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "VIEW_ORDERS"
                         });
                 });
 
