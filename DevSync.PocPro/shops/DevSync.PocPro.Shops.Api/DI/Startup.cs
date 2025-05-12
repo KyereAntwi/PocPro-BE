@@ -19,6 +19,11 @@ public static class Startup
         builder.Services.AddPosDependencies();
         builder.Services.AddCustomerModule();
         
+        builder.Services.AddDbContext<MainShopTemplateDbContext>(options =>
+        {
+            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+        });
+        
         builder.Services.AddTransient<ITenantServices, TenantServices>();
         builder.Services.AddScoped<ITenantRegistrationServices, TenantRegistrationServices>();
         

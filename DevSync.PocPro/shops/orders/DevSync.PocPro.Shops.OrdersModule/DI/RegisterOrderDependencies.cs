@@ -6,10 +6,7 @@ public static class RegisterOrderDependencies
 {
     public static IServiceCollection RegisterOrderModule(this IServiceCollection services)
     {
-        services.AddDbContext<OrdersModuleDbContext>(opt =>
-        {
-            opt.UseNpgsql("postgres");
-        });
+        services.AddDbContext<OrdersModuleDbContext>();
 
         services.AddScoped<IOrderModuleDbContext, OrdersModuleDbContext>();
         services.AddTransient<IExternalServices, ExternalServices>();
