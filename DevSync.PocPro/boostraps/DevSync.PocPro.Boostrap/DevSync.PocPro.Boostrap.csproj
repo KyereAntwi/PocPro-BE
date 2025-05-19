@@ -13,7 +13,6 @@
 
     <ItemGroup>
         <PackageReference Include="Aspire.Hosting.AppHost" Version="9.0.0"/>
-        <PackageReference Include="Aspire.Hosting.Keycloak" Version="9.0.0-preview.5.24551.3" />
         <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.0.0" />
         <PackageReference Include="Aspire.Hosting.RabbitMQ" Version="9.0.0" />
         <PackageReference Include="Aspire.Hosting.Seq" Version="9.0.0" />
@@ -22,6 +21,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\accounts\src\DevSync.PocPro.Accounts.Api\DevSync.PocPro.Accounts.Api.csproj" />
       <ProjectReference Include="..\..\gateway\DevSync.PocPro.Gateway\DevSync.PocPro.Gateway.csproj" />
+      <ProjectReference Include="..\..\identity\DevSync.PocPro.Identity\DevSync.PocPro.Identity.csproj" />
       <ProjectReference Include="..\..\shops\DevSync.PocPro.Shops.Api\DevSync.PocPro.Shops.Api.csproj" />
     </ItemGroup>
 
