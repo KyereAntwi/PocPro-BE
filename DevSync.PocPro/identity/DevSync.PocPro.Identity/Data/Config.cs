@@ -45,14 +45,19 @@ public static class Config
                 ClientName = "Admin Client",
                 ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0") },
                 ClientUri = "http://localhost:5173",
+                RequireClientSecret = false,
 
                 AllowedGrantTypes = GrantTypes.Code,
 
                 RedirectUris = { "http://localhost:5173/callback" },
                 FrontChannelLogoutUri = "http://localhost:5173",
                 PostLogoutRedirectUris = { "http://localhost:5173" },
+                AllowedCorsOrigins =     { "http://localhost:5173" },
 
                 AllowOfflineAccess = true,
+                AllowAccessTokensViaBrowser = true,
+                RequirePkce = true,
+                AccessTokenLifetime = 3600,
                 AllowedScopes = { "openid", "profile", "account.api", "shop.api" }
         }
     ];

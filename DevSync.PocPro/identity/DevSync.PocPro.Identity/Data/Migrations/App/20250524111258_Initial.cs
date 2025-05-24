@@ -4,10 +4,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DevSync.PocPro.Identity.Data.Migrations
+namespace DevSync.PocPro.Identity.Data.Migrations.App
 {
     /// <inheritdoc />
-    public partial class Initial_AppDb : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

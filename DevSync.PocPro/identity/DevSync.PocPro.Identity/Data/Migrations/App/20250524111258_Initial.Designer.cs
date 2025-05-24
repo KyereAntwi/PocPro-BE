@@ -9,11 +9,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DevSync.PocPro.Identity.Data.Migrations
+namespace DevSync.PocPro.Identity.Data.Migrations.App
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250518124741_Initial_AppDb")]
-    partial class Initial_AppDb
+    [Migration("20250524111258_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
