@@ -55,11 +55,21 @@ public static class Startup
                 .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
         
         builder.Services.AddAuthentication()
-            .AddKeycloakJwtBearer(serviceName: "keycloak", realm: "pocpro", options =>
+            .AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false;
-                options.Audience = "account";
+                options.Authority = builder.Configuration["Identity:Authority"];
+                options.TokenValidationParameters.ValidateAudience = false;
             });
+        
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("ApiScope", policy =>
+            {
+                policy.RequireAuthenticatedUser();
+                policy.RequireClaim("scope", "shop.api");
+            });
+        });
         
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddEndpointsApiExplorer();

@@ -48,13 +48,21 @@ public static class Startup
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddEndpointsApiExplorer();
         
-        builder.Services.AddAuthorization();
         builder.Services.AddAuthentication()
-            .AddKeycloakJwtBearer(serviceName: "keycloak", realm: "pocpro", options =>
+            .AddJwtBearer(options =>
             {
-                options.RequireHttpsMetadata = false;
-                options.Audience = "account";
+                options.Authority = builder.Configuration["KeycloakSettings:Authority"];
+                options.TokenValidationParameters.ValidateAudience = false;
             });
+        
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("ApiScope", policy =>
+            {
+                policy.RequireAuthenticatedUser();
+                policy.RequireClaim("scope", "account.api");
+            });
+        });
 
         builder.Services.AddCors(options =>
         {
