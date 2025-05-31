@@ -6,7 +6,7 @@ public class EndSessionEndpoint(
 {
     public override void Configure()
     {
-        Put("/pointofsales/{PosId}/sessions/{SessionId}");
+        Put("/api/v1/pointofsales/{Id}/sessions/{SessionId}");
     }
 
     public override async Task HandleAsync(EndSessionRequest req, CancellationToken ct)
@@ -20,7 +20,7 @@ public class EndSessionEndpoint(
             return;
         }
 
-        var pos = await posDbContext.PointOfSales.FirstOrDefaultAsync(p => p.Id == PointOfSaleId.Of(req.PosId), ct);
+        var pos = await posDbContext.PointOfSales.FirstOrDefaultAsync(p => p.Id == PointOfSaleId.Of(req.Id), ct);
 
         if (pos is null)
         {

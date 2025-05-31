@@ -328,9 +328,9 @@
       ]
     },
     {
-      "UpstreamPathTemplate": "/gateway/v1/pointofsales/{PosId}/sessions/{SessionId}",
+      "UpstreamPathTemplate": "/gateway/v1/pointofsales/{Id}/sessions/{SessionId}",
       "UpstreamHttpMethod": ["Put"],
-      "DownstreamPathTemplate": "/api/v1/pointofsales/{PosId}/sessions/{SessionId}",
+      "DownstreamPathTemplate": "/api/v1/pointofsales/{Id}/sessions/{SessionId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
