@@ -1,3 +1,3 @@
 namespace DevSync.PocPro.Shops.PointOfSales.Features.PointOfSales.EndSession;
 
-public record EndSessionRequest(Guid PosId, Guid SessionId, double ClosingCash);
+public record EndSessionRequest(Guid Id, Guid SessionId, double ClosingCash);
