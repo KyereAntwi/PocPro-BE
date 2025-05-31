@@ -92,7 +92,7 @@ public static class Startup
     
     public static WebApplication AddPipeline(this WebApplication app)
     {
-        _ = app.ConfigureDatabaseAsync();
+        //_ = app.ConfigureDatabaseAsync();
         
         if (app.Environment.IsDevelopment())
         {
