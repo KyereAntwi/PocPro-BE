@@ -104,11 +104,7 @@ public static class Startup
         app.UseAuthorization();
         
         app.UseFastEndpoints();
-        
-        app.UseEndpoints(endpoint =>
-        {
-            endpoint.MapGrpcService<TenantsServicesImpl>();
-        });
+        app.MapGrpcService<TenantsServicesImpl>();
         app.UseHttpsRedirection();
         
         return app;
