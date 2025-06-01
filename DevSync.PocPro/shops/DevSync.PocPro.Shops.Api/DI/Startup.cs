@@ -59,7 +59,8 @@ public static class Startup
             {
                 options.RequireHttpsMetadata = false;
                 options.Authority = builder.Configuration["Identity:Authority"];
-                options.TokenValidationParameters.ValidateAudience = false;
+                options.Audience = builder.Configuration["Identity:Audience"];
+                options.TokenValidationParameters.ValidateAudience = true;
             });
         
         builder.Services.AddAuthorization(options =>

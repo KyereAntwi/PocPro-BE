@@ -52,7 +52,9 @@ public static class Startup
             .AddJwtBearer(options =>
             {
                 options.Authority = builder.Configuration["KeycloakSettings:Authority"];
-                options.TokenValidationParameters.ValidateAudience = false;
+                options.Audience = builder.Configuration["KeycloakSettings:Audience"];
+                options.TokenValidationParameters.ValidateAudience = true;
+                options.RequireHttpsMetadata = false;
             });
         
         builder.Services.AddAuthorization(options =>
