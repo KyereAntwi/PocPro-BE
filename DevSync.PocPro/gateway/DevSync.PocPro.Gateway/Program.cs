@@ -13,10 +13,21 @@ builder.Services
         options.WithDictionaryHandle();
     });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Open", b =>
+        b.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials());
+});
+
 var app = builder.Build();
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
+//app.UseAuthorization();
+
+app.UseCors("Open");
 
 await app.UseOcelot();
 
