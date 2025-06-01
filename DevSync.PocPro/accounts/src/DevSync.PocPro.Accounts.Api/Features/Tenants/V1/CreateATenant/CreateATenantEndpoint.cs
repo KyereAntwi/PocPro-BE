@@ -43,7 +43,8 @@ public class CreateATenantEndpoint(
         var integrationEvent = new GenerateTenantDatabaseEvent
         {
             TenantId = tenant.Id.Value,
-            DatabaseName = tenant.UniqueIdentifier
+            DatabaseName = tenant.UniqueIdentifier,
+            ConnectionString = connectionString
         };
 
         try
