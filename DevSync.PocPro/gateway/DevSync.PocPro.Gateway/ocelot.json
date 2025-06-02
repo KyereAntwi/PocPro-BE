@@ -1,6 +1,6 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:7001"
+    "BaseUrl": "https://devsyncshopgateway-acdubue3e2eahkfs.uksouth-01.azurewebsites.net"
   },
   "Routes": [
     {
@@ -10,8 +10,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7003
+          "Host": "devsyncaccountsapi-ccguashuc8a5gpfs.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -22,8 +21,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7003
+          "Host": "devsyncaccountsapi-ccguashuc8a5gpfs.uksouth-01.azurewebsites.net"
         }
       ],
       "RateLimitOptions": {
@@ -43,8 +41,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7003
+          "Host": "devsyncaccountsapi-ccguashuc8a5gpfs.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -55,8 +52,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7003
+          "Host": "devsyncaccountsapi-ccguashuc8a5gpfs.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -67,8 +63,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7003
+          "Host": "devsyncaccountsapi-ccguashuc8a5gpfs.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -79,8 +74,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7003
+          "Host": "devsyncaccountsapi-ccguashuc8a5gpfs.uksouth-01.azurewebsites.net"
         }
       ],
       "RateLimitOptions": {
@@ -100,8 +94,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7003
+          "Host": "devsyncaccountsapi-ccguashuc8a5gpfs.uksouth-01.azurewebsites.net"
         }
       ],
       "RateLimitOptions": {
@@ -121,8 +114,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7003
+          "Host": "devsyncaccountsapi-ccguashuc8a5gpfs.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -133,8 +125,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -145,8 +136,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -157,8 +147,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ],
       "FileCacheOptions": {
@@ -172,8 +161,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ],
       "RateLimitOptions": {
@@ -190,8 +178,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -202,8 +189,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -214,8 +200,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ],
       "RateLimitOptions": {
@@ -232,8 +217,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ],
       "FileCacheOptions": {
@@ -247,8 +231,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ],
       "RateLimitOptions": {
@@ -265,8 +248,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ],
       "FileCacheOptions": {
@@ -280,8 +262,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -292,8 +273,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ],
       "RateLimitOptions": {
@@ -310,8 +290,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -322,8 +301,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -334,8 +312,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -346,8 +323,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ],
       "RateLimitOptions": {
@@ -367,8 +343,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ],
       "RateLimitOptions": {
@@ -385,8 +360,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ],
       "RateLimitOptions": {
@@ -403,8 +377,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ],
       "RateLimitOptions": {
@@ -421,8 +394,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ],
       "RateLimitOptions": {
@@ -439,8 +411,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -451,8 +422,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -463,8 +433,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -475,8 +444,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -487,8 +455,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -499,8 +466,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -511,8 +477,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ]
     },
@@ -523,8 +488,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ]
     }
