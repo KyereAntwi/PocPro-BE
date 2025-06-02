@@ -53,7 +53,7 @@ public static class Startup
             {
                 options.Authority = builder.Configuration["KeycloakSettings:Authority"];
                 options.Audience = builder.Configuration["KeycloakSettings:Audience"];
-                options.TokenValidationParameters.ValidateAudience = true;
+                options.TokenValidationParameters.ValidateAudience = false;
                 options.RequireHttpsMetadata = false;
             });
         
@@ -69,7 +69,11 @@ public static class Startup
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("Open", b =>
-                b.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
+                b.SetIsOriginAllowed(origin => 
+                        new Uri(origin).Host == "http://localhost" ||
+                        new Uri(origin).Host == "https://devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net" ||
+                        new Uri(origin).Host == "https://devsyncshopgateway-acdubue3e2eahkfs.uksouth-01.azurewebsites.net"
+                        )
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials());

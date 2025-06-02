@@ -47,12 +47,12 @@ public static class Startup
         builder.AddServiceDefaults();
         builder.Services.AddOpenApi();
 
-        builder.Services.AddGrpcClient<TenantService.TenantServiceClient>(options =>
-        {
-            options.Address = new Uri("https://localhost:7003");
-        }).AddPolicyHandler(_ => Policy<HttpResponseMessage>
-                .Handle<Grpc.Core.RpcException>()
-                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
+        // builder.Services.AddGrpcClient<TenantService.TenantServiceClient>(options =>
+        // {
+        //     options.Address = new Uri("https://devsyncaccountsapi-ccguashuc8a5gpfs.uksouth-01.azurewebsites.net");
+        // }).AddPolicyHandler(_ => Policy<HttpResponseMessage>
+        //         .Handle<Grpc.Core.RpcException>()
+        //         .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
         
         builder.Services.AddAuthentication()
             .AddJwtBearer(options =>
@@ -80,7 +80,10 @@ public static class Startup
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("Open", b =>
-                b.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
+                b.SetIsOriginAllowed(origin => 
+                        new Uri(origin).Host == "http://localhost" ||
+                        new Uri(origin).Host == "https://devsyncshopgateway-acdubue3e2eahkfs.uksouth-01.azurewebsites.net"
+                        )
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials());
