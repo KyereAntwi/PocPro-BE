@@ -1,3 +1,4 @@
+using DevSync.PocPro.Shared.Domain.Middlewares;
 using DevSync.PocPro.Shared.Domain.Utils;
 using DevSync.PocPro.Shops.Api.Services;
 using DevSync.PocPro.Shops.OrdersModule.DI;
@@ -81,7 +82,6 @@ public static class Startup
         {
             options.AddPolicy("Open", b =>
                 b.SetIsOriginAllowed(origin => 
-                        new Uri(origin).Host == "http://localhost" ||
                         new Uri(origin).Host == "https://devsyncshopgateway-acdubue3e2eahkfs.uksouth-01.azurewebsites.net"
                         )
                     .AllowAnyHeader()
@@ -108,6 +108,7 @@ public static class Startup
             });
         }
         
+        app.UseCustomExceptionHandler();
         app.UseCors("Open");
         app.UseAuthentication();
         app.UseAuthorization();

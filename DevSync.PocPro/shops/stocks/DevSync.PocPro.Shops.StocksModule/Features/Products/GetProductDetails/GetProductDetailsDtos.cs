@@ -9,7 +9,11 @@ public record GetProductDetailsResponseItem(
     string Name,
     string ImageUrl,
     DateTimeOffset? CreatedAt,
-    DateTimeOffset? UpdatedAt);
+    DateTimeOffset? UpdatedAt)
+{
+    public IEnumerable<Guid> StocksIds { get; set; } = [];
+    public Guid? CategoryId { get; set; }
+};
 
 public record StockItem(
     Guid Id,

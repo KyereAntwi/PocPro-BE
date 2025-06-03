@@ -4,7 +4,7 @@ namespace DevSync.PocPro.Shops.StocksModule.Features.Products.GetStockDetails;
 
 public class GetStockDetailsEndpoint(
     IShopDbContext shopDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 
-    : Endpoint<GetStockDetailsRequest, BaseResponse<GetStockDetailsResponse>>
+    : Endpoint<GetStockDetailsRequest, BaseResponse<StockItem>>
 {
     public override void Configure()
     {
@@ -49,9 +49,9 @@ public class GetStockDetailsEndpoint(
             return;
         }
 
-        await SendOkAsync(new BaseResponse<GetStockDetailsResponse>("Stock details retrieved successfully", true)
+        await SendOkAsync(new BaseResponse<StockItem>("Stock details retrieved successfully", true)
         {
-            Data = stock
+            Data = stock.Stock
         }, cancellation: ct);
     }
 }

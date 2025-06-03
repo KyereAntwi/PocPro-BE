@@ -33,13 +33,10 @@ public class RemoveManagersEndpoint(
         
         if (req.ManageruserIds.Any())
         {
-            foreach (var user in req.ManageruserIds)
+            if (req.ManageruserIds.Select(user => pos.RemoveManager(user)).Any(result => result.IsFailed))
             {
-                var result = pos.RemoveManager(user);
-                if (result.IsFailed)
-                {
-                    await SendErrorsAsync((int)HttpStatusCode.BadRequest, ct);
-                }
+                await SendErrorsAsync((int)HttpStatusCode.BadRequest, ct);
+                return;
             }
         }
         

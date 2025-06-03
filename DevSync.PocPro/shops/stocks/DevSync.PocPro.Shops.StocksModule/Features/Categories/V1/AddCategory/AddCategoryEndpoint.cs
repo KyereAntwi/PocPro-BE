@@ -1,7 +1,7 @@
 namespace DevSync.PocPro.Shops.StocksModule.Features.Categories.V1.AddCategory;
 
 public class AddCategoryEndpoint(IShopDbContext shopDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 
-    : Endpoint<AddCategoryRequest, BaseResponse<AddCategoryResponse>>
+    : Endpoint<AddCategoryRequest, BaseResponse<Guid>>
 {
     public override void Configure()
     {
@@ -30,7 +30,10 @@ public class AddCategoryEndpoint(IShopDbContext shopDbContext, IHttpContextAcces
         await shopDbContext.Categories.AddAsync(newCategory, ct);
         await shopDbContext.SaveChangesAsync(ct);
         
-        await SendCreatedAtAsync<GetCategoryEndpoint>(new { Id = newCategory.Id }, new BaseResponse<AddCategoryResponse>("Category created successfully", true), cancellation: ct);
+        await SendCreatedAtAsync<GetCategoryEndpoint>(new { Id = newCategory.Id }, new BaseResponse<Guid>("Category created successfully", true)
+        {
+            Data = newCategory.Id.Value
+        }, cancellation: ct);
     }
 }
 

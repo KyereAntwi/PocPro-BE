@@ -1,11 +1,11 @@
-namespace DevSync.PocPro.Accounts.Api.Features.Tenants.V1.CheckIfUserHasRequiredPermission;
+namespace DevSync.PocPro.Accounts.Api.Features.ApplicationUsers.V1.CheckIfUserHasRequiredPermission;
 
 public class CheckIfUserHasRequiredPermissionEndpoint(IApplicationDbContext applicationDbContext) 
     : Endpoint<CheckIfUserHasRequiredPermissionRequest, BaseResponse<CheckIfUserHasRequiredPermissionResponse>>
 {
     public override void Configure()
     {
-        Get("/api/v1/accounts/tenants/user/{UserId}/permissions/{PermissionType}");
+        Get("/api/v1/accounts/users/{UserId}/permissions/{PermissionType}");
     }
 
     public override async Task HandleAsync(CheckIfUserHasRequiredPermissionRequest req, CancellationToken ct)

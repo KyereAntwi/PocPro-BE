@@ -4,7 +4,6 @@ using DevSync.PocPro.Shops.Api.Services;
 namespace DevSync.PocPro.Shops.Api.EventHandlers;
 
 public class GenerateTenantDatabaseEventHandler(
-    ITenantServices tenantServices,
     ITenantRegistrationServices tenantRegistrationServices,
     ILogger<GenerateTenantDatabaseEventHandler> logger) 
     : IConsumer<GenerateTenantDatabaseEvent>

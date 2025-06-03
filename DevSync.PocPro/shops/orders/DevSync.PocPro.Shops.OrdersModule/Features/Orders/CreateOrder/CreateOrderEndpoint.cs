@@ -2,7 +2,7 @@ namespace DevSync.PocPro.Shops.OrdersModule.Features.Orders.CreateOrder;
 
 public class CreateOrderEndpoint(
     IOrderModuleDbContext orderModuleDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 
-    : Endpoint<CreateOrderRequest, BaseResponse<CreateOrderResponse>>
+    : Endpoint<CreateOrderRequest, BaseResponse<Guid>>
 {
     public override void Configure()
     {
@@ -18,7 +18,8 @@ public class CreateOrderEndpoint(
         {
             OrderType.PurchaseOrder => await tenantServices.UserHasRequiredPermissionAsync(
                 PermissionType.MANAGE_PURCHASES, userId!),
-            OrderType.SalesOrder => await tenantServices.UserHasRequiredPermissionAsync(PermissionType.MANAGE_SALES,
+            OrderType.SalesOrder => await tenantServices.UserHasRequiredPermissionAsync(
+                PermissionType.MANAGE_SALES,
                 userId!),
             OrderType.OnlineOrder => true,
             _ => false
@@ -62,9 +63,9 @@ public class CreateOrderEndpoint(
         await SendCreatedAtAsync<GetOrderEndpoint>(new
         {
             Id = newOrder.Value.Id.Value
-        }, new BaseResponse<CreateOrderResponse>("Order created successfully", true)
+        }, new BaseResponse<Guid>("Order created successfully", true)
         {
-            Data = new CreateOrderResponse(newOrder.Value.Id.Value)
+            Data = newOrder.Value.Id.Value
         }, cancellation: ct);
     }
 }

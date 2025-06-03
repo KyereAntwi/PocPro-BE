@@ -14,7 +14,7 @@ public class PagedResponse<TResponse>  where TResponse : class
     public int PageSize { get; }
     public int TotalCount { get; }
     public IEnumerable<TResponse> Items { get; }
-    public bool HasRev => TotalCount > 0;
+    public bool HasPrev => Page > 1;
     public int TotalPages => (int)Math.Ceiling((double)TotalCount / PageSize);
     public bool HasNextPage => Page < TotalPages;
 }

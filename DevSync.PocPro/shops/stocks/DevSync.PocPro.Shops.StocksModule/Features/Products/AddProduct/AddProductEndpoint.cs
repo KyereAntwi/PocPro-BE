@@ -1,8 +1,10 @@
+using DevSync.PocPro.Shops.StocksModule.Features.Products.GetProductDetails;
+
 namespace DevSync.PocPro.Shops.StocksModule.Features.Products.AddProduct;
 
 public class AddProductEndpoint(
     IShopDbContext shopDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 
-    : Endpoint<AddProductRequest, BaseResponse<AddProductResponse>>
+    : Endpoint<AddProductRequest, BaseResponse<Guid>>
 {
     public override void Configure()
     {
@@ -28,5 +30,14 @@ public class AddProductEndpoint(
         var product = Product.Create(req.Name, req.BarcodeNumber!, photoUrl, CategoryId.Of(req.CategoryId));
         await shopDbContext.Products.AddAsync(product, ct);
         await shopDbContext.SaveChangesAsync(ct);
+        
+        await SendCreatedAtAsync<GetProductDetailsEndpoint>(new
+        {
+            ProductId = product.Id.Value,
+        },
+            new BaseResponse<Guid>("Product added", true)
+            {
+                Data = product.Id.Value,
+            }, cancellation: ct);
     }
 }

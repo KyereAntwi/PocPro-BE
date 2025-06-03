@@ -2,7 +2,7 @@ namespace DevSync.PocPro.Shops.PointOfSales.Features.PointOfSales.GetPOS;
 
 public class GetPOSEndpoint(
     IPOSDbContext pocContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 
-    : Endpoint<GetPOSRequest, BaseResponse<GetPOSResponse>>
+    : Endpoint<GetPOSRequest, BaseResponse<POSResponse>>
 {
     public override void Configure()
     {
@@ -32,18 +32,18 @@ public class GetPOSEndpoint(
                     x.CreatedAt,
                     x.CreatedBy,
                     x.UpdatedAt,
-                    x.UpdatedBy),
-                
-                Sessions = x.Sessions.Select(s => new GetSessionResponse(
-                    s.Id.Value, 
-                    s.OpeningCash,
-                    s.ClosingCash,
-                    s.CreatedAt, 
-                    s.ClosedAt, 
-                    s.ClosedBy, 
-                    s.CreatedBy)),
-                
-                Managers = x.Managers.Select(m => new GetManagerResponse(m.Id.Value, m.UserId))
+                    x.UpdatedBy)
+                {
+                    Sessions = x.Sessions.Select(s => new GetSessionResponse(
+                        s.Id.Value, 
+                        s.OpeningCash,
+                        s.ClosingCash,
+                        s.CreatedAt, 
+                        s.ClosedAt, 
+                        s.ClosedBy, 
+                        s.CreatedBy)),
+                    Managers = x.Managers.Select(m => new GetManagerResponse(m.Id.Value, m.UserId))
+                }
             })
             .FirstOrDefaultAsync(x => x.POS.Id == req.Id, ct);
 
@@ -53,9 +53,9 @@ public class GetPOSEndpoint(
             return;
         }
         
-        var response = new BaseResponse<GetPOSResponse>("POS retrieved successfully", true)
+        var response = new BaseResponse<POSResponse>("POS retrieved successfully", true)
         {
-            Data = pos
+            Data = pos.POS
         };
         
         await SendOkAsync(response, cancellation: ct);

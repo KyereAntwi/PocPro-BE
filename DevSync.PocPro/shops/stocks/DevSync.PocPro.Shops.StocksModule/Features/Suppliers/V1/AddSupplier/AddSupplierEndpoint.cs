@@ -1,7 +1,7 @@
 namespace DevSync.PocPro.Shops.StocksModule.Features.Suppliers.V1.AddSupplier;
 
 public class AddSupplierEndpoint(IShopDbContext shopDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 
-    : Endpoint<AddSupplierRequest, BaseResponse<AddSupplierResponse>>
+    : Endpoint<AddSupplierRequest, BaseResponse<Guid>>
 {
     public override void Configure()
     {
@@ -35,9 +35,9 @@ public class AddSupplierEndpoint(IShopDbContext shopDbContext, IHttpContextAcces
 
         await SendCreatedAtAsync<GetSupplierEndpoint>(
             new { Id = supplier.Id }, 
-            new BaseResponse<AddSupplierResponse>("Supplier added", true)
+            new BaseResponse<Guid>("Supplier added", true)
             {
-                Data = new AddSupplierResponse(supplier.Id.Value)
+                Data = supplier.Id.Value
             }, cancellation: ct);
     }
 }
