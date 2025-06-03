@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <AssemblyVersion>0.100.0.0</AssemblyVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Google.Protobuf" Version="3.30.2" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.71.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4"/>
+        <PackageReference Include="Aspire.Keycloak.Authentication" Version="9.0.0-preview.5.24551.3" />
+        <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
+        <PackageReference Include="Aspire.RabbitMQ.Client" Version="9.0.0" />
+        <PackageReference Include="Aspire.Seq" Version="9.0.0" />
+        <PackageReference Include="FastEndpoints" Version="6.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.4" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Polly" Version="8.5.2" />
+        <PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
+        <PackageReference Include="Scalar.AspNetCore" Version="2.2.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\boostraps\DevSync.PocPro.ServiceDiscovery\DevSync.PocPro.ServiceDiscovery.csproj" />
+      <ProjectReference Include="..\..\..\shared\DevSync.PocPro.Shared.Domain\DevSync.PocPro.Shared.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="Features\Tenants\Grpc\tenant_services.proto" GrpcServices="Server" />
+    </ItemGroup>
+
+</Project>

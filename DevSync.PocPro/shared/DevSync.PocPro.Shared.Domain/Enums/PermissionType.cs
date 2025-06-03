@@ -1,0 +1,25 @@
+namespace DevSync.PocPro.Shared.Domain.Enums;
+
+public enum PermissionType
+{
+    MANAGE_PERMISSIONS = 1,
+    VIEW_USERS = 2,
+    MANAGE_USERS = 3,
+    VIEW_TENANTS = 4,
+    MANAGE_TENANTS = 5,
+    VIEW_PRODUCTS = 6,
+    MANAGE_PRODUCTS = 7,
+    MANAGE_CATEGORIES = 8,
+    MANAGE_SUPPLIERS = 9,
+    VIEW_SUPPLIERS = 10,
+    VIEW_STOCKS = 11,
+    MANAGE_POS = 12,
+    GET_POS = 13,
+    MANAGE_SALES = 14,
+    VIEW_SALES = 15,
+    MANAGE_PURCHASES = 16,
+    VIEW_PURCHASES = 17,
+    MANAGE_CUSTOMERS = 18,
+    VIEW_CUSTOMERS = 19,
+    VIEW_ORDERS = 20
+}
