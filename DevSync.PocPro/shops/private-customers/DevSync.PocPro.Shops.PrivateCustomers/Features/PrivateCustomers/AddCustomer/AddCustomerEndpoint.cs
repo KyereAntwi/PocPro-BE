@@ -2,7 +2,7 @@ namespace DevSync.PocPro.Shops.PrivateCustomers.Features.PrivateCustomers.AddCus
 
 public class AddCustomerEndpoint(
     ICustomerDbContext customerDbContext, ITenantServices tenantServices, IHttpContextAccessor httpContextAccessor) 
-    : Endpoint<AddCustomerRequest, BaseResponse<AddCustomerResponse>>
+    : Endpoint<AddCustomerRequest, BaseResponse<Guid>>
 {
     public override void Configure()
     {
@@ -11,7 +11,7 @@ public class AddCustomerEndpoint(
 
     public override async Task HandleAsync(AddCustomerRequest req, CancellationToken ct)
     {
-        var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+        var userId = httpContextAccessor.HttpContext!.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
         
         var hasRequiredPermissions = await tenantServices.UserHasRequiredPermissionAsync(PermissionType.MANAGE_CUSTOMERS, userId);
         if (!hasRequiredPermissions)
@@ -26,10 +26,10 @@ public class AddCustomerEndpoint(
         await customerDbContext.SaveChangesAsync(ct);
         
         await SendCreatedAtAsync<GetCustomerEndpoint>(
-            new {Id = customer.Id}, 
-            new BaseResponse<AddCustomerResponse>("Added Customer Successfully", true)
+            new { customer.Id}, 
+            new BaseResponse<Guid>("Added Customer Successfully", true)
             {
-                Data = new AddCustomerResponse(customer.Id.Value)
+                Data = customer.Id.Value
             },
             cancellation: ct);
     }

@@ -5,5 +5,3 @@ public record AddProductRequest(
     string? BarcodeNumber,
     IFormFile? ImageFile,
     Guid CategoryId);
-
-public record AddProductResponse(Guid Id);

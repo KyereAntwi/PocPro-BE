@@ -25,7 +25,7 @@ public class UpdatePOSEndpoint (
 
         if (pos is null)
         {
-            await SendForbiddenAsync(ct);
+            await SendNotFoundAsync(ct);
             return;
         }
         

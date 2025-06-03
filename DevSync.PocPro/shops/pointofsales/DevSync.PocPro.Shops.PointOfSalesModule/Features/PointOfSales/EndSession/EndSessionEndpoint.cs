@@ -28,7 +28,13 @@ public class EndSessionEndpoint(
             return;
         }
         
-        pos.EndSession(req.SessionId, userId!, req.ClosingCash);
+        var result = pos.EndSession(req.SessionId, userId!, req.ClosingCash);
+
+        if (result.IsFailed)
+        {
+            await SendErrorsAsync(StatusCodes.Status400BadRequest, ct);
+        }
+        
         await posDbContext.SaveChangesAsync(ct);
 
         await SendOkAsync(ct);

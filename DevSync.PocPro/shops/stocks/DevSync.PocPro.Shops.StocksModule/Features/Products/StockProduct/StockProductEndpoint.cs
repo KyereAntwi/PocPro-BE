@@ -3,7 +3,7 @@ using DevSync.PocPro.Shops.StocksModule.Features.Products.GetStockDetails;
 namespace DevSync.PocPro.Shops.StocksModule.Features.Products.StockProduct;
 
 public class StockProductEndpoint(IShopDbContext shopDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 
-    : Endpoint<StockProductRequest, BaseResponse<StockProductResponse>>
+    : Endpoint<StockProductRequest, BaseResponse<Guid>>
 {
     public override void Configure()
     {
@@ -54,9 +54,9 @@ public class StockProductEndpoint(IShopDbContext shopDbContext, IHttpContextAcce
         {
             ProductId = product.Id.Value,
             StockId = result.Value
-        }, new BaseResponse<StockProductResponse>("", true)
+        }, new BaseResponse<Guid>("Stock added successfully", true)
         {
-            Data = new StockProductResponse(result.Value)
+            Data = result.Value
         }, cancellation: ct);
     }
 }

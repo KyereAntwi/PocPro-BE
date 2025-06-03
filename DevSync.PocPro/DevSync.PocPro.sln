@@ -53,6 +53,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "identity", "identity", "{93
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevSync.PocPro.Identity", "identity\DevSync.PocPro.Identity\DevSync.PocPro.Identity.csproj", "{BDEFCCD2-A9B3-456E-9A1B-7D2744E6B09F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notifications", "Notifications", "{7F357D87-935A-452E-9637-21973FF610C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevSync.Pocpro.Shops.Notifications", "Notifications\DevSync.Pocpro.Shops.Notifications\DevSync.Pocpro.Shops.Notifications.csproj", "{DC44F047-3383-4B8B-9E61-087F1F50B08B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +111,10 @@ Global
 		{BDEFCCD2-A9B3-456E-9A1B-7D2744E6B09F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDEFCCD2-A9B3-456E-9A1B-7D2744E6B09F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDEFCCD2-A9B3-456E-9A1B-7D2744E6B09F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC44F047-3383-4B8B-9E61-087F1F50B08B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC44F047-3383-4B8B-9E61-087F1F50B08B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC44F047-3383-4B8B-9E61-087F1F50B08B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC44F047-3383-4B8B-9E61-087F1F50B08B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -131,6 +139,8 @@ Global
 		{473D6BFF-8C99-420E-8ADB-22107316E5BE} = {950FDF3E-FF84-45A3-A9E8-DC2397ABE526}
 		{437C7DE1-326D-4043-AC49-92F3C6925234} = {473D6BFF-8C99-420E-8ADB-22107316E5BE}
 		{BDEFCCD2-A9B3-456E-9A1B-7D2744E6B09F} = {9332AF9C-7364-4634-84DD-B19BB2BDD336}
+		{7F357D87-935A-452E-9637-21973FF610C0} = {950FDF3E-FF84-45A3-A9E8-DC2397ABE526}
+		{DC44F047-3383-4B8B-9E61-087F1F50B08B} = {7F357D87-935A-452E-9637-21973FF610C0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {243A9E10-3E89-43E9-9C1A-5221DD820C72}

@@ -53,7 +53,7 @@ public class TenantServices(HttpClient httpClient, ILogger<TenantServices> logge
             //     httpClient.GetAsync($"{Baseurl}/api/v1/accounts/tenants")
             // );
             
-            var request = new HttpRequestMessage(HttpMethod.Get, $"{{Baseurl}}/api/v1/accounts/tenants");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{Baseurl}/api/v1/accounts/tenants");
             AddAuthorizationHeader(request);
             var response = await _retryPolicy.ExecuteAsync(() => httpClient.SendAsync(request));
             
@@ -81,7 +81,7 @@ public class TenantServices(HttpClient httpClient, ILogger<TenantServices> logge
             //     httpClient.GetAsync($"{Baseurl}/api/v1/accounts/tenants/user/{userId}/permissions/{permissionType}")
             // );
             
-            var request = new HttpRequestMessage(HttpMethod.Get, $"{{Baseurl}}/api/v1/accounts/tenants/user/{{userId}}/permissions/{{permissionType}}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{Baseurl}/api/v1/accounts/users/{userId}/permissions/{permissionType}");
             AddAuthorizationHeader(request);
             var response = await _retryPolicy.ExecuteAsync(() => httpClient.SendAsync(request));
             

@@ -1,11 +1,11 @@
 namespace DevSync.PocPro.Shops.StocksModule.Features.Products.GetProductDetails;
 
 public class GetProductDetailsEndpoint(IShopDbContext shopDbContext) 
-    : Endpoint<GetProductDetailsRequest, BaseResponse<GetProductDetailsResponse>>
+    : Endpoint<GetProductDetailsRequest, BaseResponse<GetProductDetailsResponseItem>>
 {
     public override void Configure()
     {
-        Get("/products/{ProductId}");
+        Get("/api/v1/products/{ProductId}");
     }
 
     public override async Task HandleAsync(GetProductDetailsRequest req, CancellationToken ct)
@@ -20,20 +20,13 @@ public class GetProductDetailsEndpoint(IShopDbContext shopDbContext)
                     p.Name,
                     p.PhotoUrl ?? string.Empty,
                     p.CreatedAt,
-                    p.UpdatedAt),
-                Stocks = p.Stocks.Select(s => new StockItem(
-                    s.Id.Value,
-                    s.QuantityPurchased,
-                    s.QuantityLeftInStock,
-                    s.CostPerPrice,
-                    s.SellingPerPrice,
-                    s.TaxRate,
-                    s.ExpiresAt)
-                    {
-                        Supplier = new SupplierItem(s.Supplier.Id.Value, s.Supplier.Title, s.Supplier.Email ?? string.Empty)
-                    }
-                ).ToArray()
+                    p.UpdatedAt)
+                {
+                    StocksIds = p.Stocks.Select(s => s.Id.Value),
+                    CategoryId = p.CategoryId.Value,
+                }
             })
+            .AsNoTracking()
             .FirstOrDefaultAsync(ct);
         
         if (productWithStocks is null)
@@ -42,9 +35,9 @@ public class GetProductDetailsEndpoint(IShopDbContext shopDbContext)
             return;
         }
         
-        await SendOkAsync(new BaseResponse<GetProductDetailsResponse>("Product details fetched successfully", true)
+        await SendOkAsync(new BaseResponse<GetProductDetailsResponseItem>("Product details fetched successfully", true)
         {
-            Data = new GetProductDetailsResponse(productWithStocks.Product, productWithStocks.Stocks)
+            Data = productWithStocks.Product
         }, ct);
     }
 }

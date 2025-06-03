@@ -2,7 +2,7 @@ namespace DevSync.PocPro.Shops.PointOfSales.Features.PointOfSales.AddSession;
 
 public class AddSessionEndpoint(
     IPOSDbContext posDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 
-    : Endpoint<AddSessionRequest, BaseResponse<AddSessionResponse>>
+    : Endpoint<AddSessionRequest>
 {
     public override void Configure()
     {

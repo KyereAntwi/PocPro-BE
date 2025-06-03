@@ -19,6 +19,7 @@ public class DeleteCategoryEndpoint(
         if (!await tenantServices.UserHasRequiredPermissionAsync(PermissionType.MANAGE_CATEGORIES, userId!))
         {
             await SendForbiddenAsync(cancellation: ct);
+            return;
         }
         
         var category = await shopDbContext.Categories.FindAsync(CategoryId.Of(req.Id), ct);
@@ -44,5 +45,7 @@ public class DeleteCategoryEndpoint(
         {
             Console.WriteLine(e);
         }
+        
+        await SendOkAsync(ct);
     }
 }

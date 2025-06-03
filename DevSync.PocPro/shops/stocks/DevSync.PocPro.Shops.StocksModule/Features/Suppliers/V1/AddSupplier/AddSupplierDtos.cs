@@ -6,5 +6,3 @@ public record AddSupplierRequest(
     IEnumerable<ContactRequest> Contacts);
 
 public record ContactRequest(string Person, string Value, string ContactType);
-
-public record AddSupplierResponse(Guid Id);

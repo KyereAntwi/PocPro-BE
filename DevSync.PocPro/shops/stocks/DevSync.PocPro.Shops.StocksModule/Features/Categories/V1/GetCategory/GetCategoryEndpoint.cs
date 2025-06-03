@@ -10,7 +10,9 @@ public class GetCategoryEndpoint(IShopDbContext shopDbContext)
 
     public override async Task HandleAsync(GetCategoryRequest req, CancellationToken ct)
     {
-        var category = await shopDbContext.Categories.FindAsync(CategoryId.Of(req.Id), ct);
+        var category = await shopDbContext
+            .Categories
+            .FindAsync(CategoryId.Of(req.Id), ct);
 
         if (category is null)
         {
@@ -18,9 +20,16 @@ public class GetCategoryEndpoint(IShopDbContext shopDbContext)
             return;
         }
         
-        await SendOkAsync(new BaseResponse<GetCategoryResponse>("Category", true)
+        await SendOkAsync(new BaseResponse<GetCategoryResponse>("Category fetched successfully", true)
         {
-            Data = new GetCategoryResponse(category.Title, category.Description!, category.Status, category.Id.Value, category.CreatedAt, category.UpdatedAt)
+            Data = new GetCategoryResponse(
+                category.Title, 
+                category.Description!, 
+                category.Status ? "Active" : "InActive", 
+                category.Id.Value, 
+                category.CreatedAt, 
+                category.UpdatedAt)
+            
         }, cancellation: ct);
     }
 }

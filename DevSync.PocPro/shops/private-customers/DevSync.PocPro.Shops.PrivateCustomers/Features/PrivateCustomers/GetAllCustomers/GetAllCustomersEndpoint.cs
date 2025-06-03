@@ -2,7 +2,7 @@ namespace DevSync.PocPro.Shops.PrivateCustomers.Features.PrivateCustomers.GetAll
 
 public class GetAllCustomersEndpoint(
     ICustomerDbContext customerDbContext, ITenantServices tenantServices, IHttpContextAccessor httpContextAccessor)
-    : EndpointWithoutRequest<BaseResponse<GetAllCustomersResponse>>
+    : EndpointWithoutRequest<BaseResponse<IEnumerable<GetCustomerResponse>>>
 {
     public override void Configure()
     {
@@ -26,9 +26,9 @@ public class GetAllCustomersEndpoint(
             .AsNoTracking()
             .ToListAsync(ct);
         
-        await SendOkAsync(new BaseResponse<GetAllCustomersResponse>("Customers fetched successfully", true)
+        await SendOkAsync(new BaseResponse<IEnumerable<GetCustomerResponse>>("Customers fetched successfully", true)
         {
-            Data = new GetAllCustomersResponse(customers)
+            Data = customers
         }, cancellation: ct);
     }
 }

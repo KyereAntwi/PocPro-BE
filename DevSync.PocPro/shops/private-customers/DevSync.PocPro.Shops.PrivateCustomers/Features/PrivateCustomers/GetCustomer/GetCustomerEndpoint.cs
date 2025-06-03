@@ -11,7 +11,7 @@ public class GetCustomerEndpoint(
 
     public override async Task HandleAsync(GetCustomerRequest req, CancellationToken ct)
     {
-        var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+        var userId = httpContextAccessor.HttpContext!.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
         
         var hasRequiredPermissions = await tenantServices.UserHasRequiredPermissionAsync(PermissionType.VIEW_CUSTOMERS, userId);
         if (!hasRequiredPermissions)
@@ -30,7 +30,7 @@ public class GetCustomerEndpoint(
         
         await SendOkAsync(new BaseResponse<GetCustomerResponse>("Customer fetched successfully.", true)
         {
-            Data = new GetCustomerResponse(customer.Id.Value, customer.FullName, customer.Email)
+            Data = new GetCustomerResponse(customer.Id.Value, customer.FullName, customer.Email ?? "")
         }, cancellation: ct);
     }
 }

@@ -2,7 +2,7 @@ namespace DevSync.PocPro.Shops.PointOfSales.Features.PointOfSales.CreatePOS;
 
 public class CreatePOSEndpoint(
     IPOSDbContext posDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 
-    : Endpoint<CreatePOSRequest, BaseResponse<CreatePOSResponse>>
+    : Endpoint<CreatePOSRequest, BaseResponse<Guid>>
 {
     public override void Configure()
     {
@@ -32,9 +32,9 @@ public class CreatePOSEndpoint(
         await SendCreatedAtAsync<GetPOSEndpoint>(new
             {
                 Id = newPOS.Id.Value
-            }, new BaseResponse<CreatePOSResponse>("POS created successfully", true)
+            }, new BaseResponse<Guid>("POS created successfully", true)
             {
-                Data = new CreatePOSResponse(newPOS.Id.Value)
+                Data = newPOS.Id.Value
             },
             cancellation: ct);
     }
