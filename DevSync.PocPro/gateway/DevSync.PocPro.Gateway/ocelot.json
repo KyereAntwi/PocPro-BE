@@ -262,7 +262,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+          "Host": "localhost",
+          "Port": 7002
         }
       ]
     },

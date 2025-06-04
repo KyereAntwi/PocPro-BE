@@ -11,5 +11,9 @@ public class TenantsConfigurations : IEntityTypeConfiguration<Tenant>
         builder.Property(t => t.SubscriptionType)
             .HasConversion(t => t.ToString(),
                 dbType => Enum.Parse<SubscriptionType>(dbType!));
+        
+        builder.Property(t => t.Status)
+            .HasConversion(t => t.ToString(),
+                dbType => Enum.Parse<StatusType>(dbType!));
     }
 }

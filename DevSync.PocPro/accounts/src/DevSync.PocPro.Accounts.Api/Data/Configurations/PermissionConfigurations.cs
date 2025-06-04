@@ -11,5 +11,9 @@ public class PermissionConfigurations : IEntityTypeConfiguration<Permission>
         builder.Property(t => t.PermissionType)
             .HasConversion(t => t.ToString(),
                 dbType => Enum.Parse<PermissionType>(dbType));
+        
+        builder.Property(t => t.Status)
+            .HasConversion(t => t.ToString(),
+                dbType => Enum.Parse<StatusType>(dbType!));
     }
 }

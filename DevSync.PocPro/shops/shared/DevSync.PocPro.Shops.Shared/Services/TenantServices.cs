@@ -25,9 +25,17 @@ public class TenantServices(HttpClient httpClient, ILogger<TenantServices> logge
             //     httpClient.GetAsync($"{Baseurl}/api/v1/accounts/tenants/{userId}")
             // );
             
-            var request = new HttpRequestMessage(HttpMethod.Get, $"{Baseurl}/api/v1/accounts/tenants/{userId}");
-            AddAuthorizationHeader(request);
-            var response = await _retryPolicy.ExecuteAsync(() => httpClient.SendAsync(request));
+            // var request = new HttpRequestMessage(HttpMethod.Get, $"{Baseurl}/api/v1/accounts/tenants/{userId}");
+            // AddAuthorizationHeader(request);
+            // var response = await _retryPolicy.ExecuteAsync(() => httpClient.SendAsync(request));
+            
+            var url = $"{Baseurl}/api/v1/accounts/tenants/{userId}";
+            
+            var response = await _retryPolicy.ExecuteAsync(() => {
+                var request = new HttpRequestMessage(HttpMethod.Get, url);
+                AddAuthorizationHeader(request);
+                return httpClient.SendAsync(request);
+            });
             
             if (!response.IsSuccessStatusCode)
             {
@@ -53,9 +61,17 @@ public class TenantServices(HttpClient httpClient, ILogger<TenantServices> logge
             //     httpClient.GetAsync($"{Baseurl}/api/v1/accounts/tenants")
             // );
             
-            var request = new HttpRequestMessage(HttpMethod.Get, $"{Baseurl}/api/v1/accounts/tenants");
-            AddAuthorizationHeader(request);
-            var response = await _retryPolicy.ExecuteAsync(() => httpClient.SendAsync(request));
+            // var request = new HttpRequestMessage(HttpMethod.Get, $"{Baseurl}/api/v1/accounts/tenants");
+            // AddAuthorizationHeader(request);
+            // var response = await _retryPolicy.ExecuteAsync(() => httpClient.SendAsync(request));
+            
+            var url = $"{Baseurl}/api/v1/accounts/tenants";
+            
+            var response = await _retryPolicy.ExecuteAsync(() => {
+                var request = new HttpRequestMessage(HttpMethod.Get, url);
+                AddAuthorizationHeader(request);
+                return httpClient.SendAsync(request);
+            });
             
             if (!response.IsSuccessStatusCode)
             {
@@ -81,9 +97,17 @@ public class TenantServices(HttpClient httpClient, ILogger<TenantServices> logge
             //     httpClient.GetAsync($"{Baseurl}/api/v1/accounts/tenants/user/{userId}/permissions/{permissionType}")
             // );
             
-            var request = new HttpRequestMessage(HttpMethod.Get, $"{Baseurl}/api/v1/accounts/users/{userId}/permissions/{permissionType}");
-            AddAuthorizationHeader(request);
-            var response = await _retryPolicy.ExecuteAsync(() => httpClient.SendAsync(request));
+            // var request = new HttpRequestMessage(HttpMethod.Get, $"{Baseurl}/api/v1/accounts/users/{userId}/permissions/{permissionType}");
+            // AddAuthorizationHeader(request);
+            // var response = await _retryPolicy.ExecuteAsync(() => httpClient.SendAsync(request));
+
+            var url = $"{Baseurl}/api/v1/accounts/users/{userId}/permissions/{permissionType}";
+            
+            var response = await _retryPolicy.ExecuteAsync(() => {
+                var request = new HttpRequestMessage(HttpMethod.Get, url);
+                AddAuthorizationHeader(request);
+                return httpClient.SendAsync(request);
+            });
             
             if (!response.IsSuccessStatusCode)
             {
@@ -102,13 +126,12 @@ public class TenantServices(HttpClient httpClient, ILogger<TenantServices> logge
     
     private void AddAuthorizationHeader(HttpRequestMessage request)
     {
-        var accessToken = httpContextAccessor.HttpContext?.Request.Headers["Authorization"].FirstOrDefault();
-        if (!string.IsNullOrEmpty(accessToken))
-        {
-            if (!accessToken.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
-                accessToken = $"Bearer {accessToken}";
-            request.Headers.Add("Authorization", accessToken);
-        }
+        var accessToken = httpContextAccessor.HttpContext?.Request.Headers.Authorization.FirstOrDefault();
+        if (string.IsNullOrEmpty(accessToken)) return;
+        
+        if (!accessToken.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+            accessToken = $"Bearer {accessToken}";
+        request.Headers.Add("Authorization", accessToken);
     }
 }
 
