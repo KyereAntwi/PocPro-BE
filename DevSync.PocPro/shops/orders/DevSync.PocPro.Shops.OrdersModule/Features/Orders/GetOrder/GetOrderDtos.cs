@@ -6,6 +6,7 @@ public record GetOrderResponse(
     Guid Id,
     IEnumerable<OrderItemDto> OrderItems,
     string OrderType,
+    string OrderStatus,
     string Status,
     string OrderNumber,
     ShippingAddressDto? ShippingAddress,

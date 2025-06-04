@@ -18,6 +18,7 @@ public class Session : BaseEntity<SessionId>
         ClosingCash = closingCash;
         ClosedBy = userId;
         ClosedAt = DateTimeOffset.UtcNow;
+        Status = StatusType.InActive;
     }
     
     public PointOfSaleId PointOfSaleId { get; private set; } = PointOfSaleId.Of(Guid.Empty);

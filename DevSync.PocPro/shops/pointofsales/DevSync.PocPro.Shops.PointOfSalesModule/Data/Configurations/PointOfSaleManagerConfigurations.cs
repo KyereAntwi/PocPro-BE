@@ -11,5 +11,9 @@ public class PointOfSaleManagerConfigurations : IEntityTypeConfiguration<PointOf
         builder.Property(a => a.PointOfSaleId).HasConversion(a => a.Value, dbId => PointOfSaleId.Of(dbId));
 
         builder.Property(a => a.UserId).IsRequired();
+        
+        builder.Property(t => t.Status)
+            .HasConversion(t => t.ToString(),
+                dbType => Enum.Parse<StatusType>(dbType!));
     }
 }

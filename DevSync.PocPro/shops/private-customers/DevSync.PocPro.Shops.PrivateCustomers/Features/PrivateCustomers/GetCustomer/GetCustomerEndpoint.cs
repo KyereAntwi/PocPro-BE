@@ -30,7 +30,14 @@ public class GetCustomerEndpoint(
         
         await SendOkAsync(new BaseResponse<GetCustomerResponse>("Customer fetched successfully.", true)
         {
-            Data = new GetCustomerResponse(customer.Id.Value, customer.FullName, customer.Email ?? "")
+            Data = new GetCustomerResponse(
+                customer.Id.Value, 
+                customer.FullName, 
+                customer.Email ?? string.Empty,
+                customer.Phone ?? string.Empty,
+                customer.Address ?? string.Empty,
+                customer.Status.ToString() ?? StatusType.Active.ToString())
+            
         }, cancellation: ct);
     }
 }

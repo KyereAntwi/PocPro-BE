@@ -28,7 +28,8 @@ public class UpdateCustomerEndpoint(
             return;
         }
         
-        customer.Update(req.FullName, req.Email);
+        var status = Enum.Parse<StatusType>(req.Status);
+        customer.Update(req.FullName, req.Email, req.Phone, req.Address, status);
         
         await customerDbContext.SaveChangesAsync(ct);
 

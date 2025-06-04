@@ -9,6 +9,7 @@ public class OrderItem : BaseEntity<OrderItemId>
         Id = OrderItemId.Of(Guid.CreateVersion7());
         ProductId = productId;
         Quantity = quantity;
+        Status = StatusType.Active;
     }
 
     public OrderId OrderId { get; private set; }

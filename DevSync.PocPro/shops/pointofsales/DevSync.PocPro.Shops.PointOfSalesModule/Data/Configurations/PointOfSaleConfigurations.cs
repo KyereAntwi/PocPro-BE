@@ -16,5 +16,9 @@ public class PointOfSaleConfigurations : IEntityTypeConfiguration<PointOfSale>
         builder.Property(x => x.Email).HasMaxLength(255);
         builder.Property(x => x.Phone).HasMaxLength(15);
         builder.Property(x => x.Address).HasMaxLength(200);
+        
+        builder.Property(t => t.Status)
+            .HasConversion(t => t.ToString(),
+                dbType => Enum.Parse<StatusType>(dbType!));
     }
 }

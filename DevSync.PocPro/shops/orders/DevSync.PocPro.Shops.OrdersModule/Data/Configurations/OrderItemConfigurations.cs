@@ -11,5 +11,9 @@ public class OrderItemConfigurations : IEntityTypeConfiguration<OrderItem>
         builder.Property(x => x.OrderId)
             .HasConversion(id => id.Value, dbId => OrderId.Of(dbId))
             .IsRequired();
+        
+        builder.Property(t => t.Status)
+            .HasConversion(t => t.ToString(),
+                dbType => Enum.Parse<StatusType>(dbType!));
     }
 }

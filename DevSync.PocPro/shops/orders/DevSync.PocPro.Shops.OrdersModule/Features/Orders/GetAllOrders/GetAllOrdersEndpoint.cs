@@ -32,7 +32,8 @@ public class GetAllOrdersEndpoint(
             .Select(order => new OrdersResponse(
                 order.Id.Value,
                 order.Type.ToString(),
-                order.Status.ToString(),
+                order.Status.ToString() ?? StatusType.Active.ToString(),
+                order.OrderStatus.ToString(),
                 order.OrderNumber,
                 order.CreatedAt,
                 order.UpdatedAt,
@@ -78,9 +79,15 @@ public class GetAllOrdersEndpoint(
             orderQuery = orderQuery.Where(order => order.CreatedAt!.Value.Date <= DateTime.Parse(req.CreatedTo).Date);
         }
 
+        if (!string.IsNullOrWhiteSpace(req.OrderStatus))
+        {
+            var status = Enum.Parse<OrderStatus>(req.OrderStatus);
+            orderQuery = orderQuery.Where(order => order.OrderStatus == status);
+        }
+        
         if (!string.IsNullOrWhiteSpace(req.Status))
         {
-            var status = Enum.Parse<OrderStatus>(req.Status);
+            var status = Enum.Parse<StatusType>(req.Status);
             orderQuery = orderQuery.Where(order => order.Status == status);
         }
 

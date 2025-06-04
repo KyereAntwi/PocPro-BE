@@ -22,7 +22,14 @@ public class GetAllCustomersEndpoint(
 
         var customers = await customerDbContext
             .Customers
-            .Select(c => new GetCustomerResponse(c.Id.Value, c.FullName, c.Email ?? string.Empty))
+            .Select(c => 
+                new GetCustomerResponse(
+                    c.Id.Value, 
+                    c.FullName, 
+                    c.Email ?? string.Empty,
+                    c.Phone ?? string.Empty,
+                    c.Address ?? string.Empty,
+                    c.Status.ToString() ?? StatusType.Active.ToString()))
             .AsNoTracking()
             .ToListAsync(ct);
         

@@ -19,6 +19,8 @@ public static class Startup
         builder.Services.RegisterOrderModule();
         builder.Services.AddPosDependencies();
         builder.Services.AddCustomerModule();
+
+        builder.Services.AddScoped<IMasterExtensions, MasterExtensions>();
         
         builder.Services.AddDbContext<MainShopTemplateDbContext>(options =>
         {

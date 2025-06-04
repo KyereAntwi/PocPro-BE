@@ -20,7 +20,7 @@ public class AddCustomerEndpoint(
             return;
         }
         
-        var customer = Customer.Add(req.FullName, req.Email);
+        var customer = Customer.Add(req.FullName, req.Email, req.Phone, req.Address);
         
         await customerDbContext.Customers.AddAsync(customer, ct);
         await customerDbContext.SaveChangesAsync(ct);

@@ -8,15 +8,15 @@ public record GetAllOrdersRequest(
     Guid? CustomerId,
     Guid? PosSessionId,
     string? Status,
+    string? OrderStatus,
     int Page = 1,
     int PageSize = 20);
-
-public record GetAllOrdersResponse(IEnumerable<OrderItemDto> Items);
     
 public record OrdersResponse(
     Guid Id, 
     string OrderType,
     string Status,
+    string OrderStatus,
     string OrderNumber,
     DateTimeOffset? CreatedAt,
     DateTimeOffset? UpdatedAt,
