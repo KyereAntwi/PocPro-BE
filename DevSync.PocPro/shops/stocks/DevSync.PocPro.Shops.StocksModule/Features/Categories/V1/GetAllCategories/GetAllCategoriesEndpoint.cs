@@ -16,7 +16,7 @@ public class GetAllCategoriesEndpoint(IShopDbContext shopDbContext)
                 new GetCategoryResponse(
                     c.Title, 
                     c.Description ?? "", 
-                    c.Status ? "Active" : "Inactive", 
+                    c.Status.ToString() ?? StatusType.Active.ToString(), 
                     c.Id.Value, 
                     c.CreatedAt, 
                     c.UpdatedAt))

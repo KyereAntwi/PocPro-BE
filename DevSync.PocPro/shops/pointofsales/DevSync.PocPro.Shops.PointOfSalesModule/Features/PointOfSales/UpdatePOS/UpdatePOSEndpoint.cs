@@ -2,14 +2,14 @@ namespace DevSync.PocPro.Shops.PointOfSales.Features.PointOfSales.UpdatePOS;
 
 public class UpdatePOSEndpoint (
     IPOSDbContext posDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices)
-    : Endpoint<UpdatePOSRequest>
+    : Endpoint<UpdatePOSDto>
 {
     public override void Configure()
     {
         Put("api/pointofsales/{id}");
     }
 
-    public override async Task HandleAsync(UpdatePOSRequest req, CancellationToken ct)
+    public override async Task HandleAsync(UpdatePOSDto req, CancellationToken ct)
     {
         var userId = httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var hasRequiredPermission = await tenantServices.UserHasRequiredPermissionAsync(PermissionType.MANAGE_POS, userId!);
@@ -30,10 +30,11 @@ public class UpdatePOSEndpoint (
         }
         
         pos.Update(
-            req.UpdatePOSDto.Title, 
-            req.UpdatePOSDto.Phone ?? string.Empty, 
-            req.UpdatePOSDto.Address ?? string.Empty, 
-            req.UpdatePOSDto.Email ?? string.Empty);
+            req.Title, 
+            req.Phone ?? string.Empty, 
+            req.Address ?? string.Empty, 
+            req.Email ?? string.Empty,
+            string.IsNullOrWhiteSpace(req.Status) ? Enum.Parse<StatusType>(req.Status!) : pos.Status);
         
         await posDbContext.SaveChangesAsync(ct);
         

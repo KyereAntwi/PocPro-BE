@@ -25,5 +25,9 @@ public class ShippingAddressConfigurations : IEntityTypeConfiguration<ShippingAd
         builder.Property(t => t.Region)
             .HasConversion(t => t.ToString(),
                 dbType => Enum.Parse<Region>(dbType!));
+        
+        builder.Property(t => t.Status)
+            .HasConversion(t => t.ToString(),
+                dbType => Enum.Parse<StatusType>(dbType!));
     }
 }

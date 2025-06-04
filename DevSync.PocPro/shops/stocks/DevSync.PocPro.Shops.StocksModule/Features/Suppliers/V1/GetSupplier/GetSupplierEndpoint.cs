@@ -1,3 +1,5 @@
+using Grpc.Core;
+
 namespace DevSync.PocPro.Shops.StocksModule.Features.Suppliers.V1.GetSupplier;
 
 public class GetSupplierEndpoint(IShopDbContext shopDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 
@@ -40,7 +42,8 @@ public class GetSupplierEndpoint(IShopDbContext shopDbContext, IHttpContextAcces
                 supplier.Contacts
                     .Select(c => new ContactResponse(c.Id.Value, c.Person, c.Value, c.ContactType.ToString())),
                 supplier.CreatedAt,
-                supplier.UpdatedAt)
+                supplier.UpdatedAt, 
+                supplier.Status.ToString() ?? StatusType.Active.ToString())
         }, cancellation: ct);
     }
 }

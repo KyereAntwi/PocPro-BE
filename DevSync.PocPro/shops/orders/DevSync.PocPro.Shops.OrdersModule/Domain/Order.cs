@@ -38,13 +38,14 @@ public class Order : BaseEntity<OrderId>
         {
             Id = OrderId.Of(Guid.CreateVersion7()),
             Type = orderType,
-            Status = orderType == OrderType.OnlineOrder ? OrderStatus.Pending : OrderStatus.Delivered,
+            OrderStatus = orderType == OrderType.OnlineOrder ? OrderStatus.Pending : OrderStatus.Delivered,
             PosSessionId = posSessionId == Guid.Empty ? null : SessionId.Of(posSessionId),
             CustomerId = customerId == Guid.Empty ? null : CustomerId.Of(posSessionId),
             PaymentMethod = paymentMethod ?? PaymentMethod.Cash,
             OrderNumber = OrderServices.GenerateOrderNumber(),
             CustomerName = customerName,
-            AmountReceived = amountReceived
+            AmountReceived = amountReceived,
+            Status = StatusType.Active
         };
 
         foreach (var orderItem in orderItems)
@@ -60,20 +61,20 @@ public class Order : BaseEntity<OrderId>
         return Result.Ok(newOrder);
     }
 
-    public Result UpdateStatus(OrderStatus status)
+    public Result UpdateOrderDeliveryStatus(OrderStatus status)
     {
-        if (status == OrderStatus.Cancelled && Status != OrderStatus.Pending)
+        if (status == OrderStatus.Cancelled && OrderStatus != OrderStatus.Pending)
         {
             return Result.Fail("Only pending orders can be cancelled");
         }
 
-        Status = status;
+        OrderStatus = status;
         return Result.Ok();
     }
 
     public string OrderNumber { get; private set; } = string.Empty;
     public OrderType Type { get; private set; }
-    public OrderStatus Status { get; private set; }
+    public OrderStatus OrderStatus { get; private set; }
     public SessionId? PosSessionId { get; private set; }
     public CustomerId? CustomerId { get; private set; }
     public PaymentMethod PaymentMethod { get; private set; }

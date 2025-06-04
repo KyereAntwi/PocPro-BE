@@ -7,5 +7,9 @@ public class CategoryConfigurations : IEntityTypeConfiguration<Category>
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
             .HasConversion(categoryId => categoryId.Value, dbId => CategoryId.Of(dbId));
+        
+        builder.Property(t => t.Status)
+            .HasConversion(t => t.ToString(),
+                dbType => Enum.Parse<StatusType>(dbType!));
     }
 }

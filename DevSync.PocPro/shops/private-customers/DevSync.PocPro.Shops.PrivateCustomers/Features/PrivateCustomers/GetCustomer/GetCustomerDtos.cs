@@ -2,4 +2,4 @@ namespace DevSync.PocPro.Shops.PrivateCustomers.Features.PrivateCustomers.GetCus
 
 public record GetCustomerRequest([FromRoute] Guid Id);
 
-public record GetCustomerResponse(Guid Id, string FullName, string Email);
+public record GetCustomerResponse(Guid Id, string FullName, string Email, string Phone, string Address, string Status);

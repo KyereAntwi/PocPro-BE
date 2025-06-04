@@ -13,6 +13,7 @@ public class ShippingAddress : BaseEntity<ShippingAddressId>
         Region = region;
         ContactName = contactName;
         ContactPhone = contactPhone;
+        Status = StatusType.Active;
     }
     
     public OrderId OrderId { get; private set; }

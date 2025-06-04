@@ -11,5 +11,9 @@ public class SessionConfigurations : IEntityTypeConfiguration<Session>
             .HasConversion(sessionId => sessionId.Value, dbId => SessionId.Of(dbId));
         
         builder.Property(a => a.PointOfSaleId).HasConversion(a => a.Value, dbId => PointOfSaleId.Of(dbId));
+        
+        builder.Property(t => t.Status)
+            .HasConversion(t => t.ToString(),
+                dbType => Enum.Parse<StatusType>(dbType!));
     }
 }

@@ -8,14 +8,13 @@ public class Category : BaseEntity<CategoryId>
         {
             Id = CategoryId.Of(Guid.CreateVersion7()),
             Title = title,
-            Description = description,
-            Status = true
+            Description = description
         };
         
         return category;
     }
     
-    public void Update(string title, string? description, bool status)
+    public void Update(string title, string? description, StatusType? status)
     {
         Title = title;
         Description = description;
@@ -24,5 +23,4 @@ public class Category : BaseEntity<CategoryId>
 
     public string Title { get; private set; }
     public string? Description { get; set; }
-    public bool Status { get; set; }
 }

@@ -12,5 +12,9 @@ public class SuppliersConfigurations : IEntityTypeConfiguration<Supplier>
             .HasMany(v => v.Contacts)
             .WithOne()
             .HasForeignKey(f => f.SupplierId);
+        
+        builder.Property(t => t.Status)
+            .HasConversion(t => t.ToString(),
+                dbType => Enum.Parse<StatusType>(dbType!));
     }
 }

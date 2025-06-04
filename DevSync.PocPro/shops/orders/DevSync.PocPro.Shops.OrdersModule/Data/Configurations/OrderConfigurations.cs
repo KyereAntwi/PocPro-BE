@@ -20,9 +20,13 @@ public class OrderConfigurations : IEntityTypeConfiguration<Order>
             .HasOne(v => v.ShippingAddress)
             .WithOne();
         
-        builder.Property(t => t.Status)
+        builder.Property(t => t.OrderStatus)
             .HasConversion(t => t.ToString(),
                 dbType => Enum.Parse<OrderStatus>(dbType!));
+        
+        builder.Property(t => t.Status)
+            .HasConversion(t => t.ToString(),
+                dbType => Enum.Parse<StatusType>(dbType!));
         
         builder.Property(t => t.PaymentMethod)
             .HasConversion(t => t.ToString(),

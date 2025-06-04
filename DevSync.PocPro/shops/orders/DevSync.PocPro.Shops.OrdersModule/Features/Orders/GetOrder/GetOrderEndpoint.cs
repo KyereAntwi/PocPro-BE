@@ -33,7 +33,8 @@ public class GetOrderEndpoint (
                         item.ProductId,
                         item.Quantity)),
                 order.Type.ToString(),
-                order.Status.ToString(),
+                order.OrderStatus.ToString(),
+                order.Status.ToString() ?? StatusType.Active.ToString(),
                 order.OrderNumber,
                 order.ShippingAddress == null ? null : new ShippingAddressDto(
                     order.ShippingAddress.ContactName,

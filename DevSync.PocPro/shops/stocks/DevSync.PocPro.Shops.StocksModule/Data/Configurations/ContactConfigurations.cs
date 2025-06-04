@@ -13,5 +13,9 @@ public class ContactConfigurations : IEntityTypeConfiguration<Contact>
         builder.Property(t => t.ContactType)
             .HasConversion(t => t.ToString(),
                 dbType => Enum.Parse<ContactType>(dbType!));
+        
+        builder.Property(t => t.Status)
+            .HasConversion(t => t.ToString(),
+                dbType => Enum.Parse<StatusType>(dbType!));
     }
 }

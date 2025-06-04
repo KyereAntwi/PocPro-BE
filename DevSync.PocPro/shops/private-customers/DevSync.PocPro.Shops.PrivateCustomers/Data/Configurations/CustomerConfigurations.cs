@@ -9,5 +9,9 @@ public class CustomerConfigurations : IEntityTypeConfiguration<Customer>
             .HasConversion(id => id.Value, dbId => CustomerId.Of(dbId));
 
         builder.Property(c => c.FullName).IsRequired();
+        
+        builder.Property(t => t.Status)
+            .HasConversion(t => t.ToString(),
+                dbType => Enum.Parse<StatusType>(dbType!));
     }
 }

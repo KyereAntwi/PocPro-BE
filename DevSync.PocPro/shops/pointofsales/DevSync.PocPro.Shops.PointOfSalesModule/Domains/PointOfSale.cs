@@ -24,12 +24,13 @@ public class PointOfSale : BaseEntity<PointOfSaleId>
         return pos;
     }
     
-    public void Update(string title, string phone, string address, string email)
+    public void Update(string title, string phone, string address, string email, StatusType? status)
     {
         Title = title;
         Phone = phone;
         Address = address;
         Email = email;
+        Status = status;
     }
 
     public Result<Guid> StartSession(double openingCash)

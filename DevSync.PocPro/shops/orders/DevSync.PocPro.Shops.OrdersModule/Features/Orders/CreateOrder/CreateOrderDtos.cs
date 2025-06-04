@@ -10,8 +10,6 @@ public record CreateOrderRequest(
 
 public record OrderItemRequest(Guid ProductId, int Quantity);
 
-public record CreateOrderResponse(Guid OrderId);
-
 public record ShippingAddressRequest(
     string FullName,
     string PhoneNumber,
