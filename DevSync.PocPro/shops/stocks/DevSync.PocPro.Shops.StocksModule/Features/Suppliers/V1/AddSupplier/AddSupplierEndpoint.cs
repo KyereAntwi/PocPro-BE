@@ -48,6 +48,25 @@ public class AddSupplierRequestValidator: Validator<AddSupplierRequest>
     {
         RuleFor(x => x.Title)
             .NotEmpty().WithMessage("Title is required.");
-        RuleFor(x => x.Email).EmailAddress().WithMessage("Invalid email address.");
+        
+        RuleFor(x => x.Email)
+            .EmailAddress()
+            .When(x => !string.IsNullOrWhiteSpace(x.Email))
+            .WithMessage("Invalid email address.");
+
+        When(x => x.Contacts != null && x.Contacts.Any(), () =>
+        {
+            RuleForEach(x => x.Contacts).ChildRules(contact =>
+            {
+                contact.RuleFor(c => c.Person)
+                    .NotEmpty().WithMessage("Contact person is required.");
+                contact.RuleFor(c => c.Value)
+                    .NotEmpty().WithMessage("Contact value is required.");
+                contact.RuleFor(c => c.ContactType)
+                    .Must(type => Enum.TryParse<ContactType>(type, out _))
+                    .WithMessage("Invalid contact type.");
+            });
+        });
     }
 }
+
