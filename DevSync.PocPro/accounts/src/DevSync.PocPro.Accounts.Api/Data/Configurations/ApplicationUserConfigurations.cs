@@ -14,5 +14,9 @@ public class ApplicationUserConfigurations : IEntityTypeConfiguration<Applicatio
         builder
             .HasMany(t => t.Permissions)
             .WithMany();
+        
+        builder.Property(t => t.Status)
+            .HasConversion(t => t.ToString(),
+                dbType => Enum.Parse<StatusType>(dbType!));
     }
 }

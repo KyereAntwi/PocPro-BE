@@ -25,14 +25,15 @@ public class AddSupplierEndpoint(IShopDbContext shopDbContext, IHttpContextAcces
         {
             var actualContacts = req
                 .Contacts
-                .Select(c => new Contact(supplier.Id, c.Value, Enum.Parse<ContactType>(c.ContactType))).ToArray();
+                .Select(c => new Contact(supplier.Id, c.Value, Enum.Parse<ContactType>(c.ContactType), c.Person)).ToArray();
             
             supplier.AddContacts(actualContacts);
         }
 
         await shopDbContext.Suppliers.AddAsync(supplier, ct);
-        await shopDbContext.SaveChangesAsync(ct);
 
+        await shopDbContext.SaveChangesAsync(ct);
+        
         await SendCreatedAtAsync<GetSupplierEndpoint>(
             new { Id = supplier.Id }, 
             new BaseResponse<Guid>("Supplier added", true)
@@ -61,7 +62,7 @@ public class AddSupplierRequestValidator: Validator<AddSupplierRequest>
                 contact.RuleFor(c => c.Person)
                     .NotEmpty().WithMessage("Contact person is required.");
                 contact.RuleFor(c => c.Value)
-                    .NotEmpty().WithMessage("Contact value is required.");
+                    .NotEmpty().MaximumLength(15).WithMessage("Contact value is required and should not be more than 15 characters");
                 contact.RuleFor(c => c.ContactType)
                     .Must(type => Enum.TryParse<ContactType>(type, out _))
                     .WithMessage("Invalid contact type.");
