@@ -41,3 +41,12 @@ public class AddProductEndpoint(
             }, cancellation: ct);
     }
 }
+
+public class AddProductRequestValidator : Validator<AddProductRequest>
+{
+    public AddProductRequestValidator()
+    {
+        RuleFor(x => x.Name).NotEmpty().MaximumLength(200).WithMessage("Product name is required");
+        RuleFor(x => x.CategoryId).NotEmpty().WithMessage("Category id is required");
+    }
+}

@@ -267,6 +267,20 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/gateway/v1/suppliers",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/v1/suppliers",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 60
+      }
+    },
+    {
       "UpstreamPathTemplate": "/gateway/v1/suppliers/{Id}",
       "UpstreamHttpMethod": ["Get"],
       "DownstreamPathTemplate": "/api/v1/suppliers/{Id}",
