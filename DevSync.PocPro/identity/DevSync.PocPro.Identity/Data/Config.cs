@@ -39,7 +39,7 @@ public static class Config
 
     public static IEnumerable<Client> Clients =>
     [
-            new()
+        new()
         {
                 ClientId = "admin.client",
                 ClientName = "Admin Client",

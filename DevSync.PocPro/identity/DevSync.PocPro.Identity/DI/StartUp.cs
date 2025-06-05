@@ -69,8 +69,8 @@ public static class Startup
             .AddGoogle(options =>
             {
                 options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-                options.ClientId = builder.Configuration["Google:ClientId"];
-                options.ClientSecret = builder.Configuration["Google:ClientSecret"];
+                options.ClientId = builder.Configuration["Google:ClientId"]!;
+                options.ClientSecret = builder.Configuration["Google:ClientSecret"]!;
                 options.CallbackPath = "/signin-google";
             })
             // .AddFacebook(options =>
@@ -83,9 +83,16 @@ public static class Startup
             .AddLinkedIn(options =>
             {
                 options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-                options.ClientId = builder.Configuration["LinkedIn:ClientId"];
-                options.ClientSecret = builder.Configuration["LinkedIn:ClientSecret"];
+                options.ClientId = builder.Configuration["LinkedIn:ClientId"]!;
+                options.ClientSecret = builder.Configuration["LinkedIn:ClientSecret"]!;
                 options.CallbackPath = "/signin-linkedin";
+            })
+            .AddMicrosoftAccount(options =>
+            {
+                options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                options.ClientId = builder.Configuration["Microsoft:ClientId"]!;
+                options.ClientSecret = builder.Configuration["Microsoft:ClientSecret"]!;
+                options.CallbackPath = "/signin-microsoft";
             });
         
         builder.Services.AddCors(options =>
