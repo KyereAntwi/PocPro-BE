@@ -91,7 +91,14 @@ public static class Startup
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("Open", b =>
-                b.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
+                b.SetIsOriginAllowed(origin =>
+                    {
+                        if (string.IsNullOrWhiteSpace(origin))
+                            return false;
+                        if (!Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+                            return false;
+                        return uri.Host == "localhost";
+                    })
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials());
