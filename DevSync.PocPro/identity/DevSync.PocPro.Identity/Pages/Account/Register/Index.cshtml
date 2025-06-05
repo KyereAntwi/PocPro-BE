@@ -2,36 +2,66 @@
 @model DevSync.PocPro.Identity.Pages.Account.Register.Index
 
 <div class="register-page">
-    <div class="lead">
-        <h1>Register</h1>
-    </div>
-
-    <partial name="_ValidationSummary"/>
-
+    
     <div class="row">
 
         @if (Model.View.EnableLocalLogin)
         {
-            <div class="col-sm-6 offset-sm-3">
+            <div class="col-sm-4 offset-sm-4">
                 <div class="card">
-                    <div class="card-header">
-                        <h2>Local Account</h2>
-                    </div>
+                    <div class="card-body text-center">
+                        <h4 class="font-weight-bold">Register an account.</h4>
+                        
+                        <hr />
 
-                    <div class="card-body">
-                        <form asp-page="/Account/Login/Index">
+                        @if (Model.View.VisibleExternalProviders.Any())
+                        {
+                            <p>SSO Accounts</p>
+
+                            @foreach (var provider in Model.View.VisibleExternalProviders)
+                            {
+                                if (provider.DisplayName != "IdentityServer")
+                                {
+                                    <div class="form-group">
+                                        <a class="btn btn-sm bg-white text-black w-100 border-dark"
+                                           asp-page="/ExternalLogin/Challenge"
+                                           asp-route-scheme="@provider.AuthenticationScheme"
+                                           asp-route-returnUrl="@Model.Input.ReturnUrl">
+                                            Register in with @provider.DisplayName
+                                        </a>
+                                    </div>
+                                }
+                            }
+                        }
+
+                        <hr />
+
+                        <p>Or continue registration locally with</p>
+                        
+                        <form asp-page="/Account/Register/Index" asp-route-returnUrl="@Model.Input.ReturnUrl">
                             <input type="hidden" asp-for="Input.ReturnUrl"/>
 
                             <div class="form-group">
-                                <label asp-for="Input.Username"></label>
+                                <div class="col-12 text-sm-left">
+                                    <label  asp-for="Input.Username"></label>
+                                </div>
                                 <input class="form-control" placeholder="Username" asp-for="Input.Username" autofocus>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Input.Password"></label>
+                                <div class="row">
+                                    <div class="col-12 text-sm-left">
+                                        <label asp-for="Input.Password"></label>
+                                    </div>
+                                </div>
                                 <input type="password" class="form-control" placeholder="Password" asp-for="Input.Password" autocomplete="off">
                             </div>
+                            
                             <div class="form-group">
-                                <label asp-for="Input.ConfirmPassword"></label>
+                                <div class="row">
+                                    <div class="col-12 text-sm-left">
+                                        <label asp-for="Input.ConfirmPassword"></label>
+                                    </div>
+                                </div>
                                 <input type="password" class="form-control" placeholder="Confirm Password" asp-for="Input.ConfirmPassword" autocomplete="off">
                             </div>
 
@@ -47,35 +77,12 @@
                                 </div>
                             }
 
-                            <button class="btn btn-primary" name="Input.Button" value="login">Login</button>
-                            <button class="btn btn-secondary" name="Input.Button" value="cancel">Cancel</button>
+                            <div class="form-group">
+                                <button class="btn btn-sm bg-dark text-white w-100" name="Input.Button" value="login">Register</button>
+                            </div>
                         </form>
-                    </div>
-                </div>
-            </div>
-        }
 
-        @if (Model.View.VisibleExternalProviders.Any())
-        {
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>External Account</h2>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-inline">
-                            @foreach (var provider in Model.View.VisibleExternalProviders)
-                            {
-                                <li class="list-inline-item">
-                                    <a class="btn btn-secondary"
-                                       asp-page="/ExternalLogin/Challenge"
-                                       asp-route-scheme="@provider.AuthenticationScheme"
-                                       asp-route-returnUrl="@Model.Input.ReturnUrl">
-                                        @provider.DisplayName
-                                    </a>
-                                </li>
-                            }
-                        </ul>
+                        Already have an account? <a asp-page="/Account/Login/Index" asp-route-returnUrl="@Model.Input.ReturnUrl">Login</a>
                     </div>
                 </div>
             </div>
