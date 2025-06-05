@@ -59,6 +59,28 @@ public static class Config
                 RequirePkce = true,
                 AccessTokenLifetime = 3600,
                 AllowedScopes = { "openid", "profile", "account.api", "shop.api" }
+        },
+            
+        new()
+        {
+            ClientId = "desktop.client",
+            ClientName = "Desktop Client",
+            ClientSecrets = { new Secret("58C1A7E1-0C79-4A89-A3D6-A37998FB86B0") },
+            ClientUri = "http://localhost:9090",
+            RequireClientSecret = false,
+
+            AllowedGrantTypes = GrantTypes.Code,
+
+            RedirectUris = { "http://localhost:9090/callback" },
+            FrontChannelLogoutUri = "http://localhost:9090",
+            PostLogoutRedirectUris = { "http://localhost:9090" },
+            AllowedCorsOrigins =     { "http://localhost:9090" },
+
+            AllowOfflineAccess = true,
+            AllowAccessTokensViaBrowser = true,
+            RequirePkce = true,
+            AccessTokenLifetime = 3600,
+            AllowedScopes = { "email", "openid", "profile", "offline_access", "account.api", "shop.api" }
         }
     ];
 }
