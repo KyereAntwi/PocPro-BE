@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace DevSync.PocPro.Identity.Pages.Account.Logout;
 
 [SecurityHeaders]
@@ -5,14 +7,16 @@ namespace DevSync.PocPro.Identity.Pages.Account.Logout;
 public class Index : PageModel
 {
     private readonly IIdentityServerInteractionService _interaction;
+    private readonly SignInManager<IdentityUser> _signInManager;
     private readonly IEventService _events;
 
     [BindProperty] public string LogoutId { get; set; }
 
-    public Index(IIdentityServerInteractionService interaction, IEventService events)
+    public Index(IIdentityServerInteractionService interaction, IEventService events, SignInManager<IdentityUser> signInManager)
     {
         _interaction = interaction;
         _events = events;
+        _signInManager = signInManager;
     }
 
     public async Task<IActionResult> OnGet(string logoutId)
@@ -57,6 +61,7 @@ public class Index : PageModel
 
             // delete local authentication cookie
             await HttpContext.SignOutAsync();
+            await _signInManager.SignOutAsync();
 
             // raise the logout event
             await _events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
