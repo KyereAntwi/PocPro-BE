@@ -5,4 +5,6 @@ public record UpdateProductRequest(
     string Name,
     string? BarcodeNumber,
     IFormFile? ImageFile,
-    Guid CategoryId);
+    Guid CategoryId,
+    string? Description,
+    int LowThresholdValue);

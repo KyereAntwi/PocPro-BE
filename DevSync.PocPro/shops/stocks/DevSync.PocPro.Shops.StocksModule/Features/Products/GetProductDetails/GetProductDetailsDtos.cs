@@ -2,8 +2,6 @@ namespace DevSync.PocPro.Shops.StocksModule.Features.Products.GetProductDetails;
 
 public record GetProductDetailsRequest([FromRoute] Guid ProductId);
 
-public record GetProductDetailsResponse(GetProductDetailsResponseItem Product, StockItem[] Stocks);
-
 public record GetProductDetailsResponseItem(
     Guid Id,
     string Name,
@@ -12,7 +10,13 @@ public record GetProductDetailsResponseItem(
     DateTimeOffset? CreatedAt,
     DateTimeOffset? UpdatedAt,
     Guid? CategoryId,
-    int TotalNumberOfStocks);
+    int TotalNumberOfStocks,
+    decimal Price,
+    int NumberLeftOnShelf,
+    decimal ExpectedProfitAfterPurchasesOnProduct,
+    decimal ExpectedTotalProfitOnProduct,
+    string Description,
+    int LowThresholdValue);
 
 public record StockItem(
     Guid Id,

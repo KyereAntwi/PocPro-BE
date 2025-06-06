@@ -41,9 +41,12 @@ public class GetProductsEndpoint(IShopDbContext shopDbContext)
             await query.Select(x => new GetProductsResponseItem(
                 x.Id.Value,
                 x.Name,
-                x.Stocks.Count > 0 ? x.Stocks.OrderBy(s => s.CreatedAt).Last().SellingPerPrice : 0,
+                x.CurrentSellingPrice(),
                 x.PhotoUrl,
-                x.CategoryId.Value
+                x.TotalNumberLeftOnShelf(),
+                x.CategoryId.Value,
+                x.Description ?? string.Empty,
+                x.LowThresholdValue
             )).ToArrayAsync(ct)
         );
 

@@ -26,8 +26,9 @@ public class AddProductEndpoint(
         {
             //TODO: Upload the image to a storage service and get the URL
         }
-        
-        var product = Product.Create(req.Name, req.BarcodeNumber!, photoUrl, CategoryId.Of(req.CategoryId));
+
+        var product = Product.Create(
+            req.Name, req.BarcodeNumber!, photoUrl, CategoryId.Of(req.CategoryId), req.Description, req.LowThresholdValue);
         await shopDbContext.Products.AddAsync(product, ct);
         await shopDbContext.SaveChangesAsync(ct);
         
