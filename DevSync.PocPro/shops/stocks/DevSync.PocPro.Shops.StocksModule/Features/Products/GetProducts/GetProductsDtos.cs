@@ -15,5 +15,11 @@ public record GetProductsResponseItem(
     string Name,
     decimal? Price,
     string? ImageUrl,
-    Guid CategoryId
-);
+    int NumberLeftOnShelf,
+    Guid CategoryId,
+    string Description,
+    int LowThresholdValue
+)
+{
+    public GetCategoryResponse? Category { get; set; }
+};

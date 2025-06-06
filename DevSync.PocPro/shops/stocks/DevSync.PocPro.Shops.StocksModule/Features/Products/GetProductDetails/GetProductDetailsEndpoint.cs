@@ -12,6 +12,7 @@ public class GetProductDetailsEndpoint(IShopDbContext shopDbContext)
     {
         var productWithStocks = await shopDbContext
             .Products
+            .Include(p => p.Stocks)
             .Where(p => p.Id == ProductId.Of(req.ProductId))
             .Select(p => new
             {
@@ -23,9 +24,16 @@ public class GetProductDetailsEndpoint(IShopDbContext shopDbContext)
                     p.CreatedAt,
                     p.UpdatedAt,
                     p.CategoryId.Value,
-                    p.Stocks.Count)
+                    p.Stocks.Count,
+                    p.CurrentSellingPrice(),
+                    p.TotalNumberLeftOnShelf(),
+                    p.ExpectedProfitAfterPurchasesOnProduct(),
+                    p.ExpectedTotalProfitOnProduct(),
+                    p.Description ?? string.Empty,
+                    p.LowThresholdValue)
             })
             .AsNoTracking()
+            .AsSplitQuery()
             .FirstOrDefaultAsync(ct);
         
         if (productWithStocks is null)

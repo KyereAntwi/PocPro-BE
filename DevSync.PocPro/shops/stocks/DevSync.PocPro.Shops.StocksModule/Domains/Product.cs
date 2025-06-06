@@ -5,7 +5,7 @@ public class Product : BaseEntity<ProductId>
     private readonly Collection<Stock> _stocks = [];
     public IReadOnlyCollection<Stock> Stocks => _stocks;
     
-    public static Product Create(string name, string barcodeNumber, string photoUrl, CategoryId categoryId)
+    public static Product Create(string name, string barcodeNumber, string photoUrl, CategoryId categoryId, string? description, int lowThresholdValue)
     {
         var product = new Product
         {
@@ -13,18 +13,22 @@ public class Product : BaseEntity<ProductId>
             Name = name,
             BarcodeNumber = barcodeNumber,
             PhotoUrl = photoUrl,
-            CategoryId = categoryId
+            CategoryId = categoryId,
+            Description = description,
+            LowThresholdValue = lowThresholdValue
         };
         
         return product;
     }
 
-    public void Update(string name, string barcodeNumber, string photoUrl, CategoryId categoryId)
+    public void Update(string name, string barcodeNumber, string photoUrl, CategoryId categoryId, string? description, int lowThresholdValue)
     {
         Name = name;
         BarcodeNumber = barcodeNumber;
         PhotoUrl = photoUrl;
         CategoryId = categoryId;
+        Description = description;
+        LowThresholdValue = lowThresholdValue;
     }
 
     public Result<Guid> StockProduct(Supplier supplier, int quantityPurchased, int quantityLeftInStock, decimal costPrice, decimal sellingPrice,
@@ -81,7 +85,19 @@ public class Product : BaseEntity<ProductId>
             .Sum();
     }
 
+    public int TotalNumberLeftOnShelf()
+    {
+        return _stocks.Count > 0 ?  _stocks.Sum(s => s.QuantityLeftInStock) : 0;
+    }
+
+    public decimal CurrentSellingPrice()
+    {
+        return _stocks.Count > 0 ? _stocks.OrderBy(s => s.CreatedAt).Last().SellingPerPrice : 0;
+    }
+
     public string Name { get; private set; } = string.Empty;
+    public string? Description { get; set; }
+    public int LowThresholdValue { get; set; }
     public string? BarcodeNumber { get; private set; }
     public string? PhotoUrl { get; private set; }
     public CategoryId CategoryId { get; private set; }

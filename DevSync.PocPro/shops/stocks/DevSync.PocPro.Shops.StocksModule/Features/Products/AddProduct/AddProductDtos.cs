@@ -4,4 +4,6 @@ public record AddProductRequest(
     string Name,
     string? BarcodeNumber,
     IFormFile? ImageFile,
-    Guid CategoryId);
+    Guid CategoryId,
+    string? Description,
+    int LowThresholdValue);

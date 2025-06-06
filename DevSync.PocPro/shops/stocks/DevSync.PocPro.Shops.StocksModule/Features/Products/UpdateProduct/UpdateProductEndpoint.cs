@@ -37,7 +37,9 @@ public class UpdateProductEndpoint (
             name: req.Name,
             barcodeNumber: req.BarcodeNumber ?? existingProduct.BarcodeNumber ?? string.Empty,
             photoUrl: photoUrl,
-            categoryId: CategoryId.Of(req.CategoryId));
+            categoryId: CategoryId.Of(req.CategoryId),
+            description: req.Description,
+            lowThresholdValue: req.LowThresholdValue);
         
         await shopDbContext.SaveChangesAsync(ct);
 
