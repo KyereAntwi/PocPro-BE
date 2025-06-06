@@ -18,13 +18,12 @@ public class GetProductDetailsEndpoint(IShopDbContext shopDbContext)
                 Product = new GetProductDetailsResponseItem(
                     p.Id.Value,
                     p.Name,
+                    p.BarcodeNumber ?? string.Empty,
                     p.PhotoUrl ?? string.Empty,
                     p.CreatedAt,
-                    p.UpdatedAt)
-                {
-                    StocksIds = p.Stocks.Select(s => s.Id.Value),
-                    CategoryId = p.CategoryId.Value,
-                }
+                    p.UpdatedAt,
+                    p.CategoryId.Value,
+                    p.Stocks.Count)
             })
             .AsNoTracking()
             .FirstOrDefaultAsync(ct);

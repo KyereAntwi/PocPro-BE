@@ -28,7 +28,7 @@ public class GetProductsEndpoint(IShopDbContext shopDbContext)
             query = query.Where(x => x.CategoryId == CategoryId.Of(req.CategoryId));
         }
         
-        var totalCount = await query.CountAsync(ct);
+        var totalCount = await query.LongCountAsync(ct);
         
         query = query
             .Skip((req.Page - 1) * req.PageSize)

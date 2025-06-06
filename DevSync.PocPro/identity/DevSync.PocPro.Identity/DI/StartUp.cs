@@ -1,4 +1,5 @@
 using DevSync.PocPro.Identity.Data;
+using DevSync.PocPro.Identity.Pages.Admin.Clients;
 using Duende.IdentityServer;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
@@ -27,6 +28,7 @@ public static class Startup
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
                 options.EmitStaticAudienceClaim = true;
+                options.LicenseKey = builder.Configuration.GetValue<string>("DuendeIDS:LicenseKey");
             })
             .AddConfigurationStore(options =>
             {
@@ -62,6 +64,7 @@ public static class Startup
         });
         
         builder.Services.AddHttpContextAccessor();
+        builder.Services.AddScoped<ClientRepository>();
         
         builder.Services.AddAuthorization();
         builder.Services.AddAuthentication()
