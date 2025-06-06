@@ -80,7 +80,7 @@ public static class Config
             AllowAccessTokensViaBrowser = true,
             RequirePkce = true,
             AccessTokenLifetime = 3600,
-            AllowedScopes = { "email", "openid", "profile", "offline_access", "account.api", "shop.api" }
+            AllowedScopes = { "openid", "profile", "offline_access", "account.api", "shop.api" }
         }
     ];
 }

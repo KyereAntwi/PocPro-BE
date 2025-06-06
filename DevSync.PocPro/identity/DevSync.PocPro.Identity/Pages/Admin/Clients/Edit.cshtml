@@ -28,6 +28,11 @@
                     <label asp-for="@Model.InputModel.AllowedScopes">Allowed Scopes (space delimited)</label>
                     <input class="form-control" asp-for="@Model.InputModel.AllowedScopes"/>
                 </div>
+                
+                <div>
+                    <label asp-for="@Model.InputModel.Secret">Secret</label>
+                    <input class="form-control" asp-for="@Model.InputModel.Secret"/>
+                </div>
 
                 @if (Model.InputModel.Flow == Flow.CodeFlowWithPkce)
                 {

@@ -7,13 +7,12 @@ public record GetProductDetailsResponse(GetProductDetailsResponseItem Product, S
 public record GetProductDetailsResponseItem(
     Guid Id,
     string Name,
+    string Barcode,
     string ImageUrl,
     DateTimeOffset? CreatedAt,
-    DateTimeOffset? UpdatedAt)
-{
-    public IEnumerable<Guid> StocksIds { get; set; } = [];
-    public Guid? CategoryId { get; set; }
-};
+    DateTimeOffset? UpdatedAt,
+    Guid? CategoryId,
+    int TotalNumberOfStocks);
 
 public record StockItem(
     Guid Id,
