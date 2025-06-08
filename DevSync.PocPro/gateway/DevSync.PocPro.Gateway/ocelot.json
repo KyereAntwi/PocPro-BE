@@ -257,7 +257,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}/stocks",
-      "UpstreamHttpMethod": ["Put"],
+      "UpstreamHttpMethod": ["Post"],
       "DownstreamPathTemplate": "/api/v1/products/{ProductId}/stocks",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
