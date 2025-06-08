@@ -32,7 +32,6 @@ public static class Startup
         builder.Services.AddMassTransit(x =>
         {
             x.SetKebabCaseEndpointNameFormatter();
-            x.AddConsumer<RegisterUserLoginEventHandler>();
             
             x.UsingRabbitMq((context, cfg) =>
             {

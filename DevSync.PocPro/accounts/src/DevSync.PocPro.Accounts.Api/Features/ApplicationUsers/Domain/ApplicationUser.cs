@@ -6,7 +6,7 @@ public class ApplicationUser : BaseEntity<ApplicationUserId>
     public IReadOnlyCollection<Permission> Permissions => _permissions;
     
     public static ApplicationUser Create(string firstName, string lastName, string otherNames, string email, 
-        string userId, string photoUrl, Permission[] permissions, TenantId? tenantId = null)
+        string userId, string photoUrl, List<Permission> permissions, TenantId? tenantId = null)
     {
         var application = new ApplicationUser
         {
@@ -20,7 +20,7 @@ public class ApplicationUser : BaseEntity<ApplicationUserId>
             PhotoUrl = photoUrl
         };
 
-        if (permissions.Length <= 0) return application;
+        if (permissions.Count <= 0) return application;
         
         foreach (var permission in permissions)
         {
