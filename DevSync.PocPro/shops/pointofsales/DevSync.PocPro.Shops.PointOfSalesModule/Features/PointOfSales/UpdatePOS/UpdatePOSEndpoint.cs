@@ -6,7 +6,7 @@ public class UpdatePOSEndpoint (
 {
     public override void Configure()
     {
-        Put("api/pointofsales/{id}");
+        Put("/api/v1/pointofsales/{Id}");
     }
 
     public override async Task HandleAsync(UpdatePOSDto req, CancellationToken ct)
@@ -31,10 +31,10 @@ public class UpdatePOSEndpoint (
         
         pos.Update(
             req.Title, 
-            req.Phone ?? string.Empty, 
-            req.Address ?? string.Empty, 
-            req.Email ?? string.Empty,
-            string.IsNullOrWhiteSpace(req.Status) ? Enum.Parse<StatusType>(req.Status!) : pos.Status);
+            req.Phone ?? pos.Phone ?? string.Empty, 
+            req.Address ?? pos.Address ?? string.Empty, 
+            req.Email ?? pos.Email ?? string.Empty,
+            !string.IsNullOrWhiteSpace(req.Status) ? Enum.Parse<StatusType>(req.Status!) : pos.Status);
         
         await posDbContext.SaveChangesAsync(ct);
         

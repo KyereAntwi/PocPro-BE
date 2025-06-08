@@ -7,7 +7,7 @@ public class StockProductEndpoint(IShopDbContext shopDbContext, IHttpContextAcce
 {
     public override void Configure()
     {
-        Put("/api/v1/products/{ProductId}/stocks");
+        Post("/api/v1/products/{ProductId}/stocks");
     }
 
     public override async Task HandleAsync(StockProductRequest req, CancellationToken ct)
