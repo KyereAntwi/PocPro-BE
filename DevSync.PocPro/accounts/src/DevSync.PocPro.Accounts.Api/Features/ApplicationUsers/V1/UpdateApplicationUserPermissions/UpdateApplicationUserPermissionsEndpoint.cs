@@ -19,9 +19,20 @@ public class UpdateApplicationUserPermissionsEndpoint(
     {
         var userId = httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         
-        var loggedInUser = await applicationDbContext.ApplicationUsers.FirstOrDefaultAsync(x => x.UserId == userId, ct);
+        var loggedInUser = await applicationDbContext
+            .ApplicationUsers
+            .Include(a => a.Permissions)
+            .AsSplitQuery()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.UserId == userId, ct);
+        
         var tenant = await applicationDbContext.Tenants.FindAsync([loggedInUser!.TenantId, ct], cancellationToken: ct);
-        var user = await applicationDbContext.ApplicationUsers.FirstOrDefaultAsync(x => x.UserId == req.UserId, ct);
+        
+        var user = await applicationDbContext
+            .ApplicationUsers
+            .Include(a => a.Permissions)
+            .AsSplitQuery()
+            .FirstOrDefaultAsync(x => x.Id == ApplicationUserId.Of(req.UserId), ct);
 
         if (user == null)
         {
@@ -30,26 +41,7 @@ public class UpdateApplicationUserPermissionsEndpoint(
         }
 
         List<Permission> permissions = [];
-
-        var permissionTasks = req.Permissions.Select(async permission =>
-        {
-            var existingPermission = await applicationDbContext.Permissions.FirstOrDefaultAsync(
-                x => x.PermissionType == Enum.Parse<PermissionType>(permission), ct);
-
-            if (existingPermission != null) return existingPermission;
-            await SendNotFoundAsync(ct);
-            return null;
-        });
-        
-        var resolvedPermissions = await Task.WhenAll(permissionTasks);
-        
-        if (resolvedPermissions.Any(p => p == null))
-        {
-            await SendNotFoundAsync(ct);
-            return;
-        }
-        
-        permissions.AddRange(resolvedPermissions.Where(p => p != null)!);
+        permissions.AddRange(req.Permissions.Select(permission => new Permission(Enum.Parse<PermissionType>(permission))));
         
         var result = user.UpdatePermission(tenant!, loggedInUser, permissions.ToArray(), req.OperationType);
 
@@ -67,8 +59,15 @@ public class UpdateApplicationUserPermissionsRequestValidator : Validator<Update
 {
     public UpdateApplicationUserPermissionsRequestValidator()
     {
-        RuleFor(x => x.UserId).NotEmpty();
-        RuleFor(x => x.Permissions).NotEmpty();
-        RuleFor(x => x.OperationType).NotEmpty();
+        RuleFor(x => x.Permissions)
+            .NotEmpty()
+            .Must(list => list.All(p => Enum.TryParse<PermissionType>(p, out _)))
+            .WithMessage("All permissions must be valid PermissionType values.");
+        
+        RuleFor(x => x.OperationType)
+            .NotEmpty()
+            .Must(op => op is "Add" or "Remove")
+                .WithMessage("OperationType must be either 'Add' or 'Remove'.");
+        
     }
 }

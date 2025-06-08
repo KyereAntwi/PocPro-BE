@@ -21,9 +21,8 @@ public class AddApplicationUserEndpoint(
     public override async Task HandleAsync(AddApplicationUserRequest req, CancellationToken ct)
     {
         var userId = httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-        
-        var accountAppHeader = httpContextAccessor.HttpContext!.Request.Headers["X-ACCOUNT-APP"].FirstOrDefault();
-        if (accountAppHeader == null)
+
+        if (!req.TenantAccount)
         {
             var loggedInUser = await applicationDbContext.ApplicationUsers.FirstOrDefaultAsync(a => a.UserId == userId, ct);
             if (loggedInUser == null)
@@ -40,33 +39,47 @@ public class AddApplicationUserEndpoint(
         }
         
         var photoUrl = string.Empty;
-        Permission[] permissions = [];
+        List<Permission> permissions = [];
         
         if (req.PhotoFile != null)
         {
             //TODO - to be implemented
         }
+        
         if (req.PermissionTypes != null && req.PermissionTypes.Any())
         {
-            //TODO - to be implemented
+            permissions.AddRange(req.PermissionTypes.Select(permission => new Permission(Enum.Parse<PermissionType>(permission))));
         }
         
-        var result = ApplicationUser.Create(req.FirstName, req.LastName, req.OtherNames, req.Email, userId!, photoUrl, permissions, TenantId.Of(req.TenantId));
+        var existingUser = await applicationDbContext.ApplicationUsers.FirstOrDefaultAsync(a => a.UserId == req.Username, ct);
+
+        if (existingUser != null)
+        {
+            await SendErrorsAsync(StatusCodes.Status400BadRequest, ct);
+            return;
+        }
+
+        var result = ApplicationUser.Create(req.FirstName, req.LastName, req.OtherNames ?? string.Empty, req.Email ?? string.Empty, req.Username!, photoUrl,
+            permissions, TenantId.Of(req.TenantId));
         
         await applicationDbContext.ApplicationUsers.AddAsync(result, ct);
         await applicationDbContext.SaveChangesAsync(ct);
 
-        try
+        if (!req.TenantAccount)
         {
-            await publishEndpoint.Publish(new RegisterUserLoginEvent
+            try
             {
-                Username = req.Username,
-                Email = req.Email,
-            }, ct);
-        }
-        catch (Exception e)
-        {
-            logger.LogError("Error occured sending user registration event. Error = {Message}", e.Message);
+                await publishEndpoint.Publish(new RegisterUserLoginEvent
+                {
+                    Username = req.Username,
+                    Email = req.Email,
+                    Password = req.Password
+                }, ct);
+            }
+            catch (Exception e)
+            {
+                logger.LogError("Error occured sending user registration event. Error = {Message}", e.Message);
+            }
         }
 
         await SendCreatedAtAsync<GetApplicationUserDetailsEndpoint>(new
@@ -86,7 +99,15 @@ public class AddApplicationUserRequestValidator : Validator<AddApplicationUserRe
     {
         RuleFor(x => x.FirstName).NotEmpty().WithMessage("First name cannot be empty.").NotNull();
         RuleFor(x => x.LastName).NotEmpty().WithMessage("Last name cannot be empty.").NotNull();
-        RuleFor(x => x.Email).EmailAddress().WithMessage("Email should be a valid email address").NotNull();
+        
+        RuleFor(x => x.Email)
+            .EmailAddress()
+            .When(x => !string.IsNullOrWhiteSpace(x.Email)).WithMessage("Email should be a valid email address").NotNull();
+        
+        RuleFor(x => x.Password)
+            .NotEmpty()
+            .When(x => !x.TenantAccount).WithMessage("Password cannot be empty.").NotNull();
+        
         RuleFor(x => x.Username).NotEmpty().WithMessage("Username cannot be empty.").NotNull();
         RuleFor(x => x.TenantId).NotEmpty().WithMessage("Tenant id cannot be empty.").NotNull();
     }

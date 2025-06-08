@@ -1,4 +1,5 @@
 using DevSync.PocPro.Identity.Data;
+using DevSync.PocPro.Identity.Events;
 using DevSync.PocPro.Identity.Pages.Admin.Clients;
 using Duende.IdentityServer;
 using MassTransit;
@@ -50,6 +51,7 @@ public static class Startup
         builder.Services.AddMassTransit(x =>
         {
             x.SetKebabCaseEndpointNameFormatter();
+            x.AddConsumer<RegisterUserLoginEventHandler>();
             
             x.UsingRabbitMq((context, cfg) =>
             {

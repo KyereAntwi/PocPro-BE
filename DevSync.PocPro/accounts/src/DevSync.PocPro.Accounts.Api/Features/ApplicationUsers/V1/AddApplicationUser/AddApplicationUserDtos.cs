@@ -3,11 +3,13 @@ namespace DevSync.PocPro.Accounts.Api.Features.ApplicationUsers.V1.AddApplicatio
 public record AddApplicationUserRequest(
     string FirstName,
     string LastName,
-    string Email,
+    string? Email,
     string Username,
     string? OtherNames,
+    string? Password,
     IFormFile? PhotoFile,
     IEnumerable<string>? PermissionTypes,
-    Guid TenantId);
+    Guid TenantId,
+    bool TenantAccount);
 
 public record AddApplicationUserResponse(Guid Id);

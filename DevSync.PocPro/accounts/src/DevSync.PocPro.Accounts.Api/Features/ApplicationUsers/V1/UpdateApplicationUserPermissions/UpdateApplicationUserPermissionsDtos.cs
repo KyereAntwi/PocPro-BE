@@ -1,6 +1,6 @@
 namespace DevSync.PocPro.Accounts.Api.Features.ApplicationUsers.V1.UpdateApplicationUserPermissions;
 
 public record UpdateApplicationUserPermissionsRequest(
-    [FromRoute] string UserId,
+    [FromRoute] Guid UserId,
     List<string> Permissions,
-    [Microsoft.AspNetCore.Mvc.FromQuery] string OperationType);
+    string OperationType);

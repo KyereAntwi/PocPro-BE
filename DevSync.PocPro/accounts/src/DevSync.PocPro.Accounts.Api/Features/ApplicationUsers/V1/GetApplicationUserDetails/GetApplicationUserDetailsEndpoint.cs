@@ -32,6 +32,8 @@ public class GetApplicationUserDetailsEndpoint(IApplicationDbContext application
         await SendOkAsync(new BaseResponse<GetApplicationUserDetailsResponse>("User details retrieved successfully", true)
         {
             Data = new GetApplicationUserDetailsResponse(
+                user.Id.Value,
+                user.TenantId!.Value,
                 user.FirstName,
                 user.LastName,
                 user.Email ?? string.Empty,
