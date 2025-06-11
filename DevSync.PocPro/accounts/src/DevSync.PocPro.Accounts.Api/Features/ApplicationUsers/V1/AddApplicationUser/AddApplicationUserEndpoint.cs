@@ -41,21 +41,15 @@ public class AddApplicationUserEndpoint(
                 return;
             }
             
-            await identityServices.RegisterUserLoginAsync(req.Username, req.Email!, req.Password!,
-                httpContextAccessor.HttpContext?.Request.Headers.Authorization.FirstOrDefault()!);
-        }
-        
-        var photoUrl = string.Empty;
-        List<Permission> permissions = [];
-        
-        if (req.PhotoFile != null)
-        {
-            //TODO - to be implemented
-        }
-        
-        if (req.PermissionTypes != null && req.PermissionTypes.Any())
-        {
-            permissions.AddRange(req.PermissionTypes.Select(permission => new Permission(Enum.Parse<PermissionType>(permission))));
+            try
+            {
+                await identityServices.RegisterUserLoginAsync(req.Username, req.Email!, req.Password!,
+                    httpContextAccessor.HttpContext?.Request.Headers.Authorization.FirstOrDefault()!);
+            }
+            catch (Exception)
+            {
+                await SendErrorsAsync(StatusCodes.Status500InternalServerError, cancellation: ct);
+            }
         }
         
         var existingUser = await applicationDbContext.ApplicationUsers.FirstOrDefaultAsync(a => a.UserId == req.Username, ct);
@@ -64,6 +58,25 @@ public class AddApplicationUserEndpoint(
         {
             await SendErrorsAsync(StatusCodes.Status400BadRequest, ct);
             return;
+        }
+        
+        List<Permission> permissions = [];
+        
+        var photoUrl = string.Empty;
+        if (req.PhotoFile != null)
+        {
+            //TODO - to be implemented
+        }
+        
+        if (req.PermissionTypes != null && req.PermissionTypes.Any())
+        {
+            var permissionTypeEnums = req.PermissionTypes
+                .Select(Enum.Parse<PermissionType>)
+                .ToList();
+
+            permissions = await applicationDbContext.Permissions
+                .Where(p => permissionTypeEnums.Contains(p.PermissionType))
+                .ToListAsync(ct);
         }
 
         var result = ApplicationUser.Create(req.FirstName, req.LastName, req.OtherNames ?? string.Empty, req.Email ?? string.Empty, req.Username!, photoUrl,
@@ -100,5 +113,10 @@ public class AddApplicationUserRequestValidator : Validator<AddApplicationUserRe
         
         RuleFor(x => x.Username).NotEmpty().WithMessage("Username cannot be empty.").NotNull();
         RuleFor(x => x.TenantId).NotEmpty().WithMessage("Tenant id cannot be empty.").NotNull();
+        
+        RuleFor(x => x.PermissionTypes)
+            .Must(list => list == null || list.All(pt => Enum.TryParse<PermissionType>(pt, out _)))
+            .When(x => x.PermissionTypes != null && x.PermissionTypes.Any())
+            .WithMessage("All permission types must be valid PermissionType enum values.");
     }
 }
