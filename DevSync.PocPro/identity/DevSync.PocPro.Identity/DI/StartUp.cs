@@ -1,5 +1,4 @@
 using DevSync.PocPro.Identity.Data;
-using DevSync.PocPro.Identity.Events;
 using DevSync.PocPro.Identity.Pages.Admin.Clients;
 using Duende.IdentityServer;
 using MassTransit;
@@ -12,6 +11,7 @@ public static class Startup
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddRazorPages();
+        builder.Services.AddControllers();
 
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -51,7 +51,7 @@ public static class Startup
         builder.Services.AddMassTransit(x =>
         {
             x.SetKebabCaseEndpointNameFormatter();
-            x.AddConsumer<RegisterUserLoginEventHandler>();
+            //x.AddConsumer<RegisterUserLoginEventHandler>();
             
             x.UsingRabbitMq((context, cfg) =>
             {
@@ -109,7 +109,8 @@ public static class Startup
                             return false;
                         if (!Uri.TryCreate(origin, UriKind.Absolute, out var uri))
                             return false;
-                        return uri.Host == "localhost";
+                        return uri.Host == "localhost" || 
+                               uri.Host == "https://devsyncaccountsapi-ccguashuc8a5gpfs.uksouth-01.azurewebsites.net";
                     })
                     .AllowAnyHeader()
                     .AllowAnyMethod()
@@ -135,6 +136,7 @@ public static class Startup
         app.UseAuthorization();
         
         app.MapRazorPages();
+        app.MapControllers();
         
         return app;
     }

@@ -38,14 +38,14 @@ public class ApplicationUser : BaseEntity<ApplicationUserId>
     public string UserId { get; private set; }
     public string? PhotoUrl { get; private set; }
     
-    public Result UpdatePermission(Tenant tenant, ApplicationUser user, Permission[] permissions, string type)
+    public Result UpdatePermission(Tenant tenant, ApplicationUser user, Permission[] permissions)
     {
         if (!user.Permissions.Select(p => p.PermissionType).Contains(PermissionType.MANAGE_PERMISSIONS))
         {
             return Result.Fail($"User {user.UserId} cannot does not have permission to manage other user's permissions.");
         }
         
-        if (this.TenantId == null)
+        if (TenantId == null)
         {
             return Result.Fail("This user cannot be assigned extra permissions");
         }
@@ -55,40 +55,52 @@ public class ApplicationUser : BaseEntity<ApplicationUserId>
             return Result.Fail(
                 $"User with userId {user.UserId} is not permitted to assign permission to users in tenant {tenant}");
         }
-
-        switch (type)
+        
+        _permissions.Clear();
+        
+        foreach (var permission in permissions)
         {
-            case "Add":
-            {
-                foreach (var permission in permissions)
-                {
-                    if (_permissions.Contains(permission))
-                    {
-                        return Result.Fail($"User already has this permission. {permission.PermissionType}");
-                    }
+            // if (_permissions.Contains(permission))
+            // {
+            //     return Result.Fail($"User already has this permission. {permission.PermissionType}");
+            // }
 
-                    _permissions.Add(permission);
-                }
-
-                break;
-            }
-            case "Remove":
-            {
-                foreach (var permission in permissions)
-                {
-                    if (!_permissions.Contains(permission))
-                    {
-                        return Result.Fail($"User does not have this permission. {permission.PermissionType}");
-                    }
-
-                    _permissions.Remove(permission);
-                }
-
-                break;
-            }
-            default:
-                return Result.Fail("Invalid operation type");
+            _permissions.Add(permission);
         }
+
+        // switch (type)
+        // {
+        //     case "Add":
+        //     {
+        //         foreach (var permission in permissions)
+        //         {
+        //             if (_permissions.Contains(permission))
+        //             {
+        //                 return Result.Fail($"User already has this permission. {permission.PermissionType}");
+        //             }
+        //
+        //             _permissions.Add(permission);
+        //         }
+        //
+        //         break;
+        //     }
+        //     case "Remove":
+        //     {
+        //         foreach (var permission in permissions)
+        //         {
+        //             if (!_permissions.Contains(permission))
+        //             {
+        //                 return Result.Fail($"User does not have this permission. {permission.PermissionType}");
+        //             }
+        //
+        //             _permissions.Remove(permission);
+        //         }
+        //
+        //         break;
+        //     }
+        //     default:
+        //         return Result.Fail("Invalid operation type");
+        // }
         
         return Result.Ok();
     }
