@@ -41,9 +41,9 @@ public class UpdateApplicationUserPermissionsEndpoint(
         }
 
         List<Permission> permissions = [];
-        permissions.AddRange(req.Permissions.Select(permission => new Permission(Enum.Parse<PermissionType>(permission))));
+        permissions.AddRange(req.PermissionsTypes.Select(permission => new Permission(Enum.Parse<PermissionType>(permission))));
         
-        var result = user.UpdatePermission(tenant!, loggedInUser, permissions.ToArray(), req.OperationType);
+        var result = user.UpdatePermission(tenant!, loggedInUser, permissions.ToArray());
 
         if (result.IsFailed)
         {
@@ -59,15 +59,14 @@ public class UpdateApplicationUserPermissionsRequestValidator : Validator<Update
 {
     public UpdateApplicationUserPermissionsRequestValidator()
     {
-        RuleFor(x => x.Permissions)
+        RuleFor(x => x.PermissionsTypes)
             .NotEmpty()
             .Must(list => list.All(p => Enum.TryParse<PermissionType>(p, out _)))
             .WithMessage("All permissions must be valid PermissionType values.");
         
-        RuleFor(x => x.OperationType)
-            .NotEmpty()
-            .Must(op => op is "Add" or "Remove")
-                .WithMessage("OperationType must be either 'Add' or 'Remove'.");
-        
+        // RuleFor(x => x.OperationType)
+        //     .NotEmpty()
+        //     .Must(op => op is "Add" or "Remove")
+        //         .WithMessage("OperationType must be either 'Add' or 'Remove'.");
     }
 }

@@ -1,3 +1,4 @@
+using DevSync.PocPro.Accounts.Api.EventsHandlers.Handlers;
 using DevSync.PocPro.Accounts.Api.Features.Tenants.Grpc;
 using DevSync.PocPro.Accounts.Api.Services;
 using DevSync.PocPro.Shared.Domain.Middlewares;
@@ -27,11 +28,12 @@ public static class Startup
         builder.Services.AddOpenApi();
         
         builder.Services.AddScoped<IApplicationDbContext, AccountsDbContext>();
-        builder.Services.AddHttpClient<IKeycloakServices, KeycloakServices>();
+        builder.Services.AddHttpClient<IIdentityServices, IdentityServices>();
 
         builder.Services.AddMassTransit(x =>
         {
             x.SetKebabCaseEndpointNameFormatter();
+            x.AddConsumer<RegisterUserLoginEventHandler>();
             
             x.UsingRabbitMq((context, cfg) =>
             {
@@ -70,7 +72,7 @@ public static class Startup
         {
             options.AddPolicy("Open", b =>
                 b.SetIsOriginAllowed(origin => 
-                        new Uri(origin).Host == "localhost" ||
+                        //new Uri(origin).Host == "localhost" ||
                         new Uri(origin).Host == "https://devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net" ||
                         new Uri(origin).Host == "https://devsyncshopgateway-acdubue3e2eahkfs.uksouth-01.azurewebsites.net"
                         )

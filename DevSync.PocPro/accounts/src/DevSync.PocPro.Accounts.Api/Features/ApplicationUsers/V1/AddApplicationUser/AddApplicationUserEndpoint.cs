@@ -3,8 +3,7 @@ namespace DevSync.PocPro.Accounts.Api.Features.ApplicationUsers.V1.AddApplicatio
 public class AddApplicationUserEndpoint(
     IApplicationDbContext applicationDbContext, 
     IHttpContextAccessor httpContextAccessor,
-    IPublishEndpoint publishEndpoint,
-    ILogger<AddApplicationUserEndpoint> logger) 
+    IIdentityServices identityServices) 
     : Endpoint<AddApplicationUserRequest, BaseResponse<AddApplicationUserResponse>>
 {
     public override void Configure()
@@ -24,7 +23,12 @@ public class AddApplicationUserEndpoint(
 
         if (!req.TenantAccount)
         {
-            var loggedInUser = await applicationDbContext.ApplicationUsers.FirstOrDefaultAsync(a => a.UserId == userId, ct);
+            var loggedInUser = await applicationDbContext
+                .ApplicationUsers
+                .Include(a => a.Permissions)
+                .AsSplitQuery()
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.UserId == userId, ct);
             if (loggedInUser == null)
             {
                 await SendNotFoundAsync(cancellation: ct);
@@ -36,6 +40,9 @@ public class AddApplicationUserEndpoint(
                 await SendForbiddenAsync(cancellation: ct);
                 return;
             }
+            
+            await identityServices.RegisterUserLoginAsync(req.Username, req.Email!, req.Password!,
+                httpContextAccessor.HttpContext?.Request.Headers.Authorization.FirstOrDefault()!);
         }
         
         var photoUrl = string.Empty;
@@ -64,23 +71,6 @@ public class AddApplicationUserEndpoint(
         
         await applicationDbContext.ApplicationUsers.AddAsync(result, ct);
         await applicationDbContext.SaveChangesAsync(ct);
-
-        if (!req.TenantAccount)
-        {
-            try
-            {
-                await publishEndpoint.Publish(new RegisterUserLoginEvent
-                {
-                    Username = req.Username,
-                    Email = req.Email,
-                    Password = req.Password
-                }, ct);
-            }
-            catch (Exception e)
-            {
-                logger.LogError("Error occured sending user registration event. Error = {Message}", e.Message);
-            }
-        }
 
         await SendCreatedAtAsync<GetApplicationUserDetailsEndpoint>(new
             {
