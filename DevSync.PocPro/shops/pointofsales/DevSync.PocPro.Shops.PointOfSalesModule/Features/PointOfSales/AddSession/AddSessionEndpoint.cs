@@ -2,11 +2,11 @@ namespace DevSync.PocPro.Shops.PointOfSales.Features.PointOfSales.AddSession;
 
 public class AddSessionEndpoint(
     IPOSDbContext posDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 
-    : Endpoint<AddSessionRequest>
+    : Endpoint<AddSessionRequest, BaseResponse<Guid>>
 {
     public override void Configure()
     {
-        Put("/api/v1/pointofsales/{Id}/sessions");
+        Post("/api/v1/pointofsales/{Id}/sessions");
     }
 
     public override async Task HandleAsync(AddSessionRequest req, CancellationToken ct)
@@ -40,6 +40,9 @@ public class AddSessionEndpoint(
         
         await posDbContext.SaveChangesAsync(ct);
         
-        await SendOkAsync(ct);
+        await SendOkAsync(new BaseResponse<Guid>("Session started", true)
+        {
+            Data = result.Value
+        }, ct);
     }
 }

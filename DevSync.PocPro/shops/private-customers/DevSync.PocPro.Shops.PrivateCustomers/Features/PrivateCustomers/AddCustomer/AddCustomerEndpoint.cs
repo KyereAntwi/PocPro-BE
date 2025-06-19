@@ -1,3 +1,5 @@
+using DevSync.PocPro.Shops.Shared.Interfaces;
+
 namespace DevSync.PocPro.Shops.PrivateCustomers.Features.PrivateCustomers.AddCustomer;
 
 public class AddCustomerEndpoint(

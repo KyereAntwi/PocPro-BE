@@ -21,7 +21,7 @@ public class Session : BaseEntity<SessionId>
         Status = StatusType.InActive;
     }
     
-    public PointOfSaleId PointOfSaleId { get; private set; } = PointOfSaleId.Of(Guid.Empty);
+    public PointOfSaleId PointOfSaleId { get; private set; }
     public string? ClosedBy { get; set; }
     public DateTimeOffset? ClosedAt { get; private set; }
     public double OpeningCash { get; private set; }

@@ -1,3 +1,5 @@
+using DevSync.PocPro.Shops.Shared.Interfaces;
+
 namespace DevSync.PocPro.Shops.OrdersModule.Data;
 
 public class OrdersModuleDbContext : DbContext, IOrderModuleDbContext

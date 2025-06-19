@@ -1,4 +1,3 @@
-using DevSync.PocPro.Shops.Shared.Dtos;
 using DevSync.PocPro.Shops.StocksModule.Features.Products.GetProductDetails;
 
 namespace DevSync.PocPro.Shops.StocksModule.Features.Products.GetStocksByProductId;

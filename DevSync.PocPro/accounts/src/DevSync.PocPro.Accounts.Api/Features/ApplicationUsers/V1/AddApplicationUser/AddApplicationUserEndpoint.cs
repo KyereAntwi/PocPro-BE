@@ -21,6 +21,8 @@ public class AddApplicationUserEndpoint(
     {
         var userId = httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
+        var newUserId = string.Empty;
+        
         if (!req.TenantAccount)
         {
             var loggedInUser = await applicationDbContext
@@ -43,7 +45,7 @@ public class AddApplicationUserEndpoint(
             
             try
             {
-                await identityServices.RegisterUserLoginAsync(req.Username, req.Email!, req.Password!,
+               newUserId = await identityServices.RegisterUserLoginAsync(req.Username, req.Email!, req.Password!,
                     httpContextAccessor.HttpContext?.Request.Headers.Authorization.FirstOrDefault()!);
             }
             catch (Exception)
@@ -79,7 +81,7 @@ public class AddApplicationUserEndpoint(
                 .ToListAsync(ct);
         }
 
-        var result = ApplicationUser.Create(req.FirstName, req.LastName, req.OtherNames ?? string.Empty, req.Email ?? string.Empty, req.Username!, photoUrl,
+        var result = ApplicationUser.Create(req.FirstName, req.LastName, req.OtherNames ?? string.Empty, req.Email ?? string.Empty, newUserId, photoUrl,
             permissions, TenantId.Of(req.TenantId));
         
         await applicationDbContext.ApplicationUsers.AddAsync(result, ct);

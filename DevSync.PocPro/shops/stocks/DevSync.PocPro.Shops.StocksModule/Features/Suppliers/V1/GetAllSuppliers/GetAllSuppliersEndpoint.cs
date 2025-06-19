@@ -1,5 +1,3 @@
-using DevSync.PocPro.Shops.Shared.Dtos;
-
 namespace DevSync.PocPro.Shops.StocksModule.Features.Suppliers.V1.GetAllSuppliers;
 
 public class GetAllSuppliersEndpoint(IShopDbContext shopDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 

@@ -1,7 +1,12 @@
+using DevSync.PocPro.Shops.Shared.Interfaces;
+
 namespace DevSync.PocPro.Shops.OrdersModule.Features.Orders.CreateOrder;
 
 public class CreateOrderEndpoint(
-    IOrderModuleDbContext orderModuleDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 
+    IOrderModuleDbContext orderModuleDbContext, 
+    IHttpContextAccessor httpContextAccessor, 
+    ITenantServices tenantServices,
+    IPurchaseServices purchaseServices) 
     : Endpoint<CreateOrderRequest, BaseResponse<Guid>>
 {
     public override void Configure()
@@ -34,22 +39,34 @@ public class CreateOrderEndpoint(
         List<OrderItem> orderItems = [];
         orderItems.AddRange(req.OrderItems.Select(item => new OrderItem(item.ProductId, item.Quantity)));
 
-        var shippingAddress = new ShippingAddress(
+        var shippingAddress = req.ShippingAddress != null ? new ShippingAddress(
             req.ShippingAddress.AddressLine1,
             req.ShippingAddress.AddressLine2,
             req.ShippingAddress.City,
             Enum.Parse<Region>(req.ShippingAddress.Region),
             req.ShippingAddress.FullName,
             req.ShippingAddress.PhoneNumber
-        );
-        
+        ) : null;
+
+        var attemptPurchaseRequest = 
+            req.OrderItems.Select(item => new MakePurchaseOnProductsRequest(item.ProductId, item.Quantity)).ToList();
+
+        var attemptPurchaseOnProductsResult = await purchaseServices.MakePurchaseOnProducts(attemptPurchaseRequest);
+
+        if (!attemptPurchaseOnProductsResult.IsSuccess)
+        {
+            await SendErrorsAsync(StatusCodes.Status422UnprocessableEntity, ct);
+            return;
+        }
+
         var newOrder = Order.Create(
-            type, 
-            orderItems, 
-            Enum.Parse<PaymentMethod>(req.PaymentMethod), 
-            shippingAddress, 
-            req.PosSessionId == Guid.Empty ? Guid.Empty : req.PosSessionId,
-            req.CustomerId == Guid.Empty ? Guid.Empty : req.CustomerId);
+            orderType: type, 
+            orderItems: orderItems, 
+            paymentMethod: Enum.Parse<PaymentMethod>(req.PaymentMethod), 
+            shippingAddress: shippingAddress, 
+            posSessionId: string.IsNullOrWhiteSpace(req.PosSessionId) ? Guid.Empty : Guid.Parse(req.PosSessionId),
+            customerId: string.IsNullOrWhiteSpace(req.CustomerId) ? Guid.Empty : Guid.Parse(req.CustomerId),
+            amountReceived: req.AmountReceived);
 
         if (newOrder.IsFailed)
         {

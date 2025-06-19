@@ -30,8 +30,6 @@ public class Order : BaseEntity<OrderId>
                 return Result.Fail("Purchase order must have a Customer ID");
             case OrderType.OnlineOrder:
                 break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(orderType), orderType, null);
         }
 
         var newOrder = new Order

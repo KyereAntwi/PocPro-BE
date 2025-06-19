@@ -1,3 +1,5 @@
+using DevSync.PocPro.Shops.Shared.Interfaces;
+
 namespace DevSync.PocPro.Shops.PrivateCustomers.Data;
 
 public class CustomerModuleDbContext : DbContext, ICustomerDbContext

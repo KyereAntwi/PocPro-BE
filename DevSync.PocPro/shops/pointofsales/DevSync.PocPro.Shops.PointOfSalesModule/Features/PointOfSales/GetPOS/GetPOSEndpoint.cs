@@ -33,17 +33,6 @@ public class GetPOSEndpoint(
                     x.CreatedBy,
                     x.UpdatedAt,
                     x.UpdatedBy)
-                {
-                    Sessions = x.Sessions.Select(s => new GetSessionResponse(
-                        s.Id.Value, 
-                        s.OpeningCash,
-                        s.ClosingCash,
-                        s.CreatedAt, 
-                        s.ClosedAt, 
-                        s.ClosedBy, 
-                        s.CreatedBy)),
-                    Managers = x.Managers.Select(m => new GetManagerResponse(m.Id.Value, m.UserId))
-                }
             })
             .FirstOrDefaultAsync(x => x.POS.Id == req.Id, ct);
 
