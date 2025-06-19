@@ -4,6 +4,9 @@ using DevSync.PocPro.Shops.Api.Services;
 using DevSync.PocPro.Shops.OrdersModule.DI;
 using DevSync.PocPro.Shops.PointOfSales.DI;
 using DevSync.PocPro.Shops.PrivateCustomers.DI;
+using DevSync.PocPro.Shops.Shared.Interfaces;
+using DevSync.PocPro.Shops.Shared.Utils;
+using DevSync.PocPro.Shops.StocksModule.Services;
 
 namespace DevSync.PocPro.Shops.Api.DI;
 
@@ -14,6 +17,10 @@ public static class Startup
         var tenantDatabaseSettings = new TenantDatabaseSettings();
         builder.Configuration.GetSection("TenantDatabaseSettings").Bind(tenantDatabaseSettings);
         builder.Services.AddSingleton(tenantDatabaseSettings);
+
+        var tenantServiceSettings = new TenantServiceSettings();
+        builder.Configuration.GetSection("TenantServiceSettings").Bind(tenantServiceSettings);
+        builder.Services.AddSingleton(tenantServiceSettings);
         
         builder.Services.AddStockModule(builder.Configuration);
         builder.Services.RegisterOrderModule();
@@ -21,6 +28,7 @@ public static class Startup
         builder.Services.AddCustomerModule();
 
         builder.Services.AddScoped<IMasterExtensions, MasterExtensions>();
+        builder.Services.AddScoped<IPurchaseServices, PurchaseServices>();
         
         builder.Services.AddDbContext<MainShopTemplateDbContext>(options =>
         {
@@ -84,8 +92,8 @@ public static class Startup
         {
             options.AddPolicy("Open", b =>
                 b.SetIsOriginAllowed(origin => 
-                        new Uri(origin).Host == "https://devsyncshopgateway-acdubue3e2eahkfs.uksouth-01.azurewebsites.net"
-                        )
+                        new Uri(origin).Host == "https://devsyncshopgateway-acdubue3e2eahkfs.uksouth-01.azurewebsites.net" ||
+                        new Uri(origin).Host == "localhost")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials());

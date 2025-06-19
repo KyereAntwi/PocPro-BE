@@ -1,5 +1,3 @@
-using DevSync.PocPro.Shops.Shared.Dtos;
-
 namespace DevSync.PocPro.Shops.StocksModule.Features.Products.GetProducts;
 
 public class GetProductsEndpoint(IShopDbContext shopDbContext) 

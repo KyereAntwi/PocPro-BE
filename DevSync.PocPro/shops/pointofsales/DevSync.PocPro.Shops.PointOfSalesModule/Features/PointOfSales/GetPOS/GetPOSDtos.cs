@@ -16,11 +16,5 @@ public record POSResponse(
     DateTimeOffset? CreatedAt,
     string? CreatedBy,
     DateTimeOffset? UpdatedAt,
-    string? UpdatedBy)
-{
-    public IEnumerable<GetSessionResponse> Sessions { get; set; } = [];
-    public IEnumerable<GetManagerResponse> Managers { get; set; } = [];
-};
-
-public record GetSessionResponse(Guid Id, double OpeningCash, double ClosingCash, DateTimeOffset? CreatedAt, DateTimeOffset? ClosedAt, string? ClosedBy, string? CreatedBy);
+    string? UpdatedBy);
 public record GetManagerResponse(Guid Id, string UserId);

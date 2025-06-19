@@ -2,11 +2,12 @@ namespace DevSync.PocPro.Shops.OrdersModule.Features.Orders.CreateOrder;
 
 public record CreateOrderRequest(
     IEnumerable<OrderItemRequest> OrderItems,
-    ShippingAddressRequest ShippingAddress,
+    ShippingAddressRequest? ShippingAddress,
     string PaymentMethod,
     string OrderType,
-    Guid PosSessionId,
-    Guid CustomerId);
+    string PosSessionId,
+    string CustomerId,
+    double AmountReceived);
 
 public record OrderItemRequest(Guid ProductId, int Quantity);
 

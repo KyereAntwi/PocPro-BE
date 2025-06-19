@@ -5,7 +5,8 @@ public class StocksModuleDbContext : DbContext, IShopDbContext
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ITenantServices _tenantServices;
     
-    public StocksModuleDbContext(DbContextOptions<StocksModuleDbContext> options, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) : base(options)
+    public StocksModuleDbContext(
+        DbContextOptions<StocksModuleDbContext> options, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) : base(options)
     {
         _httpContextAccessor = httpContextAccessor;
         _tenantServices = tenantServices;

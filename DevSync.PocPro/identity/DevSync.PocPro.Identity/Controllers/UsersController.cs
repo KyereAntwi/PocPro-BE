@@ -41,6 +41,7 @@ public class UsersController : ControllerBase
             // TODO - Return back for reverse
         }
         
-        return NoContent();
+        var currentUser = await _userManager.FindByNameAsync(request.Username);
+        return Ok(currentUser!.Id);
     }
 }

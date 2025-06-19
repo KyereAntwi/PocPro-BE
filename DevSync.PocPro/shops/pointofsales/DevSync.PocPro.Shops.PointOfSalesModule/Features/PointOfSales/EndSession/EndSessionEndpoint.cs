@@ -20,7 +20,11 @@ public class EndSessionEndpoint(
             return;
         }
 
-        var pos = await posDbContext.PointOfSales.FirstOrDefaultAsync(p => p.Id == PointOfSaleId.Of(req.Id), ct);
+        var pos = await posDbContext
+            .PointOfSales
+            .Include(p => p.Sessions)
+            .AsSplitQuery()
+            .FirstOrDefaultAsync(p => p.Id == PointOfSaleId.Of(req.Id), ct);
 
         if (pos is null)
         {

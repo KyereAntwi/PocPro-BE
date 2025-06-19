@@ -1,3 +1,5 @@
+using DevSync.PocPro.Shops.Shared.Interfaces;
+
 namespace DevSync.PocPro.Shops.Api.Utils;
 
 public class MasterExtensions(MainShopTemplateDbContext accountsDbContext, ITenantServices services) 

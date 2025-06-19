@@ -1,6 +1,6 @@
 using DevSync.PocPro.Shared.Domain.Enums;
 
-namespace DevSync.PocPro.Shops.Shared.Services;
+namespace DevSync.PocPro.Shops.Shared.Interfaces;
 
 public interface ITenantServices
 {

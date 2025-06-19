@@ -2,34 +2,28 @@ using DevSync.PocPro.Shared.Domain.Enums;
 using Microsoft.Extensions.Logging;
 using System.Net.Http.Json;
 using DevSync.PocPro.Shared.Domain.Dtos;
+using DevSync.PocPro.Shops.Shared.Interfaces;
+using DevSync.PocPro.Shops.Shared.Utils;
 using Microsoft.AspNetCore.Http;
 using Polly;
 using Polly.Retry;
 
 namespace DevSync.PocPro.Shops.Shared.Services;
 
-public class TenantServices(HttpClient httpClient, ILogger<TenantServices> logger, IHttpContextAccessor httpContextAccessor) : ITenantServices
+public class TenantServices(
+    HttpClient httpClient, ILogger<TenantServices> logger, IHttpContextAccessor httpContextAccessor, TenantServiceSettings tenantServiceSettings) 
+    : ITenantServices
 {
     private readonly AsyncRetryPolicy<HttpResponseMessage> _retryPolicy = Policy
         .Handle<HttpRequestException>()
         .OrResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
         .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 
-    private const string Baseurl = "https://devsyncaccountsapi-ccguashuc8a5gpfs.uksouth-01.azurewebsites.net";
-
     public async Task<Tenant?> GetTenantByUserIdAsync(string userId)
     {
         try
         {
-            // var response = await _retryPolicy.ExecuteAsync(() =>
-            //     httpClient.GetAsync($"{Baseurl}/api/v1/accounts/tenants/{userId}")
-            // );
-            
-            // var request = new HttpRequestMessage(HttpMethod.Get, $"{Baseurl}/api/v1/accounts/tenants/{userId}");
-            // AddAuthorizationHeader(request);
-            // var response = await _retryPolicy.ExecuteAsync(() => httpClient.SendAsync(request));
-            
-            var url = $"{Baseurl}/api/v1/accounts/tenants/{userId}";
+            var url = $"{tenantServiceSettings.BaseUrl}/api/v1/accounts/tenants/{userId}";
             
             var response = await _retryPolicy.ExecuteAsync(() => {
                 var request = new HttpRequestMessage(HttpMethod.Get, url);
@@ -65,7 +59,7 @@ public class TenantServices(HttpClient httpClient, ILogger<TenantServices> logge
             // AddAuthorizationHeader(request);
             // var response = await _retryPolicy.ExecuteAsync(() => httpClient.SendAsync(request));
             
-            var url = $"{Baseurl}/api/v1/accounts/tenants";
+            var url = $"{tenantServiceSettings.BaseUrl}/api/v1/accounts/tenants";
             
             var response = await _retryPolicy.ExecuteAsync(() => {
                 var request = new HttpRequestMessage(HttpMethod.Get, url);
@@ -101,7 +95,7 @@ public class TenantServices(HttpClient httpClient, ILogger<TenantServices> logge
             // AddAuthorizationHeader(request);
             // var response = await _retryPolicy.ExecuteAsync(() => httpClient.SendAsync(request));
 
-            var url = $"{Baseurl}/api/v1/accounts/users/{userId}/permissions/{permissionType}";
+            var url = $"{tenantServiceSettings.BaseUrl}/api/v1/accounts/users/{userId}/permissions/{permissionType}";
             
             var response = await _retryPolicy.ExecuteAsync(() => {
                 var request = new HttpRequestMessage(HttpMethod.Get, url);
