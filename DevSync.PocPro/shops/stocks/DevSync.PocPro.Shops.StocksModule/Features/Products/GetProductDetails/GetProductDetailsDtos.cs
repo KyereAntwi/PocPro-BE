@@ -10,12 +10,10 @@ public record GetProductDetailsResponseItem(
     DateTimeOffset? CreatedAt,
     DateTimeOffset? UpdatedAt,
     Guid? CategoryId,
-    int TotalNumberOfStocks,
-    decimal Price,
-    int NumberLeftOnShelf,
     string Description,
     int LowThresholdValue)
 {
+    public decimal Price { get; set; }
     public IEnumerable<MediaItemResponse> ProductMedia { get; set; } = [];
 }
 
@@ -28,6 +26,7 @@ public record StockItem(
     decimal CostPerPrice,
     decimal SellingPerPrice,
     decimal TaxRate,
+    Guid PosId,
     DateTimeOffset ExpiresAt)
 {
     public SupplierItem? Supplier { get; set; } = null!;

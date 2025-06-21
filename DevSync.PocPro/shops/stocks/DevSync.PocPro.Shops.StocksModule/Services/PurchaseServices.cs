@@ -24,7 +24,7 @@ public class PurchaseServices(
                 return Result.Fail($"Product with Id {request.ProductId} was not found");
             }
             
-            var purchaseResult = product.MakePurchase(request.Quantity);
+            var purchaseResult = product.MakePurchase(request.Quantity, PointOfSaleId.Of(request.PosId));
             
             if (!purchaseResult.IsFailed) continue;
             

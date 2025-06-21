@@ -10,6 +10,7 @@ global using DevSync.PocPro.Shared.Domain.Exceptions;
 global using DevSync.PocPro.Shops.Shared.Dtos;
 global using DevSync.PocPro.Shops.Shared.Interfaces;
 global using DevSync.PocPro.Shops.Shared.Services;
+global using DevSync.PocPro.Shops.Shared.ValueObjects;
 global using DevSync.PocPro.Shops.StocksModule.Data;
 global using DevSync.PocPro.Shops.StocksModule.Domains;
 global using DevSync.PocPro.Shops.StocksModule.Domains.Enums;

@@ -40,7 +40,7 @@ public class Product : BaseEntity<ProductId>
         LowThresholdValue = lowThresholdValue;
     }
 
-    public Result<Guid> StockProduct(Supplier supplier, int quantityPurchased, int quantityLeftInStock, decimal costPrice, decimal sellingPrice,
+    public Result<Guid> StockProduct(Supplier supplier, PointOfSaleId pointOfSaleId, int quantityPurchased, int quantityLeftInStock, decimal costPrice, decimal sellingPrice,
         decimal taxRate, DateTimeOffset expirationDate)
     {
         if (DateTime.Now.Date > expirationDate.Date)
@@ -48,44 +48,52 @@ public class Product : BaseEntity<ProductId>
             return Result.Fail("This stock's products are expired");
         }
 
-        var newStock = new Stock(supplier, Id, quantityPurchased, quantityLeftInStock, costPrice, sellingPrice, taxRate,
+        var newStock = new Stock(
+            supplier, Id, pointOfSaleId, quantityPurchased, quantityLeftInStock, costPrice, sellingPrice, taxRate,
             expirationDate);
         
         _stocks.Add(newStock);
         return Result.Ok(newStock.Id.Value);
     }
 
-    public Result MakePurchase(int quantity)
+    public Result MakePurchase(int quantity, PointOfSaleId pointOfSaleId)
     {
-        if (_stocks.Count == 0)
+        var stocks = _stocks.Where(stock => stock.PointOfSaleId == pointOfSaleId).ToArray();
+        
+        if (stocks.Length == 0)
         {
-            return Result.Fail("There are no stocks for product");
+            return Result.Fail($"There are no stocks for product and given POS with Id {pointOfSaleId.Value}");
         }
 
-        if (!_stocks.Select(s => s.QuantityLeftInStock).Any())
+        if (!stocks.Select(s => s.QuantityLeftInStock).Any())
         {
             return Result.Fail("There are no products left to purchase from");
         }
-
-        var recentStock = _stocks.Last();
-        recentStock.MakePurchase(quantity);
+        
+        // make purchase on the latest stock
+        stocks.OrderBy(s => s.CreatedAt).Last().MakePurchase(quantity);
         
         return Result.Ok();
     }
 
-    public int TotalNumberLeftOnShelf()
+    public int TotalNumberLeftOnShelf(PointOfSaleId pointOfSaleId)
     {
-        return _stocks.Count > 0 ?  _stocks.Sum(s => s.QuantityLeftInStock) : 0;
+        var stocks = _stocks.Where(stock => stock.PointOfSaleId == pointOfSaleId).ToArray();
+        return stocks.Length > 0 ?  stocks.Sum(s => s.QuantityLeftInStock) : 0;
     }
 
-    public decimal CurrentSellingPrice()
+    public decimal CurrentSellingPrice(PointOfSaleId? pointOfSaleId = null)
     {
-        return _stocks.Count > 0 ? _stocks.OrderBy(s => s.CreatedAt).Last().SellingPerPrice : 0;
+        var stocks = pointOfSaleId == null 
+            ? _stocks.ToArray() 
+            : _stocks.Where(stock => stock.PointOfSaleId == pointOfSaleId).ToArray();
+        
+        return stocks.Length > 0 ? stocks.OrderBy(s => s.CreatedAt).Last().SellingPerPrice : 0;
     }
 
     public string Name { get; private set; } = string.Empty;
-    public string? Description { get; set; }
-    public int LowThresholdValue { get; set; }
+    public string? Description { get; private set; }
+    public int LowThresholdValue { get; private set; }
     public string? BarcodeNumber { get; private set; }
     public string? PhotoUrl { get; private set; }
     public CategoryId CategoryId { get; private set; }

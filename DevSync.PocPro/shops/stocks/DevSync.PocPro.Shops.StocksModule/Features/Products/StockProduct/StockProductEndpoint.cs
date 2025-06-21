@@ -40,6 +40,7 @@ public class StockProductEndpoint(IShopDbContext shopDbContext, IHttpContextAcce
 
         var result = product.StockProduct(
             supplier,
+            PointOfSaleId.Of(req.ProductId), 
             req.QuantityPurchased,
             req.QuantityPurchased,
             req.CostPerPrice,

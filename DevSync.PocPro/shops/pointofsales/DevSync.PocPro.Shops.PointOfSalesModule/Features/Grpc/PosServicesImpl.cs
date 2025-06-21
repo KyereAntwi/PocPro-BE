@@ -1,3 +1,4 @@
+using DevSync.PocPro.Shops.Shared.ValueObjects;
 using Grpc.Core;
 
 namespace DevSync.PocPro.Shops.PointOfSales.Features.Grpc;

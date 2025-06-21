@@ -9,7 +9,13 @@ public class StockConfigurations : IEntityTypeConfiguration<Stock>
         builder.Property(x => x.Id)
             .HasConversion(vehicleId => vehicleId.Value, dbId => StockId.Of(dbId));
         
-        builder.Property(a => a.ProductId).HasConversion(a => a.Value, dbId => ProductId.Of(dbId));
+        builder.Property(x => x.PointOfSaleId)
+            .IsRequired()
+            .HasConversion(posId => posId.Value, dbId => PointOfSaleId.Of(dbId));
+        
+        builder.Property(a => a.ProductId)
+            .IsRequired()
+            .HasConversion(a => a.Value, dbId => ProductId.Of(dbId));
         
         builder
             .HasOne(s => s.Supplier)

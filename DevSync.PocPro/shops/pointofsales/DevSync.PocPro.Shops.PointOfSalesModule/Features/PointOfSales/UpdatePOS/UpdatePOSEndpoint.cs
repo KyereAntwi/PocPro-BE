@@ -1,3 +1,5 @@
+using DevSync.PocPro.Shops.Shared.ValueObjects;
+
 namespace DevSync.PocPro.Shops.PointOfSales.Features.PointOfSales.UpdatePOS;
 
 public class UpdatePOSEndpoint (
