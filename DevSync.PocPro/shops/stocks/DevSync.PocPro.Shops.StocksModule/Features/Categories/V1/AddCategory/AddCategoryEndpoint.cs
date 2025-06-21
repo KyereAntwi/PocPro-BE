@@ -26,7 +26,7 @@ public class AddCategoryEndpoint(IShopDbContext shopDbContext, IHttpContextAcces
             return;
         }
         
-        var newCategory = Category.Create(req.Title, req.Description);
+        var newCategory = Category.Create(req.Title, req.Description, req.ImageUrl);
         await shopDbContext.Categories.AddAsync(newCategory, ct);
         await shopDbContext.SaveChangesAsync(ct);
         

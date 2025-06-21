@@ -29,7 +29,7 @@ public class UpdateCategoryEndpoint(
             return;
         }
         
-        existingCategory.Update(req.Title, req.Description, Enum.Parse<StatusType>(req.Status));
+        existingCategory.Update(req.Title, req.Description, Enum.Parse<StatusType>(req.Status), req.ImageUrl);
         shopDbContext.Categories.Update(existingCategory);
         await shopDbContext.SaveChangesAsync(ct);
         

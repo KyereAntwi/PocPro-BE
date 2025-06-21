@@ -17,4 +17,3 @@ public record POSResponse(
     string? CreatedBy,
     DateTimeOffset? UpdatedAt,
     string? UpdatedBy);
-public record GetManagerResponse(Guid Id, string UserId);

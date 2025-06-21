@@ -28,7 +28,8 @@ public class GetCategoryEndpoint(IShopDbContext shopDbContext)
                 category.Status.ToString() ?? StatusType.Active.ToString(), 
                 category.Id.Value, 
                 category.CreatedAt, 
-                category.UpdatedAt)
+                category.UpdatedAt,
+                category.ImageUrl ?? string.Empty)
             
         }, cancellation: ct);
     }

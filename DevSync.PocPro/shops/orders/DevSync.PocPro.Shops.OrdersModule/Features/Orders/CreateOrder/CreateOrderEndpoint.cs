@@ -24,15 +24,19 @@ public class CreateOrderEndpoint(
             OrderType.PurchaseOrder => await tenantServices.UserHasRequiredPermissionAsync(
                 PermissionType.MANAGE_PURCHASES, userId!),
             OrderType.SalesOrder => await tenantServices.UserHasRequiredPermissionAsync(
-                PermissionType.MANAGE_SALES,
-                userId!),
+                PermissionType.MANAGE_SALES, userId!),
             OrderType.OnlineOrder => true,
             _ => false
         };
 
         if (!hasPermission)
         {
-            await SendForbiddenAsync(ct);
+            await SendAsync(
+                new BaseResponse<Guid>("Permission Denied", false)
+                {
+                    Errors = ["You do not have required permission"]
+                },
+                StatusCodes.Status403Forbidden, ct);
             return;
         }
 
@@ -51,11 +55,16 @@ public class CreateOrderEndpoint(
         var attemptPurchaseRequest = 
             req.OrderItems.Select(item => new MakePurchaseOnProductsRequest(item.ProductId, item.Quantity)).ToList();
 
-        var attemptPurchaseOnProductsResult = await purchaseServices.MakePurchaseOnProducts(attemptPurchaseRequest);
+        var attemptPurchaseOnProductsResult = await purchaseServices.MakePurchaseOnProducts(attemptPurchaseRequest, ct);
 
         if (!attemptPurchaseOnProductsResult.IsSuccess)
         {
-            await SendErrorsAsync(StatusCodes.Status422UnprocessableEntity, ct);
+            await SendAsync(
+                new BaseResponse<Guid>("Order Failed", false)
+                {
+                    Errors = attemptPurchaseOnProductsResult.Errors.Select(e => e.Message)
+                },
+                StatusCodes.Status422UnprocessableEntity, ct);
             return;
         }
 
@@ -70,7 +79,10 @@ public class CreateOrderEndpoint(
 
         if (newOrder.IsFailed)
         {
-            await SendErrorsAsync(StatusCodes.Status400BadRequest, ct);
+            await SendAsync(new BaseResponse<Guid>("Bad Request", false)
+            {
+                Errors = newOrder.Errors.Select(e => e.Message)
+            },StatusCodes.Status400BadRequest, ct);
             return;
         }
 

@@ -13,10 +13,13 @@ public record GetProductDetailsResponseItem(
     int TotalNumberOfStocks,
     decimal Price,
     int NumberLeftOnShelf,
-    decimal ExpectedProfitAfterPurchasesOnProduct,
-    decimal ExpectedTotalProfitOnProduct,
     string Description,
-    int LowThresholdValue);
+    int LowThresholdValue)
+{
+    public IEnumerable<MediaItemResponse> ProductMedia { get; set; } = [];
+}
+
+public record MediaItemResponse(string Url, string MediaType);
 
 public record StockItem(
     Guid Id,

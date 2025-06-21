@@ -1,5 +1,3 @@
-using DevSync.PocPro.Shops.StocksModule.Features.Products.GetProductDetails;
-
 namespace DevSync.PocPro.Shops.StocksModule.Features.Products.AddProduct;
 
 public class AddProductEndpoint(
@@ -21,14 +19,14 @@ public class AddProductEndpoint(
             return;
         }
         
-        var photoUrl = string.Empty;
-        if (req.ImageFile != null)
+        var media = new List<ProductMedia>();
+        if (req.Media != null)
         {
-            //TODO: Upload the image to a storage service and get the URL
+            media.AddRange(req.Media.Select(item => new ProductMedia(Enum.Parse<ProductMediaType>(item.MediaType), item.Url)));
         }
 
         var product = Product.Create(
-            req.Name, req.BarcodeNumber!, photoUrl, CategoryId.Of(req.CategoryId), req.Description, req.LowThresholdValue);
+            req.Name, req.BarcodeNumber!, req.PhotoUrl ?? string.Empty, CategoryId.Of(req.CategoryId), req.Description, req.LowThresholdValue, media);
         await shopDbContext.Products.AddAsync(product, ct);
         await shopDbContext.SaveChangesAsync(ct);
         

@@ -38,7 +38,7 @@ public class Order : BaseEntity<OrderId>
             Type = orderType,
             OrderStatus = orderType == OrderType.OnlineOrder ? OrderStatus.Pending : OrderStatus.Delivered,
             PosSessionId = posSessionId == Guid.Empty ? null : SessionId.Of(posSessionId),
-            CustomerId = customerId == Guid.Empty ? null : CustomerId.Of(posSessionId),
+            CustomerId = customerId == Guid.Empty ? null : CustomerId.Of(customerId),
             PaymentMethod = paymentMethod ?? PaymentMethod.Cash,
             OrderNumber = OrderServices.GenerateOrderNumber(),
             CustomerName = customerName,

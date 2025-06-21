@@ -360,6 +360,26 @@
       }
     },
     {
+      "UpstreamPathTemplate": "/gateway/v1/pointofsales/{Id}/managers",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/v1/pointofsales/{Id}/managers",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 10,
+        "Limit": 3
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 60
+      }
+    },
+    {
       "UpstreamPathTemplate": "/gateway/v1/pointofsales/{Id}/sessions/active",
       "UpstreamHttpMethod": ["Get"],
       "DownstreamPathTemplate": "/api/v1/pointofsales/{Id}/sessions/active",

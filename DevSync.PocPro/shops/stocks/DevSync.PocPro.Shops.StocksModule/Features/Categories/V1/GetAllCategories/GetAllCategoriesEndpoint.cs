@@ -19,7 +19,8 @@ public class GetAllCategoriesEndpoint(IShopDbContext shopDbContext)
                     c.Status.ToString() ?? StatusType.Active.ToString(), 
                     c.Id.Value, 
                     c.CreatedAt, 
-                    c.UpdatedAt))
+                    c.UpdatedAt,
+                    c.ImageUrl ?? string.Empty))
             .AsNoTracking()
             .ToListAsync(cancellationToken: ct);
         

@@ -16,6 +16,11 @@ public class ProductConfigurations : IEntityTypeConfiguration<Product>
             .WithOne()
             .HasForeignKey(f => f.ProductId);
         
+        builder
+            .HasMany(v => v.Media)
+            .WithOne()
+            .HasForeignKey(f => f.ProductId);
+        
         builder.Property(t => t.Status)
             .HasConversion(t => t.ToString(),
                 dbType => Enum.Parse<StatusType>(dbType!));

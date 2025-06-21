@@ -4,8 +4,12 @@ public class Product : BaseEntity<ProductId>
 {
     private readonly Collection<Stock> _stocks = [];
     public IReadOnlyCollection<Stock> Stocks => _stocks;
+
+    private readonly Collection<ProductMedia> _media = [];
+    public IReadOnlyCollection<ProductMedia> Media => _media;
     
-    public static Product Create(string name, string barcodeNumber, string photoUrl, CategoryId categoryId, string? description, int lowThresholdValue)
+    public static Product Create(
+        string name, string barcodeNumber, string photoUrl, CategoryId categoryId, string? description, int lowThresholdValue, IEnumerable<ProductMedia> media)
     {
         var product = new Product
         {
@@ -18,6 +22,11 @@ public class Product : BaseEntity<ProductId>
             LowThresholdValue = lowThresholdValue
         };
         
+        foreach (var item in media)
+        {
+            product._media.Add(item);
+        }
+
         return product;
     }
 
@@ -62,27 +71,6 @@ public class Product : BaseEntity<ProductId>
         recentStock.MakePurchase(quantity);
         
         return Result.Ok();
-    }
-
-    public decimal ExpectedProfitAfterPurchasesOnProduct()
-    {
-        return _stocks.Count <= 0 ? 0 : 
-            (from stock in _stocks 
-                let capital = stock.QuantityPurchased * stock.CostPerPrice 
-                let totalInPurchase = (stock.QuantityPurchased - stock.QuantityLeftInStock) * stock.SellingPerPrice 
-                select (totalInPurchase - capital))
-            .Sum();
-    }
-
-    public decimal ExpectedTotalProfitOnProduct()
-    {
-        return _stocks.Count <= 0
-            ? 0
-            : (from stock in _stocks
-                let capital = stock.QuantityPurchased * stock.CostPerPrice
-                let totalInPurchase = stock.QuantityPurchased * stock.SellingPerPrice
-                select (totalInPurchase - capital))
-            .Sum();
     }
 
     public int TotalNumberLeftOnShelf()

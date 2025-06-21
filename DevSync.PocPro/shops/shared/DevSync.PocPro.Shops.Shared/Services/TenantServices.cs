@@ -47,6 +47,35 @@ public class TenantServices(
         }
     }
 
+    public async Task<Tenant?> GetTenantByIdentifierAsync(string identifier)
+    {
+        try
+        {
+            var url = $"{tenantServiceSettings.BaseUrl}/api/v1/accounts/tenants/byidentifier/{identifier}";
+
+            var response = await _retryPolicy.ExecuteAsync(() =>
+            {
+                var request = new HttpRequestMessage(HttpMethod.Get, url);
+                AddAuthorizationHeader(request);
+                return httpClient.SendAsync(request);
+            });
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                logger.LogError("Tenant not found for user with Identifier {UserId}: {StatusCode}", identifier, response.StatusCode);
+                throw new Exception("Tenant or User not found");
+            }
+            var data = await response.Content.ReadFromJsonAsync<BaseResponse<TenantDto>>();
+            var tenantDto = data!.Data;
+            return tenantDto != null ? new Tenant(tenantDto.ConnectionString, identifier, tenantDto.SubscriptionType) : null;
+        }
+        catch (Exception e)
+        {
+            logger.LogError("Error fetching tenant details for user with {UserId}: {Message}", identifier, e.Message);
+            throw new Exception("Error fetching tenant details", e);
+        }
+    }
+
     public async Task<IEnumerable<Tenant>> GetAllTenantsAsync()
     {
         try
