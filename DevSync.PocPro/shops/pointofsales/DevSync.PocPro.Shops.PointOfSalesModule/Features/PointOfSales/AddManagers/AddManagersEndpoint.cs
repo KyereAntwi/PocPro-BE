@@ -2,7 +2,7 @@ namespace DevSync.PocPro.Shops.PointOfSales.Features.PointOfSales.AddManagers;
 
 public class AddManagersEndpoint (
     IPOSDbContext posDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices)
-    : Endpoint<AddManagersRequest>
+    : Endpoint<AddManagersRequest, BaseResponse<Guid>>
 {
     public override void Configure()
     {
@@ -16,7 +16,11 @@ public class AddManagersEndpoint (
         
         if (!hasRequiredPermission)
         {
-            await SendForbiddenAsync(ct);
+            await SendAsync(new BaseResponse<Guid>("Permission Denied", false)
+                {
+                    Errors = ["You do not have required permission"]
+                }, 
+                StatusCodes.Status403Forbidden, ct);
             return;
         }
         
@@ -27,7 +31,12 @@ public class AddManagersEndpoint (
 
         if (pos is null)
         {
-            await SendNotFoundAsync(ct);
+            await SendAsync(
+                new BaseResponse<Guid>("Not Found", false)
+                {
+                    Errors = [$"POS with Id {req.Id} was not found"]
+                }, 
+                StatusCodes.Status404NotFound, ct);
             return;
         }
 

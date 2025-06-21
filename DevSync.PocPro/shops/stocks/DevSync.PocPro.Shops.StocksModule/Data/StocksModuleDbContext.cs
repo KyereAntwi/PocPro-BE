@@ -34,15 +34,29 @@ public class StocksModuleDbContext : DbContext, IShopDbContext
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var userId = _httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
-        if (string.IsNullOrEmpty(userId)) throw new BadRequestException("Missing User id from the request headers.");
+        var userId = _httpContextAccessor
+            .HttpContext!.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         
-        var tenant = _tenantServices.GetTenantByUserIdAsync(userId).Result;
+        var tenantIdentifier = _httpContextAccessor.HttpContext!.Request.Headers["X-Tenant-Identifier"].FirstOrDefault();
+        
+        if (string.IsNullOrEmpty(userId) && string.IsNullOrWhiteSpace(tenantIdentifier)) 
+            throw new BadRequestException("Missing User id or identifier from the request headers.");
 
-        if (tenant == null) throw new BadRequestException("Invalid Tenant from the request headers.");
-            
-        optionsBuilder.UseNpgsql(tenant.ConnectionString);
+        Tenant? tenant = null;
+
+        if (!string.IsNullOrWhiteSpace(userId))
+        {
+            tenant = _tenantServices.GetTenantByUserIdAsync(userId).Result!;
+            if (tenant == null) throw new BadRequestException("Invalid Tenant from the request headers.");
+        }
+        
+        if (!string.IsNullOrWhiteSpace(tenantIdentifier))
+        {
+            tenant = _tenantServices.GetTenantByIdentifierAsync(tenantIdentifier).Result!;
+            if (tenant == null) throw new BadRequestException("Invalid Tenant from the request headers.");
+        }
+        
+        optionsBuilder.UseNpgsql(tenant!.ConnectionString);
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -56,4 +70,5 @@ public class StocksModuleDbContext : DbContext, IShopDbContext
     public DbSet<Supplier> Suppliers => Set<Supplier>();
     public DbSet<Contact> Contacts => Set<Contact>();
     public DbSet<Category> Categories => Set<Category>();
+    public DbSet<ProductMedia> ProductMedias => Set<ProductMedia>();
 }

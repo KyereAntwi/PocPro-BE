@@ -1,5 +1,3 @@
-using DevSync.PocPro.Shops.StocksModule.Features.Products.GetProductDetails;
-
 namespace DevSync.PocPro.Shops.StocksModule.Features.Products.GetStocksByProductId;
 
 public class GetStocksByProductIdEndpoint(IShopDbContext shopDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 

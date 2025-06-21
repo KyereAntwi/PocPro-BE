@@ -4,6 +4,7 @@ public interface IPOSDbContext
 {
     DbSet<Session> Sessions { get; }
     DbSet<PointOfSale> PointOfSales { get; }
+    DbSet<PointOfSaleManager> PointOfSaleManagers { get; }
     
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

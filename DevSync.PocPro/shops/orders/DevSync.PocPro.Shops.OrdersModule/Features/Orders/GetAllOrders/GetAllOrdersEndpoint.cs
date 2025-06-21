@@ -21,7 +21,11 @@ public class GetAllOrdersEndpoint(
 
         if (!hasRequiredPermission)
         {
-            await SendForbiddenAsync(ct);
+            await SendAsync(
+                new BaseResponse<PagedResponse<OrdersResponse>>("Permission Denied", false)
+                {
+                    Errors = ["You do not have required permission"]
+                }, StatusCodes.Status403Forbidden, ct);
             return;
         }
 
@@ -29,7 +33,7 @@ public class GetAllOrdersEndpoint(
 
         orderQuery = FilterOrderList(req, orderQuery);
         
-        var totalCount = await orderModuleDbContext.Orders.CountAsync(ct);
+        var totalCount = await orderQuery.LongCountAsync(ct);
         var pagedList = await orderQuery
             .Select(order => new OrdersResponse(
                 order.Id.Value,
@@ -61,14 +65,14 @@ public class GetAllOrdersEndpoint(
             orderQuery = orderQuery.Where(order => order.Type == type);
         }
 
-        if (req.CustomerId.HasValue)
+        if (!string.IsNullOrWhiteSpace(req.Customer))
         {
-            orderQuery = orderQuery.Where(order => order.CustomerId == CustomerId.Of(req.CustomerId.Value));
+            orderQuery = orderQuery.Where(order => order.CustomerId == CustomerId.Of(Guid.Parse(req.Customer)));
         }
 
-        if (req.PosSessionId.HasValue)
+        if (!string.IsNullOrWhiteSpace(req.PosSession))
         {
-            orderQuery = orderQuery.Where(order => order.PosSessionId == SessionId.Of(req.PosSessionId.Value));
+            orderQuery = orderQuery.Where(order => order.PosSessionId == SessionId.Of(Guid.Parse(req.PosSession)));
         }
 
         if (!string.IsNullOrWhiteSpace(req.CreatedFrom))

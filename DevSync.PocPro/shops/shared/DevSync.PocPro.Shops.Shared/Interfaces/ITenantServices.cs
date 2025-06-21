@@ -5,6 +5,7 @@ namespace DevSync.PocPro.Shops.Shared.Interfaces;
 public interface ITenantServices
 {
     Task<Tenant?> GetTenantByUserIdAsync(string userId);
+    Task<Tenant?> GetTenantByIdentifierAsync(string identifier);
     Task<IEnumerable<Tenant>> GetAllTenantsAsync();
     Task<bool> UserHasRequiredPermissionAsync(PermissionType permissionType, string userId);
 }

@@ -21,37 +21,41 @@ public class GetOrderEndpoint (
 
         if (!hasRequiredPermission)
         {
-            await SendForbiddenAsync(ct);
+            await SendAsync(new BaseResponse<GetOrderResponse>("Permission Denied", false)
+            {
+                Errors = ["You do not have required permission"]
+            }, StatusCodes.Status403Forbidden, ct);
             return;
         }
-        
-        var order = await orderModuleDbContext
+
+        GetOrderResponse? order = order = await orderModuleDbContext
             .Orders
-            .Select(order => new GetOrderResponse(
-                order.Id.Value,
-                order.OrderItems.Select(item => 
+            .Where(o => o.Id == OrderId.Of(req.Id))
+            .Select(o => new GetOrderResponse(
+                o.Id.Value,
+                o.OrderItems.Select(item =>
                     new OrderItemDto(
-                        item.Id.Value, 
+                        item.Id.Value,
                         item.ProductId,
                         item.Quantity)),
-                order.Type.ToString(),
-                order.OrderStatus.ToString(),
-                order.Status.ToString() ?? StatusType.Active.ToString(),
-                order.OrderNumber,
-                order.ShippingAddress == null ? null : new ShippingAddressDto(
-                    order.ShippingAddress.ContactName,
-                    order.ShippingAddress.ContactPhone,
-                    order.ShippingAddress.Address1,
-                    order.ShippingAddress.Address2,
-                    order.ShippingAddress.City,
-                    order.ShippingAddress.Region.ToString()),
-                order.PosSessionId!.Value,
-                order.CustomerId!.Value,
-                order.CreatedAt,
-                order.UpdatedAt,
-                order.CreatedBy ?? string.Empty))
+                o.Type.ToString(),
+                o.OrderStatus.ToString(),
+                o.Status.ToString() ?? StatusType.Active.ToString(),
+                o.OrderNumber,
+                o.ShippingAddress == null ? null : new ShippingAddressDto(
+                    o.ShippingAddress.ContactName,
+                    o.ShippingAddress.ContactPhone,
+                    o.ShippingAddress.Address1,
+                    o.ShippingAddress.Address2 ?? string.Empty,
+                    o.ShippingAddress.City ?? string.Empty,
+                    o.ShippingAddress.Region.ToString() ?? string.Empty),
+                o.PosSessionId == null ? null : o.PosSessionId.Value,
+                o.CustomerId == null ? null : o.CustomerId.Value,
+                o.CreatedAt,
+                o.UpdatedAt,
+                o.CreatedBy ?? string.Empty))
             .AsNoTracking()
-            .FirstOrDefaultAsync(order => order.Id == req.Id, ct);
+            .FirstOrDefaultAsync(ct);
 
         if (order is null)
         {
