@@ -7,7 +7,8 @@ public record CreateOrderRequest(
     string OrderType,
     string PosSessionId,
     string CustomerId,
-    double AmountReceived);
+    double AmountReceived,
+    Guid PosId);
 
 public record OrderItemRequest(Guid ProductId, int Quantity);
 

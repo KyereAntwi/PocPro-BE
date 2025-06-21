@@ -30,6 +30,7 @@ public class GetStockDetailsEndpoint(
                         s.CostPerPrice,
                         s.SellingPerPrice,
                         s.TaxRate,
+                        s.PointOfSaleId.Value,
                         s.ExpiresAt)
                     {
                         Supplier = new SupplierItem(s.Supplier.Id.Value, s.Supplier.Title, s.Supplier.Email ?? string.Empty)

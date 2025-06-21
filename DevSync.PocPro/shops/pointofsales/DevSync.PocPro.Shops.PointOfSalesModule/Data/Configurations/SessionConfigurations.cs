@@ -1,4 +1,5 @@
 using DevSync.PocPro.Shared.Domain.ValueObjects;
+using DevSync.PocPro.Shops.Shared.ValueObjects;
 
 namespace DevSync.PocPro.Shops.PointOfSales.Data.Configurations;
 

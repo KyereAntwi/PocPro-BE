@@ -1,3 +1,5 @@
+using DevSync.PocPro.Shops.Shared.ValueObjects;
+
 namespace DevSync.PocPro.Shops.PointOfSales.Domains;
 
 public class PointOfSaleManager : BaseEntity<PosManagerId>

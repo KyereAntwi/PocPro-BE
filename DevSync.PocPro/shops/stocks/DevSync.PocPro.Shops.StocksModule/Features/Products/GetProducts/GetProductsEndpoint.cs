@@ -15,15 +15,20 @@ public class GetProductsEndpoint(IShopDbContext shopDbContext)
             .Include(p => p.Stocks)
             .AsSplitQuery()
             .AsNoTracking();
+
+        if (!string.IsNullOrWhiteSpace(req.Pos))
+        {
+            query = query.Where(x => x.Stocks.Any(s => s.PointOfSaleId == PointOfSaleId.Of(Guid.Parse(req.Pos))));
+        }
         
         if (!string.IsNullOrWhiteSpace(req.SearchText))
         {
             query = query.Where(x => x.Name.Contains(req.SearchText));
         }
         
-        if (req.CategoryId != Guid.Empty)
+        if (!string.IsNullOrWhiteSpace(req.Category))
         {
-            query = query.Where(x => x.CategoryId == CategoryId.Of(req.CategoryId));
+            query = query.Where(x => x.CategoryId == CategoryId.Of(Guid.Parse(req.Category)));
         }
         
         var totalCount = await query.LongCountAsync(ct);
@@ -39,9 +44,8 @@ public class GetProductsEndpoint(IShopDbContext shopDbContext)
             await query.Select(x => new GetProductsResponseItem(
                 x.Id.Value,
                 x.Name,
-                x.CurrentSellingPrice(),
+                x.CurrentSellingPrice(string.IsNullOrWhiteSpace(req.Pos) ? null : PointOfSaleId.Of(Guid.Parse(req.Pos))),
                 x.PhotoUrl,
-                x.TotalNumberLeftOnShelf(),
                 x.CategoryId.Value,
                 x.Description ?? string.Empty,
                 x.LowThresholdValue

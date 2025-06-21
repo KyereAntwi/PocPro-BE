@@ -4,7 +4,9 @@ public class Stock : BaseEntity<StockId>
 {
     private Stock() {}
 
-    internal Stock(Supplier supplier, ProductId productId, int quantityPurchased, int quantityLeftInStock, decimal costPrice, decimal sellingPerPrice, decimal taxRate, DateTimeOffset expirationDate)
+    internal Stock(
+        Supplier supplier, ProductId productId, PointOfSaleId pointOfSaleId, int quantityPurchased, int quantityLeftInStock, 
+        decimal costPrice, decimal sellingPerPrice, decimal taxRate, DateTimeOffset expirationDate)
     {
         Id = StockId.Of(Guid.CreateVersion7());
         ProductId = productId;
@@ -15,6 +17,7 @@ public class Stock : BaseEntity<StockId>
         TaxRate = taxRate;
         ExpiresAt = expirationDate;
         Supplier = supplier;
+        PointOfSaleId = pointOfSaleId;
     }
 
     internal void MakePurchase(int quantity)
@@ -30,4 +33,5 @@ public class Stock : BaseEntity<StockId>
     public decimal TaxRate { get; private set; }
     public decimal SellingPerPrice { get; private set; }
     public DateTimeOffset ExpiresAt { get; private set; }
+    public PointOfSaleId PointOfSaleId { get; private set; }
 }

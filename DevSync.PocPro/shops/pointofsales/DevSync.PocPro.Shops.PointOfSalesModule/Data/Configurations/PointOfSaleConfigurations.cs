@@ -1,3 +1,5 @@
+using DevSync.PocPro.Shops.Shared.ValueObjects;
+
 namespace DevSync.PocPro.Shops.PointOfSales.Data.Configurations;
 
 public class PointOfSaleConfigurations : IEntityTypeConfiguration<PointOfSale>

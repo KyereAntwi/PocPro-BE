@@ -1,4 +1,5 @@
 using DevSync.PocPro.Shops.Shared.Interfaces;
+using FluentValidation;
 
 namespace DevSync.PocPro.Shops.OrdersModule.Features.Orders.CreateOrder;
 
@@ -53,7 +54,7 @@ public class CreateOrderEndpoint(
         ) : null;
 
         var attemptPurchaseRequest = 
-            req.OrderItems.Select(item => new MakePurchaseOnProductsRequest(item.ProductId, item.Quantity)).ToList();
+            req.OrderItems.Select(item => new MakePurchaseOnProductsRequest(item.ProductId, item.Quantity, req.PosId)).ToList();
 
         var attemptPurchaseOnProductsResult = await purchaseServices.MakePurchaseOnProducts(attemptPurchaseRequest, ct);
 
@@ -96,5 +97,41 @@ public class CreateOrderEndpoint(
         {
             Data = newOrder.Value.Id.Value
         }, cancellation: ct);
+    }
+}
+
+public class CreateOrderRequestValidator: Validator<CreateOrderRequest>
+{
+    public CreateOrderRequestValidator()
+    {
+        RuleFor(x => x.OrderType)
+            .Must(x => Enum.TryParse<OrderType>(x, true, out _))
+            .WithMessage("Order type must be a valid type");
+
+        RuleFor(x => x.PaymentMethod)
+            .Must(x => Enum.TryParse<PaymentMethod>(x, true, out _))
+            .WithMessage("Payment must be a valid Payment method");
+
+        RuleFor(x => x.PosId)
+            .NotEmpty().WithMessage("Pos Id is required")
+            .NotNull();
+
+        RuleFor(x => x.OrderItems)
+            .Must(list => list == null || list.All(item => item.ProductId != Guid.Empty && item.Quantity > 0))
+            .WithMessage("There should be at least 1 Order Item with Quantity above 0");
+        
+        RuleFor(x => x.ShippingAddress)
+            .Cascade(CascadeMode.Stop)
+            .Must((request, address) =>
+            {
+                if (Enum.TryParse<OrderType>(request.OrderType, true, out var orderType) && orderType == OrderType.OnlineOrder)
+                {
+                    return address != null
+                           && !string.IsNullOrWhiteSpace(address.FullName)
+                           && !string.IsNullOrWhiteSpace(address.PhoneNumber)
+                           && !string.IsNullOrWhiteSpace(address.AddressLine1);
+                }
+                return true;
+            }).WithMessage("FullName, PhoneNumber, and AddressLine1 are required for OnlineOrder.");
     }
 }

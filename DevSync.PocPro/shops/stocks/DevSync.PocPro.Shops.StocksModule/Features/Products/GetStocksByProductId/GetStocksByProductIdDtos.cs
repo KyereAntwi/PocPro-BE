@@ -2,5 +2,6 @@ namespace DevSync.PocPro.Shops.StocksModule.Features.Products.GetStocksByProduct
 
 public record GetStocksByProductIdRequest(
     [FromRoute] Guid ProductId,
+    string Pos = "",
     int Page = 1,
     int PageSize = 20);

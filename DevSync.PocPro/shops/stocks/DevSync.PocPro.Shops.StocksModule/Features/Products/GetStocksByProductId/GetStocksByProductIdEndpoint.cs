@@ -19,6 +19,11 @@ public class GetStocksByProductIdEndpoint(IShopDbContext shopDbContext, IHttpCon
         
         var query = shopDbContext.Stocks.AsNoTracking();
 
+        if (!string.IsNullOrWhiteSpace(req.Pos))
+        {
+            query = query.Where(s => s.PointOfSaleId == PointOfSaleId.Of(Guid.Parse(req.Pos)));
+        }
+
         var totalCount = await query.LongCountAsync(ct);
         
         query = query
@@ -37,6 +42,7 @@ public class GetStocksByProductIdEndpoint(IShopDbContext shopDbContext, IHttpCon
                 s.CostPerPrice,
                 s.SellingPerPrice,
                 s.TaxRate,
+                s.PointOfSaleId.Value,
                 s.ExpiresAt))
                 .ToArrayAsync(ct));
         

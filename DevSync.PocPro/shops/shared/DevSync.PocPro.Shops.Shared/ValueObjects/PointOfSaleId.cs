@@ -1,4 +1,4 @@
-namespace DevSync.PocPro.Shops.PointOfSales.Domains.ValueObjects;
+namespace DevSync.PocPro.Shops.Shared.ValueObjects;
 
 public record PointOfSaleId
 {
