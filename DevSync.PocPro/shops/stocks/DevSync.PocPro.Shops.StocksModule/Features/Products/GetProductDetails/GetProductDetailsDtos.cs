@@ -6,7 +6,7 @@ public record GetProductDetailsResponseItem(
     Guid Id,
     string Name,
     string Barcode,
-    string ImageUrl,
+    string photoUrl,
     DateTimeOffset? CreatedAt,
     DateTimeOffset? UpdatedAt,
     Guid? CategoryId,

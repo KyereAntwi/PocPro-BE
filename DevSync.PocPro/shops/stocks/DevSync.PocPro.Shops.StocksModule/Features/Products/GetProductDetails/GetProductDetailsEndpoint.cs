@@ -13,7 +13,6 @@ public class GetProductDetailsEndpoint(IShopDbContext shopDbContext)
         var productWithStocks = await shopDbContext
             .Products
             .Include(p => p.Stocks)
-            .Include(p => p.Media)
             .Where(p => p.Id == ProductId.Of(req.ProductId))
             .Select(p => new
             {
@@ -28,7 +27,7 @@ public class GetProductDetailsEndpoint(IShopDbContext shopDbContext)
                     p.Description ?? string.Empty,
                     p.LowThresholdValue)
                 {
-                    ProductMedia = p.Media.Select(m => new MediaItemResponse(m.Url, m.MediaType.ToString())),
+                    //ProductMedia = p.Media.Select(m => new MediaItemResponse(m.Url, m.MediaType.ToString())),
                     Price = p.CurrentSellingPrice(null)
                 }
             })
