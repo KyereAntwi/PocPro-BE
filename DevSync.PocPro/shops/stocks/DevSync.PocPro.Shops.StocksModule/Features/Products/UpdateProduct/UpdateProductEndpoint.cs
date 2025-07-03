@@ -26,17 +26,11 @@ public class UpdateProductEndpoint (
             await SendNotFoundAsync(ct);
             return;
         }
-        
-        var photoUrl = string.Empty;
-        if (req.ImageFile != null)
-        {
-            //TODO: Upload the image to a storage service and get the URL
-        }
 
         existingProduct.Update(
             name: req.Name,
             barcodeNumber: req.BarcodeNumber ?? existingProduct.BarcodeNumber ?? string.Empty,
-            photoUrl: photoUrl,
+            photoUrl: req.PhotoUrl ?? string.Empty,
             categoryId: CategoryId.Of(req.CategoryId),
             description: req.Description,
             lowThresholdValue: req.LowThresholdValue);

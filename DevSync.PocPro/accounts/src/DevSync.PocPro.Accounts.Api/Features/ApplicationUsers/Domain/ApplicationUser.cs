@@ -60,47 +60,8 @@ public class ApplicationUser : BaseEntity<ApplicationUserId>
         
         foreach (var permission in permissions)
         {
-            // if (_permissions.Contains(permission))
-            // {
-            //     return Result.Fail($"User already has this permission. {permission.PermissionType}");
-            // }
-
             _permissions.Add(permission);
         }
-
-        // switch (type)
-        // {
-        //     case "Add":
-        //     {
-        //         foreach (var permission in permissions)
-        //         {
-        //             if (_permissions.Contains(permission))
-        //             {
-        //                 return Result.Fail($"User already has this permission. {permission.PermissionType}");
-        //             }
-        //
-        //             _permissions.Add(permission);
-        //         }
-        //
-        //         break;
-        //     }
-        //     case "Remove":
-        //     {
-        //         foreach (var permission in permissions)
-        //         {
-        //             if (!_permissions.Contains(permission))
-        //             {
-        //                 return Result.Fail($"User does not have this permission. {permission.PermissionType}");
-        //             }
-        //
-        //             _permissions.Remove(permission);
-        //         }
-        //
-        //         break;
-        //     }
-        //     default:
-        //         return Result.Fail("Invalid operation type");
-        // }
         
         return Result.Ok();
     }

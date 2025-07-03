@@ -4,7 +4,7 @@ public record UpdateProductRequest(
     [FromRoute] Guid ProductId,
     string Name,
     string? BarcodeNumber,
-    IFormFile? ImageFile,
+    string? PhotoUrl,
     Guid CategoryId,
     string? Description,
     int LowThresholdValue);
