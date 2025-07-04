@@ -18,6 +18,7 @@ global using DevSync.PocPro.Shops.StocksModule.Domains.Interfaces;
 global using DevSync.PocPro.Shops.StocksModule.Domains.ValueObjects;
 global using DevSync.PocPro.Shops.StocksModule.Features.Categories.V1.GetCategory;
 global using DevSync.PocPro.Shops.StocksModule.Features.Products.GetProductDetails;
+global using DevSync.PocPro.Shops.StocksModule.Features.Products.GetProducts;
 global using DevSync.PocPro.Shops.StocksModule.Features.Suppliers.V1.GetSupplier;
 global using FastEndpoints;
 global using FluentResults;

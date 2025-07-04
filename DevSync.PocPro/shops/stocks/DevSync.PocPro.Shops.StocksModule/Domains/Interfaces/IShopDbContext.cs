@@ -7,6 +7,7 @@ public interface IShopDbContext
     DbSet<Product> Products { get; }
     DbSet<Stock> Stocks { get; }
     DbSet<Supplier> Suppliers { get; }
+    DbSet<Brand> Brands { get; }
     
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

@@ -18,7 +18,8 @@ public record GetProductsResponseItem(
     string? PhotoUrl,
     Guid CategoryId,
     string Description,
-    int LowThresholdValue
+    int LowThresholdValue,
+    Guid? BrandId
 )
 {
     public GetCategoryResponse? Category { get; set; }

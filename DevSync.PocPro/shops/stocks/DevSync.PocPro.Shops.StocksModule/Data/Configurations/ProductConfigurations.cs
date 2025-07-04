@@ -11,6 +11,10 @@ public class ProductConfigurations : IEntityTypeConfiguration<Product>
         builder.Property(x => x.CategoryId)
             .HasConversion(categoryId => categoryId.Value, dbId => CategoryId.Of(dbId));
         
+        builder.Property(x => x.BrandId)
+            .IsRequired(false)
+            .HasConversion(brandId => brandId!.Value, dbId => BrandId.Of(dbId));
+        
         builder
             .HasMany(v => v.Stocks)
             .WithOne()

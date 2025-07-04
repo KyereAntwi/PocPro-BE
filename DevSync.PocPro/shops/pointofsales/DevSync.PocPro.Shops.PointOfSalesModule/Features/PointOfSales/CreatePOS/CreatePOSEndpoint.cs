@@ -24,7 +24,8 @@ public class CreatePOSEndpoint(
             req.Title, 
             req.Phone ?? string.Empty, 
             req.Address ?? string.Empty, 
-            req.Email ?? string.Empty);
+            req.Email ?? string.Empty,
+            req.OnlineEnabled ?? false);
         
         await posDbContext.PointOfSales.AddAsync(newPOS, ct);
         await posDbContext.SaveChangesAsync(ct);

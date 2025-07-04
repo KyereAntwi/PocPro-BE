@@ -22,5 +22,8 @@ public class PointOfSaleConfigurations : IEntityTypeConfiguration<PointOfSale>
         builder.Property(t => t.Status)
             .HasConversion(t => t.ToString(),
                 dbType => Enum.Parse<StatusType>(dbType!));
+        
+        builder.Property(t => t.OnlineEnabled)
+            .HasDefaultValue(false);
     }
 }

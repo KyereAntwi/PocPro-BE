@@ -13,6 +13,7 @@ public record POSResponse(
     string Email,
     string Address,
     string Phone,
+    bool OnlineEnabled,
     DateTimeOffset? CreatedAt,
     string? CreatedBy,
     DateTimeOffset? UpdatedAt,

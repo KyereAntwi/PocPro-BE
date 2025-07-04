@@ -36,7 +36,8 @@ public class UpdatePOSEndpoint (
             req.Phone ?? pos.Phone ?? string.Empty, 
             req.Address ?? pos.Address ?? string.Empty, 
             req.Email ?? pos.Email ?? string.Empty,
-            !string.IsNullOrWhiteSpace(req.Status) ? Enum.Parse<StatusType>(req.Status!) : pos.Status);
+            !string.IsNullOrWhiteSpace(req.Status) ? Enum.Parse<StatusType>(req.Status!) : pos.Status,
+            req.OnlineEnabled ?? pos.OnlineEnabled);
         
         await posDbContext.SaveChangesAsync(ct);
         
