@@ -10,4 +10,5 @@ public record UpdatePOSDto
     public string Address { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
     public string? Status { get; set; }
+    public bool? OnlineEnabled { get; set; }
 }

@@ -71,4 +71,5 @@ public class StocksModuleDbContext : DbContext, IShopDbContext
     public DbSet<Contact> Contacts => Set<Contact>();
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<ProductMedia> ProductMedias => Set<ProductMedia>();
+    public DbSet<Brand> Brands => Set<Brand>();
 }

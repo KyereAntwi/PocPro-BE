@@ -11,7 +11,7 @@ public class PointOfSale : BaseEntity<PointOfSaleId>
     private readonly Collection<PointOfSaleManager> _managers = [];
     public IReadOnlyCollection<PointOfSaleManager> Managers => _managers;
     
-    public static PointOfSale Create(string title, string phone, string address, string email)
+    public static PointOfSale Create(string title, string phone, string address, string email, bool onlineEnabled  = false)
     {
         var pos = new PointOfSale
         {
@@ -19,19 +19,21 @@ public class PointOfSale : BaseEntity<PointOfSaleId>
             Title = title,
             Phone = phone,
             Address = address,
-            Email = email
+            Email = email,
+            OnlineEnabled = onlineEnabled,
         };
 
         return pos;
     }
     
-    public void Update(string title, string phone, string address, string email, StatusType? status)
+    public void Update(string title, string phone, string address, string email, StatusType? status, bool onlineEnabled = false)
     {
         Title = title;
         Phone = phone;
         Address = address;
         Email = email;
         Status = status;
+        OnlineEnabled = onlineEnabled;
     }
 
     public Result<Guid> StartSession(double openingCash)
@@ -102,4 +104,5 @@ public class PointOfSale : BaseEntity<PointOfSaleId>
     public string? Email { get; private set; }
     public string? Address { get; private set; }
     public string? Phone { get; private set; }
+    public bool OnlineEnabled { get; private set; }
 }

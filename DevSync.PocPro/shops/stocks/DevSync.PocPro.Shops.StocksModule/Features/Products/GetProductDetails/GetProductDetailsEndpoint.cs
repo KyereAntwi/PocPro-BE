@@ -6,6 +6,7 @@ public class GetProductDetailsEndpoint(IShopDbContext shopDbContext)
     public override void Configure()
     {
         Get("/api/v1/products/{ProductId}");
+        AllowAnonymous();
     }
 
     public override async Task HandleAsync(GetProductDetailsRequest req, CancellationToken ct)

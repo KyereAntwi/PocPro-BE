@@ -29,6 +29,7 @@ public class GetPOSEndpoint(
                     x.Email ?? string.Empty,
                     x.Address ?? string.Empty,
                     x.Phone ?? string.Empty,
+                    x.OnlineEnabled,
                     x.CreatedAt,
                     x.CreatedBy,
                     x.UpdatedAt,

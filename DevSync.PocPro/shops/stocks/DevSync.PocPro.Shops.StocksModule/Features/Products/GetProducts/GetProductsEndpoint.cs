@@ -48,7 +48,8 @@ public class GetProductsEndpoint(IShopDbContext shopDbContext)
                 x.PhotoUrl,
                 x.CategoryId.Value,
                 x.Description ?? string.Empty,
-                x.LowThresholdValue
+                x.LowThresholdValue,
+                x.BrandId != null ? x.BrandId.Value : null
             )).ToArrayAsync(ct)
         );
 

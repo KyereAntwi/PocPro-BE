@@ -108,6 +108,26 @@
       }
     },
     {
+      "UpstreamPathTemplate": "/gateway/v1/accounts/tenants/byidentifier/{Identifier}",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/v1/accounts/tenants/byidentifier/{Identifier}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncaccountsapi-ccguashuc8a5gpfs.uksouth-01.azurewebsites.net"
+        }
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 10,
+        "Limit": 3
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 60
+      }
+    },
+    {
       "UpstreamPathTemplate": "/gateway/v1/accounts/tenants/check-existing-unique-identifier/{UniqueIdentifier}",
       "UpstreamHttpMethod": ["Get"],
       "DownstreamPathTemplate": "/api/v1/accounts/tenants/check-existing-unique-identifier/{UniqueIdentifier}",
@@ -225,6 +245,20 @@
       "UpstreamPathTemplate": "/gateway/v1/products",
       "UpstreamHttpMethod": ["Get"],
       "DownstreamPathTemplate": "/api/v1/products",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 60
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/v1/online-products",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/v1/products/for-online-site",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {

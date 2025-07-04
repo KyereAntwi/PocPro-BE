@@ -97,4 +97,5 @@ public class Product : BaseEntity<ProductId>
     public string? BarcodeNumber { get; private set; }
     public string? PhotoUrl { get; private set; }
     public CategoryId CategoryId { get; private set; }
+    public BrandId? BrandId { get; private set; }
 }

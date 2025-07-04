@@ -7,6 +7,7 @@ public static class RegisterPosDependencies
         services.AddDbContext<POSModuleDbContext>();
         
         services.AddScoped<IPOSDbContext, POSModuleDbContext>();
+        services.AddScoped<IPosServices, PosServices>();
         return services;
     }
 }

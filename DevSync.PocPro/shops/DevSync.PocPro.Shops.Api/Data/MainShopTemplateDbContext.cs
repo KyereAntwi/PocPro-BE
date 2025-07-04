@@ -29,4 +29,5 @@ public class MainShopTemplateDbContext : DbContext
     public DbSet<ShippingAddress> ShippingAddresses => Set<ShippingAddress>();
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<ProductMedia> ProductMedias => Set<ProductMedia>();
+    public DbSet<Brand> Brands => Set<Brand>();
 }

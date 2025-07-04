@@ -12,6 +12,7 @@ global using DevSync.PocPro.Shops.PointOfSales.Domains;
 global using DevSync.PocPro.Shops.PointOfSales.Domains.Interfaces;
 global using DevSync.PocPro.Shops.PointOfSales.Domains.ValueObjects;
 global using DevSync.PocPro.Shops.PointOfSales.Features.PointOfSales.GetPOS;
+global using DevSync.PocPro.Shops.PointOfSales.Services;
 global using DevSync.PocPro.Shops.PointOfSalesModule.Features.Grpc;
 global using DevSync.PocPro.Shops.Shared.Dtos;
 global using DevSync.PocPro.Shops.Shared.Interfaces;
