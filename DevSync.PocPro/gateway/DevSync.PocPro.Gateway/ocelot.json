@@ -150,6 +150,17 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/gateway/v1/brands",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/v1/brands",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ]
+    },
+    {
       "UpstreamPathTemplate": "/gateway/v1/categories/{Id}",
       "UpstreamHttpMethod": ["Delete"],
       "DownstreamPathTemplate": "/api/v1/categories/{Id}",
@@ -164,6 +175,20 @@
       "UpstreamPathTemplate": "/gateway/v1/categories",
       "UpstreamHttpMethod": ["Get"],
       "DownstreamPathTemplate": "/api/v1/categories",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 60
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/v1/brands",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/v1/brands",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -192,9 +217,37 @@
       }
     },
     {
+      "UpstreamPathTemplate": "/gateway/v1/brands/{Id}",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/v1/brands/{Id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 10,
+        "Limit": 3
+      }
+    },
+    {
       "UpstreamPathTemplate": "/gateway/v1/categories/{Id}",
       "UpstreamHttpMethod": ["Put"],
       "DownstreamPathTemplate": "/api/v1/categories/{Id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/v1/brands/{Id}",
+      "UpstreamHttpMethod": ["Put"],
+      "DownstreamPathTemplate": "/api/v1/brands/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {

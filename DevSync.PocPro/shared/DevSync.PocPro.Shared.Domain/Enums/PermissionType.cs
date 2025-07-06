@@ -22,5 +22,6 @@ public enum PermissionType
     MANAGE_CUSTOMERS = 18,
     VIEW_CUSTOMERS = 19,
     VIEW_ORDERS = 20,
-    VIEW_SESSIONS = 21
+    VIEW_SESSIONS = 21,
+    MANAGE_BRANDS = 22,
 }

@@ -41,7 +41,8 @@ public class GetProductsForOnlineSiteEndpoint(
                         p.CategoryId.Value,
                         p.Description ?? string.Empty,
                         p.LowThresholdValue,
-                        p.BrandId != null ? p.BrandId.Value : null
+                        p.BrandId != null ? p.BrandId.Value : null,
+                        stock.PointOfSaleId.Value
                     ))
                     .AsSplitQuery()
                     .AsNoTracking()
