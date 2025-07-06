@@ -12,6 +12,7 @@ public class MainShopTemplateDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(POSModuleDbContext).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrdersModuleDbContext).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CustomerModuleDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserWishListModuleDbContext).Assembly);
         
         base.OnModelCreating(modelBuilder);
     }
@@ -30,4 +31,5 @@ public class MainShopTemplateDbContext : DbContext
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<ProductMedia> ProductMedias => Set<ProductMedia>();
     public DbSet<Brand> Brands => Set<Brand>();
+    public DbSet<WishListItem> WishListItems => Set<WishListItem>();
 }

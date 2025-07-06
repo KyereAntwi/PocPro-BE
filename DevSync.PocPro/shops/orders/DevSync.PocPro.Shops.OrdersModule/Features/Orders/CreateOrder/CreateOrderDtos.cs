@@ -10,7 +10,7 @@ public record CreateOrderRequest(
     double AmountReceived,
     Guid PosId);
 
-public record OrderItemRequest(Guid ProductId, int Quantity);
+public record OrderItemRequest(Guid ProductId, int Quantity, Guid PosId);
 
 public record ShippingAddressRequest(
     string FullName,

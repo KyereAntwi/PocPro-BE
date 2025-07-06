@@ -1,4 +1,4 @@
-namespace DevSync.PocPro.Shops.StocksModule.Domains.ValueObjects;
+namespace DevSync.PocPro.Shops.Shared.ValueObjects;
 
 public record ProductId
 {

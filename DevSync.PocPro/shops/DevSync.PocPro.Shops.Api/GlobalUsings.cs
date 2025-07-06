@@ -17,6 +17,8 @@ global using DevSync.PocPro.Shops.Shared.Services;
 global using DevSync.PocPro.Shops.StocksModule.Data;
 global using DevSync.PocPro.Shops.StocksModule.DI;
 global using DevSync.PocPro.Shops.StocksModule.Domains;
+global using DevSync.PocPro.Shops.UserWishlistModule.Data;
+global using DevSync.PocPro.Shops.UserWishlistModule.Domains;
 global using FastEndpoints;
 global using MassTransit;
 global using Microsoft.EntityFrameworkCore;
