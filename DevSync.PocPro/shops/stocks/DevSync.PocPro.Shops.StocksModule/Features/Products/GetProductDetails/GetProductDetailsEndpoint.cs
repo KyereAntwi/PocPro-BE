@@ -25,6 +25,7 @@ public class GetProductDetailsEndpoint(IShopDbContext shopDbContext)
                     p.CreatedAt,
                     p.UpdatedAt,
                     p.CategoryId.Value,
+                    string.IsNullOrWhiteSpace(req.Pos) ? null : Guid.Parse(req.Pos),
                     p.BrandId != null ? p.BrandId.Value : null,
                     p.Description ?? string.Empty,
                     p.LowThresholdValue)

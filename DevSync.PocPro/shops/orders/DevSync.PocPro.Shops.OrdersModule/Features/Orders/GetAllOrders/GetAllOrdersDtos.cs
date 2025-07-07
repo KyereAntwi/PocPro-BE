@@ -8,6 +8,7 @@ public record GetAllOrdersRequest(
     string Customer = "",
     string OrderStatus = "",
     string PosSession = "",
+    string Pos = "",
     string Status = "",
     int Page = 1,
     int PageSize = 20);

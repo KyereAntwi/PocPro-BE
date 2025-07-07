@@ -1,3 +1,5 @@
+using DevSync.PocPro.Shops.Shared.ValueObjects;
+
 namespace DevSync.PocPro.Shops.OrdersModule.Data.Configurations;
 
 public class OrderConfigurations : IEntityTypeConfiguration<Order>
@@ -10,6 +12,7 @@ public class OrderConfigurations : IEntityTypeConfiguration<Order>
         
         builder.Property(x => x.CustomerId).HasConversion(id => id.Value, dbId => CustomerId.Of(dbId));
         builder.Property(x => x.PosSessionId).HasConversion(id => id.Value, dbId => SessionId.Of(dbId));
+        builder.Property(x => x.PointOfSaleId).HasConversion(id => id.Value, dbId => PointOfSaleId.Of(dbId));
         
         builder
             .HasMany(v => v.OrderItems)

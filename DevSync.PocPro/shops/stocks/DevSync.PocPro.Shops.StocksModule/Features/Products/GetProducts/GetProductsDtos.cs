@@ -16,6 +16,7 @@ public record GetProductsResponseItem(
     Guid Id,
     string Name,
     decimal? Price,
+    int QuantityLeft,
     string? PhotoUrl,
     Guid CategoryId,
     string Description,

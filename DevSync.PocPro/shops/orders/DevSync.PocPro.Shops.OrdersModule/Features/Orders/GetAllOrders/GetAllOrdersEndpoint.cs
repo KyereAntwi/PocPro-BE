@@ -1,4 +1,5 @@
 using DevSync.PocPro.Shops.Shared.Interfaces;
+using DevSync.PocPro.Shops.Shared.ValueObjects;
 
 namespace DevSync.PocPro.Shops.OrdersModule.Features.Orders.GetAllOrders;
 
@@ -100,6 +101,11 @@ public class GetAllOrdersEndpoint(
         if (!string.IsNullOrWhiteSpace(req.OrderNumber))
         {
             orderQuery = orderQuery.Where(order => order.OrderNumber.ToLower().Contains(req.OrderNumber.ToLower()));
+        }
+
+        if (!string.IsNullOrWhiteSpace(req.Pos))
+        {
+            orderQuery = orderQuery.Where(order => order.PointOfSaleId == PointOfSaleId.Of(Guid.Parse(req.Pos)));
         }
         
         return orderQuery;

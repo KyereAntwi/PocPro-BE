@@ -37,6 +37,7 @@ public class GetProductsForOnlineSiteEndpoint(
                         p.Id.Value,
                         p.Name,
                         p.CurrentSellingPrice(stock.PointOfSaleId),
+                        p.TotalNumberLeftOnShelf(stock.PointOfSaleId),
                         p.PhotoUrl,
                         p.CategoryId.Value,
                         p.Description ?? string.Empty,
