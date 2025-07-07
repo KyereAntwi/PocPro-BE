@@ -32,6 +32,7 @@ public class GetProductsEndpoint(IShopDbContext shopDbContext)
                 x.Id.Value,
                 x.Name,
                 x.CurrentSellingPrice(string.IsNullOrWhiteSpace(req.Pos) ? null : PointOfSaleId.Of(Guid.Parse(req.Pos))),
+                x.TotalNumberLeftOnShelf(string.IsNullOrWhiteSpace(req.Pos) ? null : PointOfSaleId.Of(Guid.Parse(req.Pos))),
                 x.PhotoUrl,
                 x.CategoryId.Value,
                 x.Description ?? string.Empty,

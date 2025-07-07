@@ -10,6 +10,7 @@ public record GetProductDetailsResponseItem(
     DateTimeOffset? CreatedAt,
     DateTimeOffset? UpdatedAt,
     Guid? CategoryId,
+    Guid? PosId,
     Guid? BrandId,
     string Description,
     int LowThresholdValue)

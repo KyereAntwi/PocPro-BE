@@ -1,3 +1,5 @@
+using DevSync.PocPro.Shops.Shared.ValueObjects;
+
 namespace DevSync.PocPro.Shops.OrdersModule.Domain;
 
 public class Order : BaseEntity<OrderId>
@@ -14,6 +16,7 @@ public class Order : BaseEntity<OrderId>
         ShippingAddress? shippingAddress = null,
         Guid posSessionId = default,
         Guid customerId = default,
+        Guid pointOfSaleId = default,
         string? customerName = null,
         double amountReceived = 0)
     {
@@ -28,8 +31,8 @@ public class Order : BaseEntity<OrderId>
                 return Result.Fail("Sales order must have a POS Session ID");
             case OrderType.PurchaseOrder when customerId  == Guid.Empty:
                 return Result.Fail("Purchase order must have a Customer ID");
-            case OrderType.OnlineOrder:
-                break;
+            case OrderType.OnlineOrder when pointOfSaleId == Guid.Empty:
+                return Result.Fail("Online order must have a POS ID");
         }
 
         var newOrder = new Order
@@ -39,6 +42,7 @@ public class Order : BaseEntity<OrderId>
             OrderStatus = orderType == OrderType.OnlineOrder ? OrderStatus.Pending : OrderStatus.Delivered,
             PosSessionId = posSessionId == Guid.Empty ? null : SessionId.Of(posSessionId),
             CustomerId = customerId == Guid.Empty ? null : CustomerId.Of(customerId),
+            PointOfSaleId = pointOfSaleId == Guid.Empty ? null : PointOfSaleId.Of(pointOfSaleId),
             PaymentMethod = paymentMethod ?? PaymentMethod.Cash,
             OrderNumber = OrderServices.GenerateOrderNumber(),
             CustomerName = customerName,
@@ -75,6 +79,7 @@ public class Order : BaseEntity<OrderId>
     public OrderStatus OrderStatus { get; private set; }
     public SessionId? PosSessionId { get; private set; }
     public CustomerId? CustomerId { get; private set; }
+    public PointOfSaleId? PointOfSaleId { get; private set; }
     public PaymentMethod PaymentMethod { get; private set; }
     public string? CustomerName { get; set; }
     public double AmountReceived { get; set; }

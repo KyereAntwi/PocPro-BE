@@ -611,6 +611,23 @@
       }
     },
     {
+      "UpstreamPathTemplate": "/gateway/v1/orders/by-order-number/{OrderNumber}",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/v1/orders/by-order-number/{OrderNumber}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 10,
+        "Limit": 3
+      }
+    },
+    {
       "UpstreamPathTemplate": "/gateway/v1/orders",
       "UpstreamHttpMethod": ["Get"],
       "DownstreamPathTemplate": "/api/v1/orders",

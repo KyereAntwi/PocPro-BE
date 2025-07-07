@@ -11,6 +11,7 @@ public record GetOrderResponse(
     string OrderNumber,
     ShippingAddressDto? ShippingAddress,
     Guid? PosSessionId,
+    Guid? PointOfSaleId,
     Guid? CustomerId,
     DateTimeOffset? CreatedAt,
     DateTimeOffset? UpdatedAt,

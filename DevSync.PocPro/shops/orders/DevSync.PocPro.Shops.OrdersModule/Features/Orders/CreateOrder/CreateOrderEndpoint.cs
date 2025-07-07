@@ -8,7 +8,7 @@ public class CreateOrderEndpoint(
     IHttpContextAccessor httpContextAccessor, 
     ITenantServices tenantServices,
     IPurchaseServices purchaseServices) 
-    : Endpoint<CreateOrderRequest, BaseResponse<Guid>>
+    : Endpoint<CreateOrderRequest, BaseResponse<IEnumerable<Guid>>>
 {
     public override void Configure()
     {
@@ -34,7 +34,7 @@ public class CreateOrderEndpoint(
         if (!hasPermission)
         {
             await SendAsync(
-                new BaseResponse<Guid>("Permission Denied", false)
+                new BaseResponse<IEnumerable<Guid>>("Permission Denied", false)
                 {
                     Errors = ["You do not have required permission"]
                 },
@@ -68,7 +68,7 @@ public class CreateOrderEndpoint(
         if (!attemptPurchaseOnProductsResult.IsSuccess)
         {
             await SendAsync(
-                new BaseResponse<Guid>("Order Failed", false)
+                new BaseResponse<IEnumerable<Guid>>("Order Failed", false)
                 {
                     Errors = attemptPurchaseOnProductsResult.Errors.Select(e => e.Message)
                 },
@@ -76,34 +76,54 @@ public class CreateOrderEndpoint(
             return;
         }
 
-        var newOrder = Order.Create(
-            orderType: type, 
-            orderItems: orderItems, 
-            paymentMethod: Enum.Parse<PaymentMethod>(req.PaymentMethod), 
-            shippingAddress: shippingAddress, 
-            posSessionId: string.IsNullOrWhiteSpace(req.PosSessionId) ? Guid.Empty : Guid.Parse(req.PosSessionId),
-            customerId: string.IsNullOrWhiteSpace(req.CustomerId) ? Guid.Empty : Guid.Parse(req.CustomerId),
-            amountReceived: req.AmountReceived);
-
-        if (newOrder.IsFailed)
+        List<Guid> posIdsFromLineItems = [];
+        if (type == OrderType.OnlineOrder)
         {
-            await SendAsync(new BaseResponse<Guid>("Bad Request", false)
-            {
-                Errors = newOrder.Errors.Select(e => e.Message)
-            },StatusCodes.Status400BadRequest, ct);
-            return;
+            posIdsFromLineItems.AddRange(req.OrderItems.Select(item => item.PosId).Distinct());
+        }
+        else
+        {
+            posIdsFromLineItems.Add(req.PosId);       
         }
 
-        await orderModuleDbContext.Orders.AddAsync(newOrder.Value, ct);
+        List<Guid> response = [];
+
+        foreach (var id in posIdsFromLineItems)
+        {
+            var productsIdsFromRequest = req
+                .OrderItems
+                .Where(item => item.PosId.Equals(id))
+                .Select(item => item.ProductId);
+            
+            var newOrder = Order.Create(
+                orderType: type, 
+                orderItems: orderItems.Where(p => productsIdsFromRequest.Contains(p.ProductId)).ToList(), 
+                paymentMethod: Enum.Parse<PaymentMethod>(req.PaymentMethod), 
+                shippingAddress: shippingAddress, 
+                posSessionId: string.IsNullOrWhiteSpace(req.PosSessionId) ? Guid.Empty : Guid.Parse(req.PosSessionId),
+                customerId: string.IsNullOrWhiteSpace(req.CustomerId) ? Guid.Empty : Guid.Parse(req.CustomerId),
+                pointOfSaleId: id,
+                amountReceived: req.AmountReceived);
+
+            if (newOrder.IsFailed)
+            {
+                await SendAsync(new BaseResponse<IEnumerable<Guid>>("Bad Request", false)
+                {
+                    Errors = newOrder.Errors.Select(e => e.Message)
+                },StatusCodes.Status400BadRequest, ct);
+                return;
+            }
+            
+            response.Add(newOrder.Value.Id.Value);
+            await orderModuleDbContext.Orders.AddAsync(newOrder.Value, ct);
+        }
+        
         await orderModuleDbContext.SaveChangesAsync(ct);
 
-        await SendCreatedAtAsync<GetOrderEndpoint>(new
+        await SendOkAsync(new BaseResponse<IEnumerable<Guid>>("Order placed successfully", true)
         {
-            Id = newOrder.Value.Id.Value
-        }, new BaseResponse<Guid>("Order created successfully", true)
-        {
-            Data = newOrder.Value.Id.Value
-        }, cancellation: ct);
+            Data = response
+        }, ct);
     }
 }
 
@@ -129,8 +149,8 @@ public class CreateOrderRequestValidator: Validator<CreateOrderRequest>
             .WithMessage("There should be at least 1 Order Item with Quantity above 0");
         
         RuleFor(x => x.OrderItems)
-            .Must(list => list.All(item => item.PosId != Guid.Empty || item.PosId != null))
-            .WithMessage("All Order Items must have a POS Session ID")
+            .Must(list => list.All(item => item.PosId != Guid.Empty))
+            .WithMessage("All Order Items must have a POS ID")
             .When(x => Enum.TryParse<OrderType>(x.OrderType, true, out var orderType) && orderType == OrderType.OnlineOrder);
         
         RuleFor(x => x.ShippingAddress)
@@ -146,5 +166,10 @@ public class CreateOrderRequestValidator: Validator<CreateOrderRequest>
                 }
                 return true;
             }).WithMessage("FullName, PhoneNumber, and AddressLine1 are required for OnlineOrder.");
+        
+        RuleFor(x => x.ShippingAddress.Region)
+            .Must(region => Enum.TryParse<Region>(region, true, out _))
+            .When(x => x.ShippingAddress != null)
+            .WithMessage("Region must be a valid region type");
     }
 }
