@@ -6,7 +6,7 @@ public class GetWishListEndpoint(
 {
     public override void Configure()
     {
-        Get("/api/v1/wishlist");
+        Get("/api/v1/wishlists");
         Description(x => x
             .WithName("GetWishList")
             .Produces<BaseResponse<PagedResponse<GetWishListItemResponse>>>()

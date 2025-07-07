@@ -1,6 +1,6 @@
 namespace DevSync.PocPro.Shops.StocksModule.Features.Products.GetProductDetails;
 
-public record GetProductDetailsRequest([FromRoute] Guid ProductId);
+public record GetProductDetailsRequest([FromRoute] Guid ProductId, string Pos = "");
 
 public record GetProductDetailsResponseItem(
     Guid Id,
@@ -10,10 +10,12 @@ public record GetProductDetailsResponseItem(
     DateTimeOffset? CreatedAt,
     DateTimeOffset? UpdatedAt,
     Guid? CategoryId,
+    Guid? BrandId,
     string Description,
     int LowThresholdValue)
 {
     public decimal Price { get; set; }
+    public int QuantityLeft { get; set; }
     public IEnumerable<MediaItemResponse> ProductMedia { get; set; } = [];
 }
 

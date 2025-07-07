@@ -16,21 +16,8 @@ public class GetProductsEndpoint(IShopDbContext shopDbContext)
             .AsSplitQuery()
             .AsNoTracking();
 
-        if (!string.IsNullOrWhiteSpace(req.Pos))
-        {
-            query = query.Where(x => x.Stocks.Any(s => s.PointOfSaleId == PointOfSaleId.Of(Guid.Parse(req.Pos))));
-        }
-        
-        if (!string.IsNullOrWhiteSpace(req.SearchText))
-        {
-            query = query.Where(x => x.Name.Contains(req.SearchText));
-        }
-        
-        if (!string.IsNullOrWhiteSpace(req.Category))
-        {
-            query = query.Where(x => x.CategoryId == CategoryId.Of(Guid.Parse(req.Category)));
-        }
-        
+        query = FilterProductQuery(req, query);
+
         var totalCount = await query.LongCountAsync(ct);
         
         query = query
@@ -59,5 +46,31 @@ public class GetProductsEndpoint(IShopDbContext shopDbContext)
             {
                 Data = response
             }, cancellation: ct);
+    }
+
+    private static IQueryable<Product> FilterProductQuery(GetProductsRequests req, IQueryable<Product> query)
+    {
+        if (!string.IsNullOrWhiteSpace(req.Pos))
+        {
+            query = query.Where(x => x.Stocks.Any(s => s.PointOfSaleId == PointOfSaleId.Of(Guid.Parse(req.Pos))));
+        }
+        
+        if (!string.IsNullOrWhiteSpace(req.SearchText))
+        {
+            query = query.Where(x => x.Name.Contains(req.SearchText));
+        }
+        
+        if (!string.IsNullOrWhiteSpace(req.Category))
+        {
+            query = query.Where(x => x.CategoryId == CategoryId.Of(Guid.Parse(req.Category)));
+        }
+
+        if (string.IsNullOrWhiteSpace(req.Brands)) return query;
+        {
+            var brandIds = req.Brands.Split(';').ToList();
+            query = query.Where(x => x.BrandId != null && brandIds.Contains(x.BrandId.Value.ToString()));
+        }
+
+        return query;
     }
 }

@@ -55,7 +55,13 @@ public class CreateOrderEndpoint(
         ) : null;
 
         var attemptPurchaseRequest = 
-            req.OrderItems.Select(item => new MakePurchaseOnProductsRequest(item.ProductId, item.Quantity, req.PosId)).ToList();
+            req.OrderItems.Select(item => new MakePurchaseOnProductsRequest(
+                item.ProductId, 
+                item.Quantity, 
+                type != OrderType.OnlineOrder 
+                    ? req.PosId 
+                    : item.PosId))
+                .ToList();
 
         var attemptPurchaseOnProductsResult = await purchaseServices.MakePurchaseOnProducts(attemptPurchaseRequest, ct);
 
@@ -115,11 +121,17 @@ public class CreateOrderRequestValidator: Validator<CreateOrderRequest>
 
         RuleFor(x => x.PosId)
             .NotEmpty().WithMessage("Pos Id is required")
-            .NotNull();
+            .NotNull()
+            .When(x => Enum.TryParse<OrderType>(x.OrderType, true, out var orderType) && orderType != OrderType.OnlineOrder);
 
         RuleFor(x => x.OrderItems)
             .Must(list => list == null || list.All(item => item.ProductId != Guid.Empty && item.Quantity > 0))
             .WithMessage("There should be at least 1 Order Item with Quantity above 0");
+        
+        RuleFor(x => x.OrderItems)
+            .Must(list => list.All(item => item.PosId != Guid.Empty || item.PosId != null))
+            .WithMessage("All Order Items must have a POS Session ID")
+            .When(x => Enum.TryParse<OrderType>(x.OrderType, true, out var orderType) && orderType == OrderType.OnlineOrder);
         
         RuleFor(x => x.ShippingAddress)
             .Cascade(CascadeMode.Stop)
