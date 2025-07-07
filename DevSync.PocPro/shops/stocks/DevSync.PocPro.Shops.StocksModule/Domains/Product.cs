@@ -76,9 +76,11 @@ public class Product : BaseEntity<ProductId>
         return Result.Ok();
     }
 
-    public int TotalNumberLeftOnShelf(PointOfSaleId pointOfSaleId)
+    public int TotalNumberLeftOnShelf(PointOfSaleId? pointOfSaleId = null)
     {
-        var stocks = _stocks.Where(stock => stock.PointOfSaleId == pointOfSaleId).ToArray();
+        var stocks = pointOfSaleId == null 
+            ? _stocks.ToArray() 
+            : _stocks.Where(stock => stock.PointOfSaleId == pointOfSaleId).ToArray();
         return stocks.Length > 0 ?  stocks.Sum(s => s.QuantityLeftInStock) : 0;
     }
 

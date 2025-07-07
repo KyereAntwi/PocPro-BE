@@ -25,11 +25,13 @@ public class GetProductDetailsEndpoint(IShopDbContext shopDbContext)
                     p.CreatedAt,
                     p.UpdatedAt,
                     p.CategoryId.Value,
+                    p.BrandId != null ? p.BrandId.Value : null,
                     p.Description ?? string.Empty,
                     p.LowThresholdValue)
                 {
+                    QuantityLeft = p.TotalNumberLeftOnShelf(string.IsNullOrWhiteSpace(req.Pos) ? null : PointOfSaleId.Of(Guid.Parse(req.Pos))),
+                    Price = p.CurrentSellingPrice(string.IsNullOrWhiteSpace(req.Pos) ? null : PointOfSaleId.Of(Guid.Parse(req.Pos)))
                     //ProductMedia = p.Media.Select(m => new MediaItemResponse(m.Url, m.MediaType.ToString())),
-                    Price = p.CurrentSellingPrice(null)
                 }
             })
             .AsNoTracking()

@@ -89,10 +89,10 @@ public class GetProductsForOnlineSiteEndpoint(
             query = query.Where(x => x.CategoryId == Guid.Parse(req.Category));
         }
 
-        if (!string.IsNullOrWhiteSpace(req.BrandIds))
+        if (!string.IsNullOrWhiteSpace(req.Brands))
         {
-            var brandIds = req.BrandIds.Split(';').Select(Guid.Parse).ToList();
-            query = query.Where(x => brandIds.Contains(x.BrandId ?? Guid.Empty));
+            var brandIds = req.Brands.Split(';').ToList();
+            query = query.Where(x => x.BrandId != null && brandIds.Contains(x.BrandId.Value.ToString()));
         }
 
         if (req.MinPrice > 0)

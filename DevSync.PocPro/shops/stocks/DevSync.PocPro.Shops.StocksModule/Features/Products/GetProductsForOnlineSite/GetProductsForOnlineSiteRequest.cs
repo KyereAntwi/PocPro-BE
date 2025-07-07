@@ -8,5 +8,5 @@ public record GetProductsForOnlineSiteRequest
     public string Category { get; set; } = string.Empty;
     public decimal MinPrice { get; set; }
     public decimal MaxPrice { get; set; }
-    public string BrandIds { get; set; } = string.Empty;
+    public string Brands { get; set; } = string.Empty;
 }

@@ -29,9 +29,6 @@
         "Period": "10s",
         "PeriodTimespan": 10,
         "Limit": 3
-      },
-      "FileCacheOptions": {
-        "TtlSeconds": 60
       }
     },
     {
@@ -122,9 +119,6 @@
         "Period": "10s",
         "PeriodTimespan": 10,
         "Limit": 3
-      },
-      "FileCacheOptions": {
-        "TtlSeconds": 60
       }
     },
     {
@@ -337,9 +331,6 @@
         "Period": "10s",
         "PeriodTimespan": 10,
         "Limit": 3
-      },
-      "FileCacheOptions": {
-        "TtlSeconds": 60
       }
     },
     {
@@ -396,6 +387,12 @@
       ],
       "FileCacheOptions": {
         "TtlSeconds": 60
+      },
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 10,
+        "Limit": 3
       }
     },
     {
@@ -605,7 +602,13 @@
         {
           "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
-      ]
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 10,
+        "Limit": 3
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/orders",
@@ -616,7 +619,10 @@
         {
           "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
-      ]
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 60
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/orders",
@@ -660,7 +666,16 @@
         {
           "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
-      ]
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 10,
+        "Limit": 3
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 60
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/customers/{Id}",
@@ -671,7 +686,13 @@
         {
           "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
-      ]
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 10,
+        "Limit": 3
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/customers/{Id}",
@@ -683,6 +704,60 @@
           "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
         }
       ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/v1/wishlists",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/v1/wishlists",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 10,
+        "Limit": 3
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 60
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/v1/wishlists",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/v1/wishlists",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 10,
+        "Limit": 3
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/v1/wishlists/{Id}",
+      "UpstreamHttpMethod": ["Delete"],
+      "DownstreamPathTemplate": "/api/v1/wishlists/{Id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 10,
+        "Limit": 3
+      }
     }
   ]
 }

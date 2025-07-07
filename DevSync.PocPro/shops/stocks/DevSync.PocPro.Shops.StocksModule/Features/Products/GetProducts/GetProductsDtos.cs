@@ -7,6 +7,7 @@ public record GetProductsRequests
     public string SearchText { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
     public string Pos { get; set; } = string.Empty;
+    public string Brands { get; set; } = string.Empty;
 }
 
 public record GetProductsResponse(IEnumerable<GetProductsResponse> Products);
