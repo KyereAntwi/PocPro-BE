@@ -8,6 +8,7 @@ using DevSync.PocPro.Shops.Shared.Interfaces;
 using DevSync.PocPro.Shops.Shared.Utils;
 using DevSync.PocPro.Shops.StocksModule.Services;
 using DevSync.PocPro.Shops.UserWishlistModule.DI;
+using DevSync.PocPro.Shops.WorkerService.DI;
 
 namespace DevSync.PocPro.Shops.Api.DI;
 
@@ -28,6 +29,7 @@ public static class Startup
         builder.Services.AddPosDependencies();
         builder.Services.AddCustomerModule();
         builder.Services.AddWishListModule();
+        builder.Services.AddWorkerServiceDependencies(builder.Configuration);
 
         builder.Services.AddScoped<IMasterExtensions, MasterExtensions>();
         builder.Services.AddScoped<IPurchaseServices, PurchaseServices>();
