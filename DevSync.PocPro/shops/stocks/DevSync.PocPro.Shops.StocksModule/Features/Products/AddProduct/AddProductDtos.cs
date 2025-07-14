@@ -7,6 +7,8 @@ public record AddProductRequest(
     IEnumerable<MediaRequest>? Media,
     Guid CategoryId,
     string? Description,
-    int LowThresholdValue);
+    int LowThresholdValue,
+    Guid BrandId,
+    bool IsFeatured);
     
 public record MediaRequest(string Url, string MediaType);

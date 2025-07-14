@@ -8,6 +8,7 @@ public record GetProductsRequests
     public string Category { get; set; } = string.Empty;
     public string Pos { get; set; } = string.Empty;
     public string Brands { get; set; } = string.Empty;
+    public bool IsFeatured { get; set; } = false;
 }
 
 public record GetProductsResponse(IEnumerable<GetProductsResponse> Products);
@@ -22,7 +23,8 @@ public record GetProductsResponseItem(
     string Description,
     int LowThresholdValue,
     Guid? BrandId,
-    Guid? PosId
+    Guid? PosId,
+    bool IsFeatured
 )
 {
     public GetCategoryResponse? Category { get; set; }

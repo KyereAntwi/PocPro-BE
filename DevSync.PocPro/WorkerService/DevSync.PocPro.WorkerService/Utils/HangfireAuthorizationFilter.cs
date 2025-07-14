@@ -1,6 +1,4 @@
-using Hangfire.Dashboard;
-
-namespace DevSync.PocPro.Shops.WorkerService.Utils;
+namespace DevSync.PocPro.WorkerService.Utils;
 
 public class HangfireAuthorizationFilter : IDashboardAuthorizationFilter
 {

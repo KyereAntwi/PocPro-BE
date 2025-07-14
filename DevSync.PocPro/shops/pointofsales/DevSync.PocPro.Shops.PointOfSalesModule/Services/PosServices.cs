@@ -11,4 +11,12 @@ public class PosServices(IPOSDbContext posDbContext) : IPosServices
             .AsNoTracking()
             .ToArrayAsync(cancellationToken);
     }
+
+    public async Task<IEnumerable<PointOfSaleId>> GetAllPosIdsAsync(CancellationToken cancellationToken = default)
+    {
+        return await posDbContext.PointOfSales
+            .Select(p => p.Id)
+            .AsNoTracking()
+            .ToArrayAsync(cancellationToken);
+    }
 }

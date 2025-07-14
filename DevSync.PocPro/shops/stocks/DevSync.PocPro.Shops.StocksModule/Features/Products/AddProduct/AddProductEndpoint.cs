@@ -26,7 +26,9 @@ public class AddProductEndpoint(
         }
 
         var product = Product.Create(
-            req.Name, req.BarcodeNumber!, req.PhotoUrl ?? string.Empty, CategoryId.Of(req.CategoryId), req.Description, req.LowThresholdValue, media);
+            req.Name, req.BarcodeNumber!, req.PhotoUrl ?? string.Empty, CategoryId.Of(req.CategoryId), req.Description, req.LowThresholdValue, media, req.IsFeatured,
+            req.BrandId == Guid.Empty ? null : BrandId.Of(req.BrandId));
+        
         await shopDbContext.Products.AddAsync(product, ct);
         await shopDbContext.SaveChangesAsync(ct);
         

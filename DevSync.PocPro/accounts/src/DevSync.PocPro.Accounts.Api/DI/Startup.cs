@@ -19,6 +19,10 @@ public static class Startup
         builder.Configuration.GetSection("KeycloakSettings").Bind(keycloakSettings);
         builder.Services.AddSingleton(keycloakSettings);
         
+        var apiAuthentication = new ApiAuthentication();
+        builder.Configuration.GetSection("ApiAuthentication").Bind(apiAuthentication);
+        builder.Services.AddSingleton(apiAuthentication);
+        
         builder.Services.AddDbContext<AccountsDbContext>(opt =>
         {
             opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));

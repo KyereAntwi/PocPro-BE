@@ -1,6 +1,8 @@
 using DevSync.PocPro.Shared.Domain.Middlewares;
 using DevSync.PocPro.Shared.Domain.Utils;
 using DevSync.PocPro.Shops.Api.Services;
+using DevSync.Pocpro.Shops.Notifications.DI;
+using DevSync.Pocpro.Shops.Notifications.Hubs;
 using DevSync.PocPro.Shops.OrdersModule.DI;
 using DevSync.PocPro.Shops.PointOfSales.DI;
 using DevSync.PocPro.Shops.PrivateCustomers.DI;
@@ -8,7 +10,6 @@ using DevSync.PocPro.Shops.Shared.Interfaces;
 using DevSync.PocPro.Shops.Shared.Utils;
 using DevSync.PocPro.Shops.StocksModule.Services;
 using DevSync.PocPro.Shops.UserWishlistModule.DI;
-using DevSync.PocPro.Shops.WorkerService.DI;
 
 namespace DevSync.PocPro.Shops.Api.DI;
 
@@ -23,13 +24,17 @@ public static class Startup
         var tenantServiceSettings = new TenantServiceSettings();
         builder.Configuration.GetSection("TenantServiceSettings").Bind(tenantServiceSettings);
         builder.Services.AddSingleton(tenantServiceSettings);
+
+        var apiAuthentication = new ApiAuthentication();
+        builder.Configuration.GetSection("ApiAuthentication").Bind(apiAuthentication);
+        builder.Services.AddSingleton(apiAuthentication);
         
         builder.Services.AddStockModule(builder.Configuration);
+        builder.Services.AddNotificationsModule(builder.Configuration);
         builder.Services.RegisterOrderModule();
         builder.Services.AddPosDependencies();
         builder.Services.AddCustomerModule();
         builder.Services.AddWishListModule();
-        builder.Services.AddWorkerServiceDependencies(builder.Configuration);
 
         builder.Services.AddScoped<IMasterExtensions, MasterExtensions>();
         builder.Services.AddScoped<IPurchaseServices, PurchaseServices>();
@@ -126,8 +131,9 @@ public static class Startup
         app.UseCors("Open");
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseFastEndpoints();
         app.UseHttpsRedirection();
+        app.UseFastEndpoints();
+        app.MapHub<NotificationHub>("/hubs/notifications");
         
         return app;
     }

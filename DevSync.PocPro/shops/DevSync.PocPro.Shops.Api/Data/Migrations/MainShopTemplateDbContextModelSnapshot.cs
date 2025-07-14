@@ -533,6 +533,11 @@ namespace DevSync.PocPro.Shops.Api.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsFeatured")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
                     b.Property<int>("LowThresholdValue")
                         .HasColumnType("integer");
 

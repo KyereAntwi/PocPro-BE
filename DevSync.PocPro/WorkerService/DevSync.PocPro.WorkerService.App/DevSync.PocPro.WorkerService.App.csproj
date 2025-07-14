@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\boostraps\DevSync.PocPro.ServiceDiscovery\DevSync.PocPro.ServiceDiscovery.csproj" />
+      <ProjectReference Include="..\DevSync.PocPro.WorkerService\DevSync.PocPro.WorkerService.csproj" />
+    </ItemGroup>
+
+</Project>

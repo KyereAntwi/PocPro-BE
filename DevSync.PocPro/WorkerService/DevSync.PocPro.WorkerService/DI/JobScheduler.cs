@@ -1,7 +1,15 @@
-namespace DevSync.PocPro.Shops.WorkerService.DI;
+using DevSync.PocPro.WorkerService.Jobs;
+
+namespace DevSync.PocPro.WorkerService.DI;
 
 public static class JobScheduler
 {
+    public static WebApplication AddServices(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddWorkerServiceDependencies(builder.Configuration);
+        return builder.Build();
+    }
+
     public static WebApplication AddJobScheduler(this WebApplication app)
     {
         app.Lifetime.ApplicationStarted.Register(() =>
@@ -20,10 +28,7 @@ public static class JobScheduler
                 Cron.Daily);
         });
         
-        app.UseHangfireDashboard("/hangfire", new DashboardOptions()
-        {
-            Authorization = [new HangfireAuthorizationFilter()]
-        });
+        app.UseHangfireDashboard("/hangfire", new DashboardOptions());
         
         return app;
     }

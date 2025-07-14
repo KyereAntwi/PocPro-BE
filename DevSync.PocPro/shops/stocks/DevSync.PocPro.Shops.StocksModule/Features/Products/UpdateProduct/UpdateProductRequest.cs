@@ -7,4 +7,6 @@ public record UpdateProductRequest(
     string? PhotoUrl,
     Guid CategoryId,
     string? Description,
-    int LowThresholdValue);
+    int LowThresholdValue,
+    bool IsFeatured,
+    Guid BrandId);

@@ -2,11 +2,11 @@ namespace DevSync.Pocpro.Shops.Notifications.DI;
 
 public static class RegisterNotificationsDependencies
 {
-    public static IServiceCollection RegisterNotifications(this IServiceCollection services, IConfigurationBuilder builder)
+    public static IServiceCollection AddNotificationsModule(this IServiceCollection services, IConfigurationBuilder builder)
     {
         services
             .AddSignalR()
-            .AddAzureSignalR((string)builder.Properties["SignalRConnectionString"]);
+            .AddAzureSignalR(builder.Properties["SignalRConnectionString"] as string);
         
         return services;
     }

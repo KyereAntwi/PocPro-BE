@@ -28,7 +28,8 @@ public class GetProductDetailsEndpoint(IShopDbContext shopDbContext)
                     string.IsNullOrWhiteSpace(req.Pos) ? null : Guid.Parse(req.Pos),
                     p.BrandId != null ? p.BrandId.Value : null,
                     p.Description ?? string.Empty,
-                    p.LowThresholdValue)
+                    p.LowThresholdValue,
+                    p.IsFeatured)
                 {
                     QuantityLeft = p.TotalNumberLeftOnShelf(string.IsNullOrWhiteSpace(req.Pos) ? null : PointOfSaleId.Of(Guid.Parse(req.Pos))),
                     Price = p.CurrentSellingPrice(string.IsNullOrWhiteSpace(req.Pos) ? null : PointOfSaleId.Of(Guid.Parse(req.Pos)))

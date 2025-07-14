@@ -27,12 +27,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\boostraps\DevSync.PocPro.ServiceDiscovery\DevSync.PocPro.ServiceDiscovery.csproj" />
+      <ProjectReference Include="..\..\Notifications\DevSync.Pocpro.Shops.Notifications\DevSync.Pocpro.Shops.Notifications.csproj" />
       <ProjectReference Include="..\orders\DevSync.PocPro.Shops.OrdersModule\DevSync.PocPro.Shops.OrdersModule.csproj" />
       <ProjectReference Include="..\pointofsales\DevSync.PocPro.Shops.PointOfSalesModule\DevSync.PocPro.Shops.PointOfSalesModule.csproj" />
       <ProjectReference Include="..\private-customers\DevSync.PocPro.Shops.PrivateCustomers\DevSync.PocPro.Shops.PrivateCustomers.csproj" />
       <ProjectReference Include="..\stocks\DevSync.PocPro.Shops.StocksModule\DevSync.PocPro.Shops.StocksModule.csproj" />
       <ProjectReference Include="..\WishLists\DevSync.PocPro.Shops.UserWishlistModule\DevSync.PocPro.Shops.UserWishlistModule.csproj" />
-      <ProjectReference Include="..\WorkerService\DevSync.PocPro.Shops.WorkerServiceModule\DevSync.PocPro.Shops.WorkerServiceModule.csproj" />
     </ItemGroup>
 
 </Project>

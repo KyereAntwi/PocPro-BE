@@ -9,7 +9,8 @@ public class Product : BaseEntity<ProductId>
     public IReadOnlyCollection<ProductMedia> Media => _media;
     
     public static Product Create(
-        string name, string barcodeNumber, string photoUrl, CategoryId categoryId, string? description, int lowThresholdValue, IEnumerable<ProductMedia> media)
+        string name, string barcodeNumber, string photoUrl, CategoryId categoryId, string? description, int lowThresholdValue, 
+        IEnumerable<ProductMedia> media, bool isFeatured = false, BrandId? brandId = null)
     {
         var product = new Product
         {
@@ -19,7 +20,9 @@ public class Product : BaseEntity<ProductId>
             PhotoUrl = photoUrl,
             CategoryId = categoryId,
             Description = description,
-            LowThresholdValue = lowThresholdValue
+            LowThresholdValue = lowThresholdValue,
+            IsFeatured = isFeatured,
+            BrandId = brandId,
         };
         
         foreach (var item in media)
@@ -30,7 +33,7 @@ public class Product : BaseEntity<ProductId>
         return product;
     }
 
-    public void Update(string name, string barcodeNumber, string photoUrl, CategoryId categoryId, string? description, int lowThresholdValue)
+    public void Update(string name, string barcodeNumber, string photoUrl, CategoryId categoryId, string? description, int lowThresholdValue, bool isFeatured = false, BrandId? brandId = null)
     {
         Name = name;
         BarcodeNumber = barcodeNumber;
@@ -38,6 +41,8 @@ public class Product : BaseEntity<ProductId>
         CategoryId = categoryId;
         Description = description;
         LowThresholdValue = lowThresholdValue;
+        IsFeatured = isFeatured;
+        BrandId = brandId;
     }
 
     public Result<Guid> StockProduct(Supplier supplier, PointOfSaleId pointOfSaleId, int quantityPurchased, int quantityLeftInStock, decimal costPrice, decimal sellingPrice,
@@ -92,6 +97,24 @@ public class Product : BaseEntity<ProductId>
         
         return stocks.Length > 0 ? stocks.OrderBy(s => s.CreatedAt).Last().SellingPerPrice : 0;
     }
+    
+    public bool IsLowInStock(PointOfSaleId? pointOfSaleId = null)
+    {
+        var stocks = pointOfSaleId == null 
+            ? _stocks.ToArray() 
+            : _stocks.Where(stock => stock.PointOfSaleId == pointOfSaleId).ToArray();
+        
+        return stocks.Length > 0 && stocks.Sum(s => s.QuantityLeftInStock) <= LowThresholdValue;
+    }
+
+    public bool IsExpiredWithinAWeek(PointOfSaleId? pointOfSaleId = null)
+    {
+        var stocks = pointOfSaleId == null 
+            ? _stocks.ToArray() 
+            : _stocks.Where(stock => stock.PointOfSaleId == pointOfSaleId).ToArray();
+        
+        return stocks.Length > 0 && stocks.Any(s => s.ExpiresAt.Date <= DateTime.Now.AddDays(7).Date);
+    }
 
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
@@ -100,4 +123,5 @@ public class Product : BaseEntity<ProductId>
     public string? PhotoUrl { get; private set; }
     public CategoryId CategoryId { get; private set; }
     public BrandId? BrandId { get; private set; }
+    public bool IsFeatured { get; private set; }
 }
