@@ -1,5 +1,3 @@
-using DevSync.PocPro.Shops.Shared.ValueObjects;
-
 namespace DevSync.PocPro.Shops.OrdersModule.Data.Configurations;
 
 public class OrderConfigurations : IEntityTypeConfiguration<Order>

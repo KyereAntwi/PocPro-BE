@@ -83,7 +83,7 @@ public class GetProductsForOnlineSiteEndpoint(
     {
         if (!string.IsNullOrWhiteSpace(req.SearchText))
         {
-            query = query.Where(x => x.Name.Contains(req.SearchText));
+            query = query.Where(x => x.Name.ToLower().Contains(req.SearchText.ToLower()));
         }
 
         if (!string.IsNullOrWhiteSpace(req.Category))

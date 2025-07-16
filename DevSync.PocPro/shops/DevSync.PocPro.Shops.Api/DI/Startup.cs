@@ -133,7 +133,7 @@ public static class Startup
         app.UseAuthorization();
         app.UseHttpsRedirection();
         app.UseFastEndpoints();
-        app.MapHub<NotificationHub>("/hubs/notifications");
+        //app.MapHub<NotificationHub>("/hubs/notifications");
         
         return app;
     }

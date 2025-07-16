@@ -1,5 +1,3 @@
-using DevSync.PocPro.Shops.Shared.Interfaces;
-
 namespace DevSync.PocPro.Shops.OrdersModule.Features.Orders.GetOrder;
 
 public class GetOrderEndpoint (

@@ -1,5 +1,3 @@
-using Polly;
-
 namespace DevSync.PocPro.Shops.OrdersModule.DI;
 
 public static class RegisterOrderDependencies
@@ -9,6 +7,7 @@ public static class RegisterOrderDependencies
         services.AddDbContext<OrdersModuleDbContext>();
 
         services.AddScoped<IOrderModuleDbContext, OrdersModuleDbContext>();
+        services.AddScoped<IOrdersServices, OrderExternalServices>();
         services.AddTransient<IExternalServices, ExternalServices>();
         
         services.AddGrpcClient<PointOfSaleService.PointOfSaleServiceClient>(options =>

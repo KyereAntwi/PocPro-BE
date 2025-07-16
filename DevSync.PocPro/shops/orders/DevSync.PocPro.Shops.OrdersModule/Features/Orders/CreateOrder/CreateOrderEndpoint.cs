@@ -1,4 +1,3 @@
-using DevSync.PocPro.Shops.Shared.Interfaces;
 using FluentValidation;
 
 namespace DevSync.PocPro.Shops.OrdersModule.Features.Orders.CreateOrder;

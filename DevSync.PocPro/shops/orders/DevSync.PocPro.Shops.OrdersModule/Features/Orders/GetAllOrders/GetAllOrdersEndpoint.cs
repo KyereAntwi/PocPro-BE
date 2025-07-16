@@ -1,6 +1,3 @@
-using DevSync.PocPro.Shops.Shared.Interfaces;
-using DevSync.PocPro.Shops.Shared.ValueObjects;
-
 namespace DevSync.PocPro.Shops.OrdersModule.Features.Orders.GetAllOrders;
 
 public class GetAllOrdersEndpoint(

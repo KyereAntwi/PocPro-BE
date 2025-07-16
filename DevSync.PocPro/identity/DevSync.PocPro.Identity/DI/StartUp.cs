@@ -110,6 +110,8 @@ public static class Startup
                         if (!Uri.TryCreate(origin, UriKind.Absolute, out var uri))
                             return false;
                         return uri.Host == "localhost" || 
+                               new Uri(origin).Host == "unishop-online.vercel.app" ||
+                               new Uri(origin).Host == "unishop-admin.vercel.app" ||
                                uri.Host == "https://devsyncaccountsapi-ccguashuc8a5gpfs.uksouth-01.azurewebsites.net";
                     })
                     .AllowAnyHeader()

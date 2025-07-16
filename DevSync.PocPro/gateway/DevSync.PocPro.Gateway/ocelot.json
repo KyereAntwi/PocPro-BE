@@ -317,6 +317,20 @@
       }
     },
     {
+      "UpstreamPathTemplate": "/gateway/v1/most-performing/products",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/v1/products/most-performing",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 60
+      }
+    },
+    {
       "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}/stocks/{StockId}",
       "UpstreamHttpMethod": ["Get"],
       "DownstreamPathTemplate": "/api/v1/products/{ProductId}/stocks/{StockId}",
