@@ -1,4 +1,3 @@
-using DevSync.PocPro.Shops.Shared.Interfaces;
 using FluentValidation;
 
 namespace DevSync.PocPro.Shops.OrdersModule.Features.Orders.CreateOrder;
@@ -43,7 +42,7 @@ public class CreateOrderEndpoint(
         }
 
         List<OrderItem> orderItems = [];
-        orderItems.AddRange(req.OrderItems.Select(item => new OrderItem(item.ProductId, item.Quantity)));
+        orderItems.AddRange(req.OrderItems.Select(item => new OrderItem(item.ProductId, item.Quantity, item.Price)));
 
         var shippingAddress = req.ShippingAddress != null ? new ShippingAddress(
             req.ShippingAddress.AddressLine1,

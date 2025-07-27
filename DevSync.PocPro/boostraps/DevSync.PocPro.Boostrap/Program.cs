@@ -12,6 +12,9 @@ var shopqpi = builder.AddProject<Projects.DevSync_PocPro_Shops_Api>("shops-api")
     .WithReference(identity).WaitFor(identity)
     .WithReference(accountsApi).WaitFor(accountsApi);
 
+builder.AddProject<Projects.DevSync_PocPro_WorkerService_App>("worker-service")
+    .WithReference(shopqpi).WaitFor(shopqpi);
+
 builder.AddProject<Projects.DevSync_PocPro_Gateway>("gateway")
     .WithReference(accountsApi).WaitFor(accountsApi)
     .WithReference(shopqpi).WaitFor(shopqpi)

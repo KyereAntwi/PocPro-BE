@@ -7,6 +7,7 @@ public record GetAllOrdersRequest(
     string CreatedTo = "",
     string Customer = "",
     string OrderStatus = "",
+    string CreatedBy = "",
     string PosSession = "",
     string Pos = "",
     string Status = "",

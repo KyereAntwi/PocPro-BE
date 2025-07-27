@@ -1,8 +1,12 @@
+using DevSync.PocPro.Shared.Domain.Utils;
+
 namespace DevSync.PocPro.Shops.StocksModule.Services;
 
 public class PurchaseServices(
     StocksModuleDbContext stocksModuleDbContext,
-    ILogger<PurchaseServices> logger) 
+    ILogger<PurchaseServices> logger,
+    RabbitMqConnectionFactory rabbitMqConnection,
+    ITenantServices tenantServices) 
     : IPurchaseServices
 {
     public async Task<Result> MakePurchaseOnProducts(IEnumerable<MakePurchaseOnProductsRequest> requests, CancellationToken cancellationToken)
@@ -14,6 +18,8 @@ public class PurchaseServices(
             .Include(p => p.Stocks)
             .Where(p => productIds.Contains(p.Id))
             .ToListAsync(cancellationToken);
+
+        List<PurchaseMadeOnProductDto> itemsToPublish = [];
             
         foreach (var request in requests)
         {
@@ -25,14 +31,45 @@ public class PurchaseServices(
             }
             
             var purchaseResult = product.MakePurchase(request.Quantity, PointOfSaleId.Of(request.PosId));
-            
-            if (!purchaseResult.IsFailed) continue;
-            
+
+            if (!purchaseResult.IsFailed)
+            {
+                itemsToPublish.Add(new PurchaseMadeOnProductDto(product.Id.Value, request.Quantity));
+                continue;
+            }
+
             logger.LogInformation("Attempting purchase on Product {ProductId} failed with error = {Error}", request.ProductId, purchaseResult.Errors[0].Message);
             return Result.Fail(purchaseResult.Errors);
         }
         
         await stocksModuleDbContext.SaveChangesAsync(cancellationToken);
+
+        if (itemsToPublish.Count > 0)
+        {
+            await SendEventForProductPurchased(itemsToPublish, products[0].CreatedBy!, cancellationToken);
+        }
+        
         return Result.Ok();
+    }
+
+    private async Task SendEventForProductPurchased(List<PurchaseMadeOnProductDto> items, string createdBy, CancellationToken ct)
+    {
+        var tenant = await tenantServices.GetTenantByUserIdAsync(createdBy);
+        
+        try
+        {
+            var integrationEvent = new PurchaseMadeOnProductEvent
+            {
+                Items = items,
+                TenantIdentifier = tenant!.UniqueIdentifier
+            };
+            
+            var publisher = new EventPublisher(rabbitMqConnection);
+            await publisher.PublishAsync(integrationEvent, "shop_exchange", "purchase_changes_in_product_query", ct);
+        }
+        catch (Exception e)
+        {
+            logger.LogError("Error publishing product for purchase deduction on product query. Error = {Error}", e.Message);
+        }
     }
 }

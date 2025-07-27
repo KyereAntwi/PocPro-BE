@@ -23,6 +23,7 @@
       <ProjectReference Include="..\..\gateway\DevSync.PocPro.Gateway\DevSync.PocPro.Gateway.csproj" />
       <ProjectReference Include="..\..\identity\DevSync.PocPro.Identity\DevSync.PocPro.Identity.csproj" />
       <ProjectReference Include="..\..\shops\DevSync.PocPro.Shops.Api\DevSync.PocPro.Shops.Api.csproj" />
+      <ProjectReference Include="..\..\WorkerService\DevSync.PocPro.WorkerService.App\DevSync.PocPro.WorkerService.App.csproj" />
     </ItemGroup>
 
 </Project>

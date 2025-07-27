@@ -7,6 +7,5 @@ public record GetWishListRequest(
 );
 
 public record GetWishListItemResponse(
-    ProductDto Product,
-    DateTimeOffset? CreatedAt
+    ProductDto Product
 );

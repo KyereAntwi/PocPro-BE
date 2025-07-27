@@ -1,5 +1,9 @@
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Text.Json;
 using DevSync.PocPro.Identity.Data;
 using DevSync.PocPro.Identity.Pages.Admin.Clients;
+using DevSync.PocPro.Identity.Services;
 using Duende.IdentityServer;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
@@ -58,7 +62,7 @@ public static class Startup
                 cfg.Host(new Uri(builder.Configuration["MessageBroker:Host"]!), host =>
                 { 
                     host.Username(builder.Configuration["MessageBroker:Username"]!); 
-                    host.Password(builder.Configuration["MessageBroker:Password"]!); 
+                    host.Password(builder.Configuration["MessageBroker:Password"]!);
                 });
                 
                 cfg.ConfigureEndpoints(context);
@@ -67,6 +71,7 @@ public static class Startup
         
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddScoped<ClientRepository>();
+        builder.Services.AddScoped<IAccountsApiServices, AccountApiServices>();
         
         builder.Services.AddAuthorization();
         builder.Services.AddAuthentication()
@@ -76,27 +81,45 @@ public static class Startup
                 options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                 options.ClientId = builder.Configuration["Google:ClientId"]!;
                 options.ClientSecret = builder.Configuration["Google:ClientSecret"]!;
+                options.Scope.Add("profile");
+                options.Scope.Add("email");
+                options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+                options.ClaimActions.MapJsonKey(ClaimTypes.GivenName, "given_name");
+                options.ClaimActions.MapJsonKey(ClaimTypes.Surname, "family_name");
+                options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+                options.ClaimActions.MapJsonKey("picture", "picture");
                 options.CallbackPath = "/signin-google";
             })
-            // .AddFacebook(options =>
-            // {
-            //     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-            //     options.AppId = builder.Configuration["Facebook:AppId"];
-            //     options.AppSecret = builder.Configuration["Facebook:AppSecret"];
-            //     options.CallbackPath = "/signin-facebook";
-            // })
             .AddLinkedIn(options =>
             {
                 options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                 options.ClientId = builder.Configuration["LinkedIn:ClientId"]!;
                 options.ClientSecret = builder.Configuration["LinkedIn:ClientSecret"]!;
                 options.CallbackPath = "/signin-linkedin";
+                
+                options.Scope.Add("r_liteprofile");
+                options.Scope.Add("r_emailaddress");
+                options.SaveTokens = true;
+                
+                options.ClaimActions.MapJsonSubKey(ClaimTypes.Name, "localizedFirstName", "localizedLastName"); // custom logic might be needed here
+                options.Events.OnCreatingTicket = async context =>
+                {
+                    var request = new HttpRequestMessage(HttpMethod.Get, "https://api.linkedin.com/v2/me");
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
+                    var response = await context.Backchannel.SendAsync(request);
+                    response.EnsureSuccessStatusCode();
+
+                    var user = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+                    context.RunClaimActions(user.RootElement);
+                };
             })
             .AddMicrosoftAccount(options =>
             {
                 options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                 options.ClientId = builder.Configuration["Microsoft:ClientId"]!;
                 options.ClientSecret = builder.Configuration["Microsoft:ClientSecret"]!;
+                options.Scope.Add("User.Read");
+                options.SaveTokens = true;
                 options.CallbackPath = "/signin-microsoft";
             });
         
@@ -110,6 +133,8 @@ public static class Startup
                         if (!Uri.TryCreate(origin, UriKind.Absolute, out var uri))
                             return false;
                         return uri.Host == "localhost" || 
+                               new Uri(origin).Host == "unishop-online.vercel.app" ||
+                               new Uri(origin).Host == "unishop-admin.vercel.app" ||
                                uri.Host == "https://devsyncaccountsapi-ccguashuc8a5gpfs.uksouth-01.azurewebsites.net";
                     })
                     .AllowAnyHeader()

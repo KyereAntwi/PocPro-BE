@@ -1,6 +1,3 @@
-using DevSync.PocPro.Shops.Shared.Interfaces;
-using DevSync.PocPro.Shops.Shared.ValueObjects;
-
 namespace DevSync.PocPro.Shops.OrdersModule.Features.Orders.GetAllOrders;
 
 public class GetAllOrdersEndpoint(
@@ -106,6 +103,11 @@ public class GetAllOrdersEndpoint(
         if (!string.IsNullOrWhiteSpace(req.Pos))
         {
             orderQuery = orderQuery.Where(order => order.PointOfSaleId == PointOfSaleId.Of(Guid.Parse(req.Pos)));
+        }
+
+        if (!string.IsNullOrWhiteSpace(req.CreatedBy))
+        {
+            orderQuery = orderQuery.Where(order => order.CreatedBy!.ToLower().Contains(req.CreatedBy.ToLower()));
         }
         
         return orderQuery;

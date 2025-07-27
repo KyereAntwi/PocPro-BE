@@ -9,4 +9,5 @@ public record GetProductsForOnlineSiteRequest
     public decimal MinPrice { get; set; }
     public decimal MaxPrice { get; set; }
     public string Brands { get; set; } = string.Empty;
+    public bool IsFeatured { get; set; } = false;
 }

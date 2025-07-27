@@ -33,7 +33,9 @@ public class UpdateProductEndpoint (
             photoUrl: req.PhotoUrl ?? string.Empty,
             categoryId: CategoryId.Of(req.CategoryId),
             description: req.Description,
-            lowThresholdValue: req.LowThresholdValue);
+            lowThresholdValue: req.LowThresholdValue,
+            isFeatured: req.IsFeatured,
+            brandId: req.BrandId != Guid.Empty ? BrandId.Of(req.BrandId) : existingProduct.BrandId);
         
         await shopDbContext.SaveChangesAsync(ct);
 

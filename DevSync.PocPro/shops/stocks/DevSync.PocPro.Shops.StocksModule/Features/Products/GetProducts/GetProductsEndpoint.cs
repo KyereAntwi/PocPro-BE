@@ -38,7 +38,8 @@ public class GetProductsEndpoint(IShopDbContext shopDbContext)
                 x.Description ?? string.Empty,
                 x.LowThresholdValue,
                 x.BrandId != null ? x.BrandId.Value : null,
-                null
+                null,
+                x.IsFeatured
             )).ToArrayAsync(ct)
         );
 
@@ -58,7 +59,7 @@ public class GetProductsEndpoint(IShopDbContext shopDbContext)
         
         if (!string.IsNullOrWhiteSpace(req.SearchText))
         {
-            query = query.Where(x => x.Name.Contains(req.SearchText));
+            query = query.Where(x => x.Name.ToLower().Contains(req.SearchText.ToLower()));
         }
         
         if (!string.IsNullOrWhiteSpace(req.Category))
@@ -70,6 +71,11 @@ public class GetProductsEndpoint(IShopDbContext shopDbContext)
         {
             var brandIds = req.Brands.Split(';').ToList();
             query = query.Where(x => x.BrandId != null && brandIds.Contains(x.BrandId.Value.ToString()));
+        }
+        
+        if (req.IsFeatured)
+        {
+            query = query.Where(x => x.IsFeatured);
         }
 
         return query;

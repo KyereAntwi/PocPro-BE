@@ -19,9 +19,10 @@ public class GetApplicationUserDetailsEndpoint(IApplicationDbContext application
         var user = await applicationDbContext
             .ApplicationUsers
             .Include(u => u.Permissions)
+            .Where(a => a.UserId == req.UserId)
             .AsSplitQuery()
             .AsNoTracking()
-            .FirstOrDefaultAsync(a => a.UserId == req.UserId, ct);
+            .FirstOrDefaultAsync(ct);
 
         if (user == null)
         {
@@ -33,7 +34,7 @@ public class GetApplicationUserDetailsEndpoint(IApplicationDbContext application
         {
             Data = new GetApplicationUserDetailsResponse(
                 user.Id.Value,
-                user.TenantId!.Value,
+                user.TenantId == null ? Guid.Empty : user.TenantId!.Value,
                 user.FirstName,
                 user.LastName,
                 user.Email ?? string.Empty,

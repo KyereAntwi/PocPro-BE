@@ -1,7 +1,9 @@
 namespace DevSync.PocPro.Shops.StocksModule.Features.Products.AddProduct;
 
 public class AddProductEndpoint(
-    IShopDbContext shopDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 
+    IShopDbContext shopDbContext, 
+    IHttpContextAccessor httpContextAccessor, 
+    ITenantServices tenantServices) 
     : Endpoint<AddProductRequest, BaseResponse<Guid>>
 {
     public override void Configure()
@@ -26,7 +28,9 @@ public class AddProductEndpoint(
         }
 
         var product = Product.Create(
-            req.Name, req.BarcodeNumber!, req.PhotoUrl ?? string.Empty, CategoryId.Of(req.CategoryId), req.Description, req.LowThresholdValue, media);
+            req.Name, req.BarcodeNumber!, req.PhotoUrl ?? string.Empty, CategoryId.Of(req.CategoryId), req.Description, req.LowThresholdValue, media, req.IsFeatured,
+            req.BrandId == Guid.Empty ? null : BrandId.Of(req.BrandId));
+        
         await shopDbContext.Products.AddAsync(product, ct);
         await shopDbContext.SaveChangesAsync(ct);
         

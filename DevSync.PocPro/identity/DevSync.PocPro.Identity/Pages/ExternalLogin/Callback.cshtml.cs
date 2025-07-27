@@ -1,4 +1,6 @@
 using System.Security.Claims;
+using DevSync.PocPro.Identity.Dtos;
+using DevSync.PocPro.Identity.Services;
 using Duende.IdentityServer;
 using Microsoft.AspNetCore.Identity;
 
@@ -10,6 +12,7 @@ public class Callback : PageModel
 {
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly UserManager<IdentityUser> _userManager;
+    private readonly IAccountsApiServices _accountsApiServices;
     private readonly IIdentityServerInteractionService _interaction;
     private readonly ILogger<Callback> _logger;
     private readonly IEventService _events;
@@ -19,10 +22,12 @@ public class Callback : PageModel
         IEventService events,
         ILogger<Callback> logger,
         SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager)
+        UserManager<IdentityUser> userManager,
+        IAccountsApiServices accountsApiServices)
     {
         _signInManager = signInManager;
         _userManager = userManager;
+        _accountsApiServices = accountsApiServices;
         _interaction = interaction;
         _logger = logger;
         _events = events;
@@ -56,10 +61,32 @@ public class Callback : PageModel
         {
             var claims = externalUser.Claims.ToList();
             claims.Remove(userIdClaim);
-            user = new IdentityUser { UserName = provider + "_" + providerUserId };
+            
+            var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            var firstName = claims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value;
+            var lastName = claims.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value;
+            var profilePicture = claims.FirstOrDefault(c => c.Type == "picture")?.Value;
+            
+            user = new IdentityUser
+            {
+                Id = providerUserId,
+                UserName = email ?? providerUserId,
+                Email = email,
+                NormalizedUserName = email!.ToUpper(),
+                NormalizedEmail = email.ToUpper()
+            };
+            
             await _userManager.CreateAsync(user);
             await _userManager.AddLoginAsync(user, new UserLoginInfo(provider!, providerUserId, provider));
             await _userManager.AddClaimsAsync(user, claims);
+            
+            // TODO - send request to account user api
+            await _accountsApiServices.AddUserToAccountsAsync(new AddUserToAccountRequest(
+                email!,
+                providerUserId,
+                firstName!,
+                lastName!,
+                profilePicture ?? string.Empty));
         }
         
         var additionalLocalClaims = new List<Claim>();

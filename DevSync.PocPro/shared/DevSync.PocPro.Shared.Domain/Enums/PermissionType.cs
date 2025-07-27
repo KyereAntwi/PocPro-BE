@@ -24,4 +24,6 @@ public enum PermissionType
     VIEW_ORDERS = 20,
     VIEW_SESSIONS = 21,
     MANAGE_BRANDS = 22,
+    VIEW_REPORTS = 23,
+    MANAGE_SETTINGS = 24
 }

@@ -1,5 +1,3 @@
-using DevSync.PocPro.Shops.Shared.Interfaces;
-
 namespace DevSync.PocPro.Shops.PrivateCustomers.Features.PrivateCustomers.UpdateCustomer;
 
 public class UpdateCustomerEndpoint(
@@ -8,7 +6,7 @@ public class UpdateCustomerEndpoint(
 {
     public override void Configure()
     {
-        Put("/api/customers/{Id:guid}");
+        Put("/api/v1/customers/{Id:guid}");
     }
 
     public override async Task HandleAsync(UpdateCustomerRequest req, CancellationToken ct)

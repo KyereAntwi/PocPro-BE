@@ -22,6 +22,150 @@ namespace DevSync.PocPro.Shops.Api.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("DevSync.PocPro.Shops.GeneralSettings.Domain.SeoInformation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("MetaDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("MetaKeyword")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("MetaTitle")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SettingsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SettingsId")
+                        .IsUnique();
+
+                    b.ToTable("SeoInformation");
+                });
+
+            modelBuilder.Entity("DevSync.PocPro.Shops.GeneralSettings.Domain.Settings", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("GeneralSiteDescription")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LogoUrl")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Settings");
+                });
+
+            modelBuilder.Entity("DevSync.PocPro.Shops.GeneralSettings.Domain.SocialLink", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SettingsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SettingsId");
+
+                    b.ToTable("SocialLinks");
+                });
+
             modelBuilder.Entity("DevSync.PocPro.Shops.OrdersModule.Domain.Order", b =>
                 {
                     b.Property<Guid>("Id")
@@ -107,6 +251,9 @@ namespace DevSync.PocPro.Shops.Api.Data.Migrations
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uuid");
+
+                    b.Property<decimal>("ProductPrice")
+                        .HasColumnType("numeric");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
@@ -533,6 +680,11 @@ namespace DevSync.PocPro.Shops.Api.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsFeatured")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
                     b.Property<int>("LowThresholdValue")
                         .HasColumnType("integer");
 
@@ -718,6 +870,9 @@ namespace DevSync.PocPro.Shops.Api.Data.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
+                    b.Property<Guid>("PointOfSaleId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uuid");
 
@@ -730,14 +885,31 @@ namespace DevSync.PocPro.Shops.Api.Data.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(225)
-                        .HasColumnType("character varying(225)");
-
                     b.HasKey("Id");
 
                     b.ToTable("WishListItems");
+                });
+
+            modelBuilder.Entity("DevSync.PocPro.Shops.GeneralSettings.Domain.SeoInformation", b =>
+                {
+                    b.HasOne("DevSync.PocPro.Shops.GeneralSettings.Domain.Settings", "Settings")
+                        .WithOne("Seo")
+                        .HasForeignKey("DevSync.PocPro.Shops.GeneralSettings.Domain.SeoInformation", "SettingsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Settings");
+                });
+
+            modelBuilder.Entity("DevSync.PocPro.Shops.GeneralSettings.Domain.SocialLink", b =>
+                {
+                    b.HasOne("DevSync.PocPro.Shops.GeneralSettings.Domain.Settings", "Settings")
+                        .WithMany("SocialLinks")
+                        .HasForeignKey("SettingsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Settings");
                 });
 
             modelBuilder.Entity("DevSync.PocPro.Shops.OrdersModule.Domain.OrderItem", b =>
@@ -809,6 +981,13 @@ namespace DevSync.PocPro.Shops.Api.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("DevSync.PocPro.Shops.GeneralSettings.Domain.Settings", b =>
+                {
+                    b.Navigation("Seo");
+
+                    b.Navigation("SocialLinks");
                 });
 
             modelBuilder.Entity("DevSync.PocPro.Shops.OrdersModule.Domain.Order", b =>

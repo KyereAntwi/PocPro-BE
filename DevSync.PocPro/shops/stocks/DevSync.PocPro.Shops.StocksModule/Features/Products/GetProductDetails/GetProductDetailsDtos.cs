@@ -13,7 +13,8 @@ public record GetProductDetailsResponseItem(
     Guid? PosId,
     Guid? BrandId,
     string Description,
-    int LowThresholdValue)
+    int LowThresholdValue,
+    bool IsFeatured)
 {
     public decimal Price { get; set; }
     public int QuantityLeft { get; set; }

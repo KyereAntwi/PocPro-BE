@@ -23,7 +23,9 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("Open", b =>
         b.SetIsOriginAllowed(origin => 
-                new Uri(origin).Host == "localhost")
+                new Uri(origin).Host == "localhost" ||
+                new Uri(origin).Host == "unishop-online.vercel.app" ||
+                new Uri(origin).Host == "unishop-admin.vercel.app")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials());

@@ -38,7 +38,7 @@ public class TenantServices(
             }
             var data = await response.Content.ReadFromJsonAsync<BaseResponse<TenantDto>>();
             var tenantDto = data!.Data;
-            return tenantDto != null ? new Tenant(tenantDto.ConnectionString, userId, tenantDto.SubscriptionType) : null;
+            return tenantDto != null ? new Tenant(tenantDto.ConnectionString, tenantDto.UniqueIdentifier, tenantDto.SubscriptionType) : null;
         }
         catch (Exception e)
         {

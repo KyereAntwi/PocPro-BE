@@ -1,4 +1,3 @@
-using DevSync.PocPro.Shared.Domain.Utils;
 using Npgsql;
 
 namespace DevSync.PocPro.Shops.Api.Services;

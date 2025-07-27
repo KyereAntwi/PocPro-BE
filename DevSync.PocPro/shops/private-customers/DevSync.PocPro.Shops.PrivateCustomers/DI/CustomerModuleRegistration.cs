@@ -7,6 +7,7 @@ public static class CustomerModuleRegistration
         services.AddDbContext<CustomerModuleDbContext>();
 
         services.AddScoped<ICustomerDbContext, CustomerModuleDbContext>();
+        services.AddScoped<ICustomersExtensionServices, CustomersExtensionServices>();
         
         return services;
     }

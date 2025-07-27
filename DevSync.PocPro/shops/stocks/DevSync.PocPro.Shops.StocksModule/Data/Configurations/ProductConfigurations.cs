@@ -28,5 +28,8 @@ public class ProductConfigurations : IEntityTypeConfiguration<Product>
         builder.Property(t => t.Status)
             .HasConversion(t => t.ToString(),
                 dbType => Enum.Parse<StatusType>(dbType!));
+
+        builder.Property(t => t.IsFeatured)
+            .HasDefaultValue(false);
     }
 }

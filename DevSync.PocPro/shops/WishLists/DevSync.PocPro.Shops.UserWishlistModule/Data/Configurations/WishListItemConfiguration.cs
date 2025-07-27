@@ -10,15 +10,17 @@ public class WishListItemConfiguration : IEntityTypeConfiguration<WishListItem>
                 id => id.Value,
                 dbId => WishListItemId.Of(dbId));
         
-        builder.Property(w => w.UserId)
-            .IsRequired()
-            .HasMaxLength(225);
-        
         builder.Property(w => w.ProductId)
             .IsRequired()
             .HasConversion(
                 productId => productId.Value,
                 dbId => ProductId.Of(dbId));
+
+        builder.Property(w => w.PointOfSaleId)
+            .IsRequired()
+            .HasConversion(
+                posId => posId.Value,
+                dbId => PointOfSaleId.Of(dbId));
         
         builder.Property(t => t.Status)
             .HasConversion(t => t.ToString(),

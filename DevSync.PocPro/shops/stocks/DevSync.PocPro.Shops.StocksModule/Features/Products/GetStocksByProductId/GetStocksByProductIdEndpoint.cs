@@ -17,7 +17,10 @@ public class GetStocksByProductIdEndpoint(IShopDbContext shopDbContext, IHttpCon
             return;
         }
         
-        var query = shopDbContext.Stocks.AsNoTracking();
+        var query = shopDbContext
+            .Stocks
+            .Where(p => p.ProductId == ProductId.Of(req.ProductId))
+            .AsNoTracking();
 
         if (!string.IsNullOrWhiteSpace(req.Pos))
         {

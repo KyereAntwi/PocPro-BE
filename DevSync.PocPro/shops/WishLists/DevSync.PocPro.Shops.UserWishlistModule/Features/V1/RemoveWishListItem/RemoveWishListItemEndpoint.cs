@@ -14,8 +14,10 @@ public class RemoveWishListItemEndpoint(IWishListDbContext wishListDbContext) : 
 
     public override async Task HandleAsync(RemoveWishListItemRequest req, CancellationToken ct)
     {
-        var item = await wishListDbContext.WishListItems
-            .FindAsync(WishListItemId.Of(req.Id), ct);
+        var item = await wishListDbContext
+            .WishListItems
+            .Where(item => item.ProductId == ProductId.Of(req.Id))
+            .FirstOrDefaultAsync(ct);
 
         if (item is null)
         {

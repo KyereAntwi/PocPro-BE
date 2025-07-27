@@ -43,7 +43,8 @@ public class GetProductsForOnlineSiteEndpoint(
                         p.Description ?? string.Empty,
                         p.LowThresholdValue,
                         p.BrandId != null ? p.BrandId.Value : null,
-                        stock.PointOfSaleId.Value
+                        stock.PointOfSaleId.Value,
+                        p.IsFeatured
                     ))
                     .AsSplitQuery()
                     .AsNoTracking()
@@ -82,7 +83,7 @@ public class GetProductsForOnlineSiteEndpoint(
     {
         if (!string.IsNullOrWhiteSpace(req.SearchText))
         {
-            query = query.Where(x => x.Name.Contains(req.SearchText));
+            query = query.Where(x => x.Name.ToLower().Contains(req.SearchText.ToLower()));
         }
 
         if (!string.IsNullOrWhiteSpace(req.Category))
@@ -104,6 +105,11 @@ public class GetProductsForOnlineSiteEndpoint(
         if (req.MaxPrice > 0)
         {
             query = query.Where(x => x.Price <= req.MaxPrice);
+        }
+        
+        if (req.IsFeatured)
+        {
+            query = query.Where(x => x.IsFeatured);
         }
 
         return query;

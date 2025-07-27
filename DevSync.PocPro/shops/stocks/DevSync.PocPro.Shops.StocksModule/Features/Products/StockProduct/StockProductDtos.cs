@@ -8,6 +8,6 @@ public record StockProductRequest(
     decimal CostPerPrice,
     decimal SellingPerPrice,
     decimal TaxRate,
-    DateTime ExpiryAt);
+    DateTimeOffset ExpiryAt);
 
 public record StockProductResponse(Guid StockId);
