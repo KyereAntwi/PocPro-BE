@@ -20,10 +20,10 @@ public class StocksModuleDbContext : DbContext, IShopDbContext
             {
                 case EntityState.Added:
                     entity.Entity.CreatedBy = _httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-                    entity.Entity.CreatedAt = DateTime.UtcNow;
+                    entity.Entity.CreatedAt = DateTimeOffset.UtcNow;;
                     break;
                 case EntityState.Modified:
-                    entity.Entity.UpdatedAt = DateTime.UtcNow;
+                    entity.Entity.UpdatedAt = DateTimeOffset.UtcNow;;
                     entity.Entity.UpdatedBy = _httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
                     break;
             }

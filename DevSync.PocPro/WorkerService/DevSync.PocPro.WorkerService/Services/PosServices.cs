@@ -1,5 +1,4 @@
 using System.Net.Http.Json;
-using DevSync.PocPro.WorkerService.Interfaces;
 using DevSync.PocPro.WorkerService.Utils;
 using Polly;
 using Polly.Retry;

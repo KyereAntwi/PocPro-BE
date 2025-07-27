@@ -1,4 +1,3 @@
-using DevSync.PocPro.Shared.Domain.Events;
 using DevSync.PocPro.Shops.Shared.Dtos;
 using DevSync.PocPro.Shops.Shared.ValueObjects;
 

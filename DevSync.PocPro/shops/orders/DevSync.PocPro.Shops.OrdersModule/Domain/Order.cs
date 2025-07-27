@@ -1,5 +1,3 @@
-using DevSync.PocPro.Shops.Shared.ValueObjects;
-
 namespace DevSync.PocPro.Shops.OrdersModule.Domain;
 
 public class Order : BaseEntity<OrderId>

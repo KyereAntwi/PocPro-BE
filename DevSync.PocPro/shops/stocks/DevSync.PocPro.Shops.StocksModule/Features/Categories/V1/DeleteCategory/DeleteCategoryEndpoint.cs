@@ -1,10 +1,11 @@
 using DevSync.PocPro.Shops.StocksModule.Events;
-using MassTransit;
 
 namespace DevSync.PocPro.Shops.StocksModule.Features.Categories.V1.DeleteCategory;
 
 public class DeleteCategoryEndpoint(
-    IShopDbContext shopDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices, IPublishEndpoint publishEndpoint) 
+    IShopDbContext shopDbContext, 
+    IHttpContextAccessor httpContextAccessor, 
+    ITenantServices tenantServices) 
     : Endpoint<DeleteCategoryRequest>
 {
     public override void Configure()
@@ -34,17 +35,17 @@ public class DeleteCategoryEndpoint(
         await shopDbContext.SaveChangesAsync(ct);
         
         // raise event to update all products in that category
-        try
-        {
-            await publishEndpoint.Publish(new UpdateProductsCategoryIdEvent
-            {
-                CategoryId = category.Id.Value
-            }, ct);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
+        // try
+        // {
+        //     await publishEndpoint.Publish(new UpdateProductsCategoryIdEvent
+        //     {
+        //         CategoryId = category.Id.Value
+        //     }, ct);
+        // }
+        // catch (Exception e)
+        // {
+        //     Console.WriteLine(e);
+        // }
         
         await SendOkAsync(ct);
     }

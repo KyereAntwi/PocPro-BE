@@ -7,29 +7,15 @@ public static class JobScheduler
     public static WebApplication AddServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddWorkerServiceDependencies(builder.Configuration);
+        
+        builder.Services.AddHostedService<CheckItemsLeftOnShelfAgainstLowStockThresholdWorkerService>();
+        builder.Services.AddHostedService<CheckForExpiringProductsWorkerService>();
+        
         return builder.Build();
     }
 
     public static WebApplication AddJobScheduler(this WebApplication app)
     {
-        app.Lifetime.ApplicationStarted.Register(() =>
-        {
-            RecurringJob.AddOrUpdate<InventoryNotificationService>(
-                "low-stock-threshold-check",
-                service => service.CheckItemsLeftOnShelfAgainstLowStockThresholdAsync(),
-                Cron.Hourly);
-        });
-        
-        app.Lifetime.ApplicationStarted.Register(() =>
-        {
-            RecurringJob.AddOrUpdate<InventoryNotificationService>(
-                "expiring-products-check",
-                service => service.CheckForExpiringProductsAsync(),
-                Cron.Daily);
-        });
-        
-        app.UseHangfireDashboard("/hangfire", new DashboardOptions());
-        
         return app;
     }
 }

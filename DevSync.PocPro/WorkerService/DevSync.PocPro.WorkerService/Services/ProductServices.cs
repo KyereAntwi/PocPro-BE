@@ -1,7 +1,6 @@
 using System.Net.Http.Json;
 using DevSync.PocPro.Shops.Shared.Dtos;
 using DevSync.PocPro.Shops.Shared.Utils;
-using DevSync.PocPro.WorkerService.Interfaces;
 using DevSync.PocPro.WorkerService.Utils;
 using Polly;
 using Polly.Retry;

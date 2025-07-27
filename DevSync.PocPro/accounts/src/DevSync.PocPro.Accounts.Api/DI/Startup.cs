@@ -1,4 +1,3 @@
-using DevSync.PocPro.Accounts.Api.EventsHandlers.Handlers;
 using DevSync.PocPro.Accounts.Api.Features.Tenants.Grpc;
 using DevSync.PocPro.Accounts.Api.Services;
 using DevSync.PocPro.Shared.Domain.Middlewares;
@@ -23,6 +22,10 @@ public static class Startup
         builder.Configuration.GetSection("ApiAuthentication").Bind(apiAuthentication);
         builder.Services.AddSingleton(apiAuthentication);
         
+        var messageBroker = new MessageBroker();
+        builder.Configuration.GetSection("MessageBroker").Bind(messageBroker);
+        builder.Services.AddSingleton(messageBroker);
+        
         builder.Services.AddDbContext<AccountsDbContext>(opt =>
         {
             opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -34,22 +37,8 @@ public static class Startup
         builder.Services.AddScoped<IApplicationDbContext, AccountsDbContext>();
         builder.Services.AddHttpClient<IIdentityServices, IdentityServices>();
 
-        builder.Services.AddMassTransit(x =>
-        {
-            x.SetKebabCaseEndpointNameFormatter();
-            x.AddConsumer<RegisterUserLoginEventHandler>();
-            
-            x.UsingRabbitMq((context, cfg) =>
-            {
-                cfg.Host(new Uri(builder.Configuration["MessageBroker:Host"]!), host =>
-                { 
-                    host.Username(builder.Configuration["MessageBroker:Username"]!); 
-                    host.Password(builder.Configuration["MessageBroker:Password"]!); 
-                });
-                
-                cfg.ConfigureEndpoints(context);
-            });
-        });
+        builder.Services.AddSingleton<RabbitMqConnectionFactory>();
+        builder.Services.AddSingleton<EventPublisher>();
         
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddEndpointsApiExplorer();

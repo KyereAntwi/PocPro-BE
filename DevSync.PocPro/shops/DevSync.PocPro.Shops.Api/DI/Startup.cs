@@ -1,11 +1,11 @@
 using DevSync.PocPro.Shared.Domain.Middlewares;
-using DevSync.PocPro.Shared.Domain.Utils;
-using DevSync.PocPro.Shops.Api.Services;
+using DevSync.PocPro.Shops.GeneralSettings.DI;
 using DevSync.Pocpro.Shops.Notifications.DI;
-using DevSync.Pocpro.Shops.Notifications.Hubs;
 using DevSync.PocPro.Shops.OrdersModule.DI;
 using DevSync.PocPro.Shops.PointOfSales.DI;
 using DevSync.PocPro.Shops.PrivateCustomers.DI;
+using DevSync.PocPro.Shops.ProductsQueryModule.DI;
+using DevSync.PocPro.Shops.ReportsModule.DI;
 using DevSync.PocPro.Shops.Shared.Interfaces;
 using DevSync.PocPro.Shops.Shared.Utils;
 using DevSync.PocPro.Shops.StocksModule.Services;
@@ -29,12 +29,19 @@ public static class Startup
         builder.Configuration.GetSection("ApiAuthentication").Bind(apiAuthentication);
         builder.Services.AddSingleton(apiAuthentication);
         
+        var messageBroker = new MessageBroker();
+        builder.Configuration.GetSection("MessageBroker").Bind(messageBroker);
+        builder.Services.AddSingleton(messageBroker);
+        
         builder.Services.AddStockModule(builder.Configuration);
         builder.Services.AddNotificationsModule(builder.Configuration);
         builder.Services.RegisterOrderModule();
         builder.Services.AddPosDependencies();
         builder.Services.AddCustomerModule();
         builder.Services.AddWishListModule();
+        builder.Services.AddReportDependencies();
+        builder.Services.AddGeneralSettingsModule();
+        builder.Services.AddProductQueryDependencies(builder.Configuration);
 
         builder.Services.AddScoped<IMasterExtensions, MasterExtensions>();
         builder.Services.AddScoped<IPurchaseServices, PurchaseServices>();
@@ -44,25 +51,15 @@ public static class Startup
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
         
-        builder.Services.AddTransient<ITenantServices, TenantServices>();
-        builder.Services.AddScoped<ITenantRegistrationServices, TenantRegistrationServices>();
+        builder.Services.AddSingleton<ITenantServices, TenantServices>();
+        builder.Services.AddTransient<ITenantRegistrationServices, TenantRegistrationServices>();
+
+        builder.Services.AddSingleton<RabbitMqConnectionFactory>();
+        builder.Services.AddSingleton<EventPublisher>();
         
-        builder.Services.AddMassTransit(x =>
-        {
-            x.SetKebabCaseEndpointNameFormatter();
-            x.AddConsumer<GenerateTenantDatabaseEventHandler>();
-            
-            x.UsingRabbitMq((context, cfg) =>
-            {
-                cfg.Host(new Uri(builder.Configuration["MessageBroker:Host"]!), host =>
-                { 
-                    host.Username(builder.Configuration["MessageBroker:Username"]!); 
-                    host.Password(builder.Configuration["MessageBroker:Password"]!); 
-                });
-                
-                cfg.ConfigureEndpoints(context);
-            });
-        });
+        builder.Services.AddHostedService<GenerateTenantDatabaseEventHandler>();
+        builder.Services.AddHostedService<AddProductToQueryEventHandler>();
+        builder.Services.AddHostedService<PurchaseMadeOnProductEventHandler>();
         
         builder.AddServiceDefaults();
         builder.Services.AddOpenApi();

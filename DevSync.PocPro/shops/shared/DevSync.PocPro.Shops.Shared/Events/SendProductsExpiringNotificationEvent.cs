@@ -1,5 +1,3 @@
-using DevSync.PocPro.Shared.Domain.Events;
-
 namespace DevSync.PocPro.Shops.Shared.Events;
 
 public record SendProductsExpiringNotificationEvent : IntegrationEvents

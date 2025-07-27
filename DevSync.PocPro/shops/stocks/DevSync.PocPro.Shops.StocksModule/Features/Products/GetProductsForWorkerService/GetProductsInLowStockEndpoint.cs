@@ -48,7 +48,7 @@ public class GetProductsInLowStockEndpoint(
                    .OrderByDescending(s => s.CreatedAt)
                    .Last()
                    .QuantityLeftInStock <= p.LowThresholdValue)
-               .Select(p => new ProductDto(p.Id.Value, p.Name, p.PhotoUrl ?? string.Empty))
+               .Select(p => new ProductDto(p.Id.Value, p.Name, p.PhotoUrl ?? string.Empty, 0))
                .AsSplitQuery()
                .AsNoTracking()
                .ToArrayAsync(ct);

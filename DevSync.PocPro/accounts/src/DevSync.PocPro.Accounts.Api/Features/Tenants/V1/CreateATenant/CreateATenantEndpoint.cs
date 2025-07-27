@@ -6,7 +6,7 @@ namespace DevSync.PocPro.Accounts.Api.Features.Tenants.V1.CreateATenant;
 public class CreateATenantEndpoint(
     IApplicationDbContext applicationDbContext, 
     ILogger<CreateATenantEndpoint> logger,
-    IPublishEndpoint publishEndpoint,
+    RabbitMqConnectionFactory rabbitMqConnection,
     TenantDatabaseSettings tenantDatabaseSettings) 
     : Endpoint<CreateATenantRequest, BaseResponse<CreateATenantResponse>>
 {
@@ -38,18 +38,17 @@ public class CreateATenantEndpoint(
         
         await applicationDbContext.Tenants.AddAsync(tenant, ct);
         await applicationDbContext.SaveChangesAsync(ct);
-        
-        // send an event for database creation and migration implementation
-        var integrationEvent = new GenerateTenantDatabaseEvent
-        {
-            TenantId = tenant.Id.Value,
-            DatabaseName = tenant.UniqueIdentifier,
-            ConnectionString = connectionString
-        };
 
         try
         {
-            await publishEndpoint.Publish(integrationEvent, ct);
+            var integrationEvent = new GenerateTenantDatabaseEvent
+            {
+                TenantId = tenant.Id.Value,
+                DatabaseName = tenant.UniqueIdentifier,
+                ConnectionString = connectionString
+            };
+            var publisher = new EventPublisher(rabbitMqConnection);
+            await publisher.PublishAsync(integrationEvent, "shop_exchange", "generate_database", ct);
         }
         catch (Exception e)
         {

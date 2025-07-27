@@ -1,5 +1,5 @@
 using DevSync.PocPro.Shared.Domain.Events;
-using DevSync.PocPro.Shops.Shared.Interfaces;
+using DevSync.PocPro.Shared.Domain.Utils;
 
 namespace DevSync.PocPro.Shops.PrivateCustomers.Features.PrivateCustomers.DeleteCustomer;
 
@@ -8,7 +8,7 @@ public class DeleteCustomerEndpoint(
     ITenantServices tenantServices, 
     IHttpContextAccessor httpContextAccessor,
     ILogger<DeleteCustomerEndpoint> logger,
-    IPublishEndpoint publishEndpoint) 
+    RabbitMqConnectionFactory rabbitMqConnection) 
     : Endpoint<DeleteCustomerRequest>
 {
     public override void Configure()
@@ -40,10 +40,13 @@ public class DeleteCustomerEndpoint(
 
         try
         {
-            await publishEndpoint.Publish(new DeleteCustomerEvent
+            var message = new DeleteCustomerEvent
             {
                 CustomerId = customer.Id.Value
-            }, ct);
+            };
+
+            var publisher = new EventPublisher(rabbitMqConnection);
+            await publisher.PublishAsync(message, "shop_exchange", "delete_customer", ct);
         }
         catch (Exception e)
         {

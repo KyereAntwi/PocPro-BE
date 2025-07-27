@@ -17,8 +17,9 @@ public class GetTenantDetailsEndpoint(IApplicationDbContext applicationDbContext
     {
         var user = await applicationDbContext
             .ApplicationUsers
+            .Where(u => u.UserId == req.UserId)
             .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.UserId == req.UserId, ct);
+            .FirstOrDefaultAsync(ct);
         
         if (user == null)
         {
@@ -28,8 +29,9 @@ public class GetTenantDetailsEndpoint(IApplicationDbContext applicationDbContext
         
         var tenant = await applicationDbContext
             .Tenants
+            .Where(t => t.Id == user.TenantId)
             .AsNoTracking()
-            .FirstOrDefaultAsync(t => t.Id == user.TenantId, ct);
+            .FirstOrDefaultAsync(ct);
         
         if (tenant == null)
         {

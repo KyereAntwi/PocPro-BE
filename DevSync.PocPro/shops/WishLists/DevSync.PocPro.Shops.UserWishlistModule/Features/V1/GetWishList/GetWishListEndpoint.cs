@@ -16,10 +16,10 @@ public class GetWishListEndpoint(
 
     public override async Task HandleAsync(GetWishListRequest req, CancellationToken ct)
     {
-        var userId = httpContextAccessor.HttpContext?.User.FindFirst("sub")?.Value;
+        var userId = httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
         var list = await wishListDbContext.WishListItems
-            .Where(x => x.UserId == userId)
+            .Where(x => x.CreatedBy == userId)
             .OrderByDescending(x => x.CreatedAt)
             .AsNoTracking()
             .ToListAsync(ct);
@@ -27,7 +27,7 @@ public class GetWishListEndpoint(
         List<GetWishListItemResponse> items = [];
         
         var productTasks = list
-            .Select(item => product.GetProductByIdAsync(item.ProductId.Value, ct))
+            .Select(item => product.GetProductByIdAsync(item.ProductId.Value, item.PointOfSaleId.Value, ct))
             .ToList();
         
         var productDtos = await Task.WhenAll(productTasks);
@@ -37,7 +37,7 @@ public class GetWishListEndpoint(
             var productDto = productDtos[i];
             if (productDto != null)
             {
-                items.Add(new GetWishListItemResponse(productDto, list[i].CreatedAt));
+                items.Add(new GetWishListItemResponse(productDto));
             }
         }
 

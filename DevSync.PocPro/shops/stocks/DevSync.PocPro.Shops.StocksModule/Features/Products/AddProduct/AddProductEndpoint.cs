@@ -1,7 +1,9 @@
 namespace DevSync.PocPro.Shops.StocksModule.Features.Products.AddProduct;
 
 public class AddProductEndpoint(
-    IShopDbContext shopDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 
+    IShopDbContext shopDbContext, 
+    IHttpContextAccessor httpContextAccessor, 
+    ITenantServices tenantServices) 
     : Endpoint<AddProductRequest, BaseResponse<Guid>>
 {
     public override void Configure()

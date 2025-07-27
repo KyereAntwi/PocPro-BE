@@ -104,6 +104,11 @@ public class GetAllOrdersEndpoint(
         {
             orderQuery = orderQuery.Where(order => order.PointOfSaleId == PointOfSaleId.Of(Guid.Parse(req.Pos)));
         }
+
+        if (!string.IsNullOrWhiteSpace(req.CreatedBy))
+        {
+            orderQuery = orderQuery.Where(order => order.CreatedBy!.ToLower().Contains(req.CreatedBy.ToLower()));
+        }
         
         return orderQuery;
     }

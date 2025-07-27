@@ -52,7 +52,7 @@ public class GetProductsExpiringSoonEndpoint(
             var products = await shopDbContext.
                 Products
                 .Where(p => p.Id == stock.ProductId)
-                .Select(p => new ProductDto(p.Id.Value, p.Name, p.PhotoUrl ?? string.Empty))
+                .Select(p => new ProductDto(p.Id.Value, p.Name, p.PhotoUrl ?? string.Empty, 0))
                 .AsNoTracking()
                 .ToArrayAsync(ct);
             
