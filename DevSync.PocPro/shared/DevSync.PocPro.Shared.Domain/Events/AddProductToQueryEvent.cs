@@ -17,6 +17,7 @@ public record AddProductToQueryEvent : IntegrationEvents
     public Guid PosId { get; set; }
     public bool IsOnline { get; set; }
     public List<string> Keywords { get; set; } = new();
+    public float Ratings { get; set; }
 }
 
 public record BrandEventDto(Guid Id, string Title);

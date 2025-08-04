@@ -20,7 +20,8 @@ public class GetOrderByOrderNumberEndpoint(IOrderModuleDbContext orderModuleDbCo
                     new OrderItemDto(
                         item.Id.Value,
                         item.ProductId,
-                        item.Quantity)),
+                        item.Quantity,
+                        item.ProductPrice)),
                 o.Type.ToString(),
                 o.OrderStatus.ToString(),
                 o.Status.ToString() ?? StatusType.Active.ToString(),

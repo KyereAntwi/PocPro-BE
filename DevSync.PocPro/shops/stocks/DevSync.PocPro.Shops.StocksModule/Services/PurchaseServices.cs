@@ -44,11 +44,17 @@ public class PurchaseServices(
         
         await stocksModuleDbContext.SaveChangesAsync(cancellationToken);
 
-        if (itemsToPublish.Count > 0)
+        if (itemsToPublish.Count <= 0) return Result.Ok();
+        
+        try
         {
             await SendEventForProductPurchased(itemsToPublish, products[0].CreatedBy!, cancellationToken);
         }
-        
+        catch (Exception e)
+        {
+            logger.LogError("Error publishing product for purchase deduction on product query. Error = {Error}", e.Message);
+        }
+
         return Result.Ok();
     }
 
@@ -56,20 +62,13 @@ public class PurchaseServices(
     {
         var tenant = await tenantServices.GetTenantByUserIdAsync(createdBy);
         
-        try
+        var integrationEvent = new PurchaseMadeOnProductEvent
         {
-            var integrationEvent = new PurchaseMadeOnProductEvent
-            {
-                Items = items,
-                TenantIdentifier = tenant!.UniqueIdentifier
-            };
+            Items = items,
+            TenantIdentifier = tenant!.UniqueIdentifier
+        };
             
-            var publisher = new EventPublisher(rabbitMqConnection);
-            await publisher.PublishAsync(integrationEvent, "shop_exchange", "purchase_changes_in_product_query", ct);
-        }
-        catch (Exception e)
-        {
-            logger.LogError("Error publishing product for purchase deduction on product query. Error = {Error}", e.Message);
-        }
+        var publisher = new EventPublisher(rabbitMqConnection);
+        await publisher.PublishAsync(integrationEvent, "shop_exchange", "purchase_changes_in_product_query", ct);
     }
 }

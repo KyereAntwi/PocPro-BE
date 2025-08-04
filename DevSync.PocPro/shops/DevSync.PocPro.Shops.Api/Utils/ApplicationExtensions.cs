@@ -1,4 +1,3 @@
-using DevSync.PocPro.Shops.Shared.Interfaces;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 

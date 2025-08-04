@@ -6,7 +6,7 @@ using DevSync.PocPro.Shops.PointOfSales.DI;
 using DevSync.PocPro.Shops.PrivateCustomers.DI;
 using DevSync.PocPro.Shops.ProductsQueryModule.DI;
 using DevSync.PocPro.Shops.ReportsModule.DI;
-using DevSync.PocPro.Shops.Shared.Interfaces;
+using DevSync.PocPro.Shops.Reviews.DI;
 using DevSync.PocPro.Shops.Shared.Utils;
 using DevSync.PocPro.Shops.StocksModule.Services;
 using DevSync.PocPro.Shops.UserWishlistModule.DI;
@@ -42,6 +42,7 @@ public static class Startup
         builder.Services.AddReportDependencies();
         builder.Services.AddGeneralSettingsModule();
         builder.Services.AddProductQueryDependencies(builder.Configuration);
+        builder.Services.AddReviewsModuleDependencies();
 
         builder.Services.AddScoped<IMasterExtensions, MasterExtensions>();
         builder.Services.AddScoped<IPurchaseServices, PurchaseServices>();
@@ -60,6 +61,8 @@ public static class Startup
         builder.Services.AddHostedService<GenerateTenantDatabaseEventHandler>();
         builder.Services.AddHostedService<AddProductToQueryEventHandler>();
         builder.Services.AddHostedService<PurchaseMadeOnProductEventHandler>();
+        builder.Services.AddHostedService<SendProductRatedEventHandler>();
+        builder.Services.AddHostedService<ProductUpdateEventHandler>();
         
         builder.AddServiceDefaults();
         builder.Services.AddOpenApi();

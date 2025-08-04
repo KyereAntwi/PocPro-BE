@@ -152,4 +152,30 @@ public class OrderExternalServices(OrdersModuleDbContext ordersModuleDbContext)
             })
             .ToDictionaryAsync(g => g.PaymentMethod.ToString(), g => g.Total, cancellationToken);
     }
+
+    public async Task<int> GetTotalSalesCountAsync(PointOfSaleId? pointOfSaleId, DateTimeOffset startDate, DateTimeOffset endDate,
+        CancellationToken cancellationToken = default)
+    {
+        var query = ordersModuleDbContext
+            .Orders
+            .AsNoTracking()
+            .Where(x => x.OrderStatus == OrderStatus.Delivered);
+
+        if (pointOfSaleId is not null)
+        {
+            query = query.Where(x => x.PointOfSaleId == pointOfSaleId);       
+        }
+
+        if (startDate != new DateTimeOffset())
+        {
+            query = query.Where(x => x.CreatedAt >= startDate);
+        }
+        
+        if (endDate != new DateTimeOffset())
+        {
+            query = query.Where(x => x.CreatedAt <= endDate);
+        }
+
+        return await query.CountAsync(cancellationToken);
+    }
 }

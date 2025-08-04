@@ -4,5 +4,6 @@ global using System.Security.Claims;
 global using DevSync.PocPro.Shared.Domain.Dtos;
 global using DevSync.PocPro.Shared.Domain.Enums;
 global using DevSync.PocPro.Shops.Shared.Interfaces;
+global using DevSync.PocPro.Shops.Shared.ValueObjects;
 global using FastEndpoints;
 global using Microsoft.AspNetCore.Http;

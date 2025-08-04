@@ -30,7 +30,7 @@ public class UpdateCustomerEndpoint(
         
         var status = Enum.Parse<StatusType>(req.Status);
         customer.Update(req.FullName, req.Email, req.Phone, req.Address, status);
-        
+        customerDbContext.Customers.Update(customer);
         await customerDbContext.SaveChangesAsync(ct);
 
         await SendNoContentAsync(ct);

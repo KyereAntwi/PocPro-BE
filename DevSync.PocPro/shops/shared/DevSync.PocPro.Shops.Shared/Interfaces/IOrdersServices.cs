@@ -33,4 +33,10 @@ public interface IOrdersServices
         DateTimeOffset startDate,
         DateTimeOffset endDate,
         CancellationToken cancellationToken = default);
+    
+    Task<int> GetTotalSalesCountAsync(
+        PointOfSaleId? pointOfSaleId,
+        DateTimeOffset startDate, 
+        DateTimeOffset endDate,
+        CancellationToken cancellationToken = default);
 }

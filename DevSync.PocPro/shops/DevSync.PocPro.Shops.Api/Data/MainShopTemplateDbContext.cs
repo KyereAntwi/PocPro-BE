@@ -1,3 +1,6 @@
+using DevSync.PocPro.Shops.Reviews.Data;
+using DevSync.PocPro.Shops.Reviews.Domains;
+
 namespace DevSync.PocPro.Shops.Api.Data;
 
 public class MainShopTemplateDbContext : DbContext
@@ -14,6 +17,7 @@ public class MainShopTemplateDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CustomerModuleDbContext).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserWishListModuleDbContext).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(GeneralSettingsModuleDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProductReviewsModuleDbContext).Assembly);
         
         base.OnModelCreating(modelBuilder);
     }
@@ -36,4 +40,6 @@ public class MainShopTemplateDbContext : DbContext
     public DbSet<Settings> Settings => Set<Settings>();
     public DbSet<SeoInformation> SeoInformation => Set<SeoInformation>();
     public DbSet<SocialLink> SocialLinks => Set<SocialLink>();
+    public DbSet<ProductReview> ProductReviews => Set<ProductReview>();
+    public DbSet<Rating> Ratings => Set<Rating>();
 }

@@ -1,5 +1,3 @@
-using DevSync.PocPro.Shops.Shared.ValueObjects;
-
 namespace DevSync.PocPro.Shops.ReportsModule.Features.V1.TotalSalesByPaymentMethod;
 
 public class TotalSalesByPaymentMethodEndpoint(
@@ -29,11 +27,28 @@ public class TotalSalesByPaymentMethodEndpoint(
             ? parsedEndDate 
             : DateTime.UtcNow;
 
-        var response = await ordersServices.GetGroupedSalesByPaymentMethodAsync(
+        var response = new Dictionary<string, decimal>();
+
+        var query = await ordersServices.GetGroupedSalesByPaymentMethodAsync(
             string.IsNullOrWhiteSpace(req.Pos) ? null : PointOfSaleId.Of(Guid.Parse(req.Pos)),
-            DateTimeOffset.Parse(req.StartDate),
-            DateTimeOffset.Parse(req.EndDate),
+            startDate,
+            endDate,
             ct);
+
+        if (query.Count > 0)
+        {
+            response = query;
+        }
+        else
+        {
+            response = new Dictionary<string, decimal>
+            {
+                { "CreditCard", 0m },
+                { "Cash", 0m },
+                { "MobilePayment", 0m },
+                {"BankTransfer", 0m}
+            };
+        }
 
         await SendOkAsync(
             new BaseResponse<Dictionary<string, decimal>>("Total sales by payment method fetched successfully", true)

@@ -1,5 +1,3 @@
-using DevSync.PocPro.Shops.Shared.ValueObjects;
-
 namespace DevSync.PocPro.Shops.ReportsModule.Features.V1.TotalAmountOfStocksLeft;
 
 public class TotalAmountOfStocksLeftEndpoint(
@@ -36,7 +34,7 @@ public class TotalAmountOfStocksLeftEndpoint(
                 endDate, 
                 ct);
 
-        await SendOkAsync(new BaseResponse<TotalAmountOfStocksLeftResponse>("", true)
+        await SendOkAsync(new BaseResponse<TotalAmountOfStocksLeftResponse>("Total amount of stocks fetched successfully", true)
         {
             Data = new TotalAmountOfStocksLeftResponse(totalAmount, percentageChange)
         }, ct);

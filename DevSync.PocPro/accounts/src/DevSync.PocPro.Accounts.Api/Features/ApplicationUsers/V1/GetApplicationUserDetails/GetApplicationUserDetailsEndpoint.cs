@@ -12,6 +12,7 @@ public class GetApplicationUserDetailsEndpoint(IApplicationDbContext application
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status401Unauthorized)
         );
+        AllowAnonymous();
     }
 
     public override async Task HandleAsync(GetApplicationUserDetailsRequest req, CancellationToken ct)

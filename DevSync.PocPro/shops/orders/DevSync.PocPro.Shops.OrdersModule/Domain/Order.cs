@@ -16,7 +16,8 @@ public class Order : BaseEntity<OrderId>
         Guid customerId = default,
         Guid pointOfSaleId = default,
         string? customerName = null,
-        double amountReceived = 0)
+        double amountReceived = 0,
+        string orderNumber = "")
     {
         if (orderItems.Count == 0)
         {
@@ -42,7 +43,7 @@ public class Order : BaseEntity<OrderId>
             CustomerId = customerId == Guid.Empty ? null : CustomerId.Of(customerId),
             PointOfSaleId = pointOfSaleId == Guid.Empty ? null : PointOfSaleId.Of(pointOfSaleId),
             PaymentMethod = paymentMethod ?? PaymentMethod.Cash,
-            OrderNumber = OrderServices.GenerateOrderNumber(),
+            OrderNumber = string.IsNullOrWhiteSpace(orderNumber) ? OrderServices.GenerateOrderNumber() : orderNumber,
             CustomerName = customerName,
             AmountReceived = amountReceived,
             Status = StatusType.Active
