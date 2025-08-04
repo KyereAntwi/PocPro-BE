@@ -18,7 +18,7 @@ public class ProductServices(IShopDbContext shopDbContext) : IProductServices
                 product.Id.Value,
                 product.Name,
                 product.PhotoUrl ?? string.Empty,
-                product.CurrentSellingPrice(PointOfSaleId.Of(posId)))
+                product.CurrentSellingPrice(posId != Guid.Empty ? PointOfSaleId.Of(posId) : null))
             {
                 PosId = posId
             };

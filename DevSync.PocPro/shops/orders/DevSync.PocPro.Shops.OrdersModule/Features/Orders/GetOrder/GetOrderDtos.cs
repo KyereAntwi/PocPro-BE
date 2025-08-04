@@ -17,7 +17,7 @@ public record GetOrderResponse(
     DateTimeOffset? UpdatedAt,
     string CreatedBy);
 
-public record OrderItemDto(Guid Id, Guid ProductId, int Quantity);
+public record OrderItemDto(Guid Id, Guid ProductId, int Quantity, decimal Price);
 
 public record ProductDto(Guid Id, string Name, decimal Price, string? PhotoUrl);
 

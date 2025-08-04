@@ -1,6 +1,10 @@
+using System.Security.Claims;
+using DevSync.PocPro.Shops.Shared.Interfaces;
+
 namespace DevSync.PocPro.Shops.ProductsQueryModule.Services;
 
-public class HeaderTenantProvider(IHttpContextAccessor httpContextAccessor) 
+public class HeaderTenantProvider(
+    IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices) 
     : ITenantProvider
 {
     public Result<string> GetTenantId()
@@ -11,6 +15,17 @@ public class HeaderTenantProvider(IHttpContextAccessor httpContextAccessor)
             return tenantId.ToString();
         }
 
-        return Result.Fail("Tenant Identifier not provided");
+        if (string.IsNullOrWhiteSpace(context!.User.FindFirstValue(ClaimTypes.NameIdentifier)))
+            return Result.Fail("Tenant Identifier not provided");
+        
+        var userId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var tenant = tenantServices.GetTenantByUserIdAsync(userId!).GetAwaiter().GetResult();
+
+        if (tenant is null)
+        {
+            Result.Fail("Tenant Identifier not provided");
+        }
+
+        return tenant!.UniqueIdentifier;
     }
 }

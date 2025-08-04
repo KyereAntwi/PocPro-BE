@@ -1,5 +1,3 @@
-using DevSync.PocPro.Shops.Shared.ValueObjects;
-
 namespace DevSync.PocPro.Shops.ReportsModule.Features.V1.SalesOverview;
 
 public class SalesOverviewEndpoint(
@@ -36,13 +34,28 @@ public class SalesOverviewEndpoint(
             ct);
         
         var overviewSummary = new Dictionary<int, OverviewSummary>();
-        foreach (var (month, (totalForPos, totalForOnline)) in query)
+
+        if (query.Count > 0)
         {
-            overviewSummary[month] = new OverviewSummary
+            foreach (var (month, (totalForPos, totalForOnline)) in query)
             {
-                TotalForPos = totalForPos,
-                TotalForOnline = totalForOnline
-            };
+                overviewSummary[month] = new OverviewSummary
+                {
+                    TotalForPos = totalForPos,
+                    TotalForOnline = totalForOnline
+                };
+            }
+        }
+        else
+        {
+            foreach (var month in Enumerable.Range(1, 12))
+            {
+                overviewSummary[month] = new OverviewSummary
+                {
+                    TotalForOnline = 0,
+                    TotalForPos = 0
+                };
+            }
         }
         
         await SendOkAsync(new BaseResponse<Dictionary<int, OverviewSummary>>("Sales overview fetched successfully", true)

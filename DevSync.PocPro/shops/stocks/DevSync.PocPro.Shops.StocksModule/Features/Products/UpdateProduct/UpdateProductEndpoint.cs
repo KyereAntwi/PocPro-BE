@@ -1,7 +1,14 @@
+using DevSync.PocPro.Shared.Domain.Utils;
+using DevSync.PocPro.Shops.Shared.Events;
+
 namespace DevSync.PocPro.Shops.StocksModule.Features.Products.UpdateProduct;
 
 public class UpdateProductEndpoint (
-    IShopDbContext shopDbContext, IHttpContextAccessor httpContextAccessor, ITenantServices tenantServices)
+    IShopDbContext shopDbContext, 
+    IHttpContextAccessor httpContextAccessor, 
+    ITenantServices tenantServices,
+    RabbitMqConnectionFactory rabbitMqConnection,
+    ILogger<UpdateProductEndpoint> logger)
     : Endpoint<UpdateProductRequest>
 {
     public override void Configure()
@@ -38,6 +45,28 @@ public class UpdateProductEndpoint (
             brandId: req.BrandId != Guid.Empty ? BrandId.Of(req.BrandId) : existingProduct.BrandId);
         
         await shopDbContext.SaveChangesAsync(ct);
+
+        try
+        {
+            var tenant = await tenantServices.GetTenantByUserIdAsync(userId!);
+            
+            var updateEvent = new ProductUpdatedEvent
+            {
+                ProductId = req.ProductId,
+                Name = req.Name,
+                BarcodeNumber = req.BarcodeNumber ?? existingProduct.BarcodeNumber ?? string.Empty,
+                PhotoUrl = req.PhotoUrl ?? string.Empty,
+                IsFeatured = req.IsFeatured,
+                Identifier = tenant!.UniqueIdentifier
+            };
+            
+            var publisher = new EventPublisher(rabbitMqConnection);
+            await publisher.PublishAsync(updateEvent, "shop_exchange", "update_product", ct);
+        }
+        catch (Exception e)
+        {
+            logger.LogError("Error publishing product updated event: {Message}", e.Message);
+        }
 
         await SendOkAsync(ct);
     }

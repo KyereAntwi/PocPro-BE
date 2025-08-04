@@ -32,6 +32,7 @@
       <ProjectReference Include="..\orders\DevSync.PocPro.Shops.OrdersModule\DevSync.PocPro.Shops.OrdersModule.csproj" />
       <ProjectReference Include="..\pointofsales\DevSync.PocPro.Shops.PointOfSalesModule\DevSync.PocPro.Shops.PointOfSalesModule.csproj" />
       <ProjectReference Include="..\private-customers\DevSync.PocPro.Shops.PrivateCustomers\DevSync.PocPro.Shops.PrivateCustomers.csproj" />
+      <ProjectReference Include="..\product-reviews\DevSync.PocPro.Shops.Reviews\DevSync.PocPro.Shops.Reviews.csproj" />
       <ProjectReference Include="..\products-query\DevSync.PocPro.Shops.ProductsQueryModule\DevSync.PocPro.Shops.ProductsQueryModule.csproj" />
       <ProjectReference Include="..\reports\DevSync.PocPro.Shops.ReportsModule\DevSync.PocPro.Shops.ReportsModule.csproj" />
       <ProjectReference Include="..\stocks\DevSync.PocPro.Shops.StocksModule\DevSync.PocPro.Shops.StocksModule.csproj" />

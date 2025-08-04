@@ -79,7 +79,8 @@ public class AddProductToQueryEventHandler : BackgroundService
                             Title = eventObj.CategoryTitle  
                         },
                         OnlineEnabled = eventObj.IsOnline,
-                        BarcodeNumber = eventObj.BarcodeNumber
+                        BarcodeNumber = eventObj.BarcodeNumber,
+                        Ratings = eventObj.Ratings
                     };
 
                     session.Store(newProduct);
@@ -92,7 +93,7 @@ public class AddProductToQueryEventHandler : BackgroundService
                     session.Update(existingProduct);
                 }
         
-                await session.SaveChangesAsync();
+                await session.SaveChangesAsync(stoppingToken);
             }
             catch (Exception ex)
             {

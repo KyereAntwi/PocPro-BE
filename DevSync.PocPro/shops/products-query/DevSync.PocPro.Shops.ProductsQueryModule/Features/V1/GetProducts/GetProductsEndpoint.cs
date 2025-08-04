@@ -51,7 +51,9 @@ public class GetProductsEndpoint(
                 p.Name,
                 p.CurrentPrice,
                 p.QuantityLeft,
-                p.PhotoUrl,
+                p.PhotoUrl ?? string.Empty,
+                p.Category!.Id,
+                p.Ratings,
                 p.PosId))
             .ToListAsync(ct);
 
@@ -119,6 +121,16 @@ public class GetProductsEndpoint(
         if (!string.IsNullOrWhiteSpace(req.BarcodeNumber))
         {
             query = query.Where(p => p.BarcodeNumber == req.BarcodeNumber);
+        }
+
+        if (req.FromRatings > 0)
+        {
+            query = query.Where(p => p.Ratings >= req.FromRatings);
+        }
+
+        if (req.ToRatings > 0)
+        {
+            query = query.Where(p => p.Ratings <= req.ToRatings);
         }
     
         return query;

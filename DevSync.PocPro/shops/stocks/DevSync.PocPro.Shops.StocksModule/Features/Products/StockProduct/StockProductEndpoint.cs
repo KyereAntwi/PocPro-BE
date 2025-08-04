@@ -9,7 +9,8 @@ public class StockProductEndpoint(
     ITenantServices tenantServices,
     RabbitMqConnectionFactory rabbitMqConnection,
     ILogger<StockProductEndpoint> logger,
-    IPosServices posServices) 
+    IPosServices posServices,
+    IReviewsServices reviewsServices) 
     : Endpoint<StockProductRequest, BaseResponse<Guid>>
 {
     public override void Configure()
@@ -71,10 +72,25 @@ public class StockProductEndpoint(
         
         try
         {
-            var brand = await shopDbContext.Brands.FindAsync(product.BrandId, ct);
-            var category = await shopDbContext.Categories.FindAsync(product.CategoryId, ct);
-            var posIsOnlineEnabled = await posServices.PosIsOnlineEnabledAsync(PointOfSaleId.Of(req.PosId), ct);
-            var tenant = await tenantServices.GetTenantByUserIdAsync(userId!);
+            var brandTask = shopDbContext.Brands.FindAsync(product.BrandId, ct);
+            var categoryTask = shopDbContext.Categories.FindAsync(product.CategoryId, ct);
+            var posIsOnlineEnabledTask = posServices.PosIsOnlineEnabledAsync(PointOfSaleId.Of(req.PosId), ct);
+            var tenantTask = tenantServices.GetTenantByUserIdAsync(userId!);
+            var ratingsTask = reviewsServices.GetProductRatingAsync(product.Id, ct);
+            
+            await Task.WhenAll(
+                brandTask.AsTask(),
+                categoryTask.AsTask(),
+                posIsOnlineEnabledTask,
+                tenantTask,
+                ratingsTask
+            );
+            
+            var brand = await brandTask;
+            var category = await categoryTask;
+            var posIsOnlineEnabled = await posIsOnlineEnabledTask;
+            var tenant = await tenantTask;
+            var ratings = await ratingsTask;
             
             var _event = new AddProductToQueryEvent
             {
@@ -90,7 +106,8 @@ public class StockProductEndpoint(
                 QuantityLeft = product.TotalNumberLeftOnShelf(PointOfSaleId.Of(req.PosId)),
                 PosId = req.PosId,
                 BarcodeNumber = product.BarcodeNumber ?? string.Empty,
-                IsOnline = posIsOnlineEnabled
+                IsOnline = posIsOnlineEnabled,
+                Ratings = ratings
             };
             
             var publisher = new EventPublisher(rabbitMqConnection);

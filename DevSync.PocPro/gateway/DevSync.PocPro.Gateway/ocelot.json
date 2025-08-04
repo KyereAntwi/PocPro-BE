@@ -261,6 +261,17 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/gateway/v1/orders/bulk",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/v1/orders/bulk",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ]
+    },
+    {
       "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}",
       "UpstreamHttpMethod": ["Put"],
       "DownstreamPathTemplate": "/api/v1/products/{ProductId}",
@@ -362,6 +373,59 @@
       "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}/stocks",
       "UpstreamHttpMethod": ["Get"],
       "DownstreamPathTemplate": "/api/v1/products/{ProductId}/stocks",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 60
+      },
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 10,
+        "Limit": 10
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}/ratings",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/v1/products/{ProductId}/ratings",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}/reviews",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/v1/products/{ProductId}/reviews",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}/reviews/{Id}",
+      "UpstreamHttpMethod": ["Delete"],
+      "DownstreamPathTemplate": "/api/v1/products/{ProductId}/reviews/{Id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}/reviews/{Id}",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/v1/products/{ProductId}/reviews/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -925,6 +989,26 @@
       "UpstreamPathTemplate": "/gateway/v1/reports/total-sales-by-payment-method",
       "UpstreamHttpMethod": ["Get"],
       "DownstreamPathTemplate": "/api/v1/reports/total-sales-by-payment-method",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 10,
+        "Limit": 10
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 120
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/v1/reports/total-sales-count",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/v1/reports/total-sales-count",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {

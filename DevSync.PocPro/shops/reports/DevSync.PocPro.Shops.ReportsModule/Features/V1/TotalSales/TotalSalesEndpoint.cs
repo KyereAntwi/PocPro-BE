@@ -1,5 +1,3 @@
-using DevSync.PocPro.Shops.Shared.ValueObjects;
-
 namespace DevSync.PocPro.Shops.ReportsModule.Features.V1.TotalSales;
 
 public class TotalSalesEndpoint(
@@ -36,7 +34,7 @@ public class TotalSalesEndpoint(
             null,
             ct);
         
-        await SendOkAsync(new BaseResponse<TotalSalesResponse>("", true)
+        await SendOkAsync(new BaseResponse<TotalSalesResponse>("Total sales fetched successfully", true)
         {
             Data = new TotalSalesResponse(totalSales, percentageChange)
         }, ct);

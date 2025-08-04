@@ -1,5 +1,3 @@
-using FluentValidation;
-
 namespace DevSync.PocPro.Shops.OrdersModule.Features.Orders.CreateOrder;
 
 public class CreateOrderEndpoint(
@@ -87,35 +85,53 @@ public class CreateOrderEndpoint(
 
         List<Guid> response = [];
 
-        foreach (var id in posIdsFromLineItems)
+        var newOrder = new Result<Order>();
+
+        if (type == OrderType.OnlineOrder)
         {
-            var productsIdsFromRequest = req
-                .OrderItems
-                .Where(item => item.PosId.Equals(id))
-                .Select(item => item.ProductId);
+            foreach (var id in posIdsFromLineItems)
+            {
+                var productsIdsFromRequest = req
+                    .OrderItems
+                    .Where(item => item.PosId.Equals(id))
+                    .Select(item => item.ProductId);
             
-            var newOrder = Order.Create(
+                newOrder  = Order.Create(
+                    orderType: type, 
+                    orderItems: orderItems.Where(p => productsIdsFromRequest.Contains(p.ProductId)).ToList(), 
+                    paymentMethod: Enum.Parse<PaymentMethod>(req.PaymentMethod), 
+                    shippingAddress: shippingAddress, 
+                    posSessionId: string.IsNullOrWhiteSpace(req.PosSessionId) ? Guid.Empty : Guid.Parse(req.PosSessionId),
+                    customerId: string.IsNullOrWhiteSpace(req.CustomerId) ? Guid.Empty : Guid.Parse(req.CustomerId),
+                    pointOfSaleId: id,
+                    amountReceived: req.AmountReceived,
+                    orderNumber: req.OrderNumber);
+            }
+        }
+        else
+        {
+            newOrder = Order.Create(
                 orderType: type, 
-                orderItems: orderItems.Where(p => productsIdsFromRequest.Contains(p.ProductId)).ToList(), 
+                orderItems: orderItems, 
                 paymentMethod: Enum.Parse<PaymentMethod>(req.PaymentMethod), 
                 shippingAddress: shippingAddress, 
                 posSessionId: string.IsNullOrWhiteSpace(req.PosSessionId) ? Guid.Empty : Guid.Parse(req.PosSessionId),
                 customerId: string.IsNullOrWhiteSpace(req.CustomerId) ? Guid.Empty : Guid.Parse(req.CustomerId),
-                pointOfSaleId: id,
+                pointOfSaleId: req.PosId,
                 amountReceived: req.AmountReceived);
-
-            if (newOrder.IsFailed)
-            {
-                await SendAsync(new BaseResponse<IEnumerable<Guid>>("Bad Request", false)
-                {
-                    Errors = newOrder.Errors.Select(e => e.Message)
-                },StatusCodes.Status400BadRequest, ct);
-                return;
-            }
-            
-            response.Add(newOrder.Value.Id.Value);
-            await orderModuleDbContext.Orders.AddAsync(newOrder.Value, ct);
         }
+        
+        if (newOrder.IsFailed)
+        {
+            await SendAsync(new BaseResponse<IEnumerable<Guid>>("Bad Request", false)
+            {
+                Errors = newOrder.Errors.Select(e => e.Message)
+            },StatusCodes.Status400BadRequest, ct);
+            return;
+        }
+            
+        response.Add(newOrder.Value.Id.Value);
+        await orderModuleDbContext.Orders.AddAsync(newOrder.Value, ct);
         
         await orderModuleDbContext.SaveChangesAsync(ct);
 
@@ -144,8 +160,9 @@ public class CreateOrderRequestValidator: Validator<CreateOrderRequest>
             .When(x => Enum.TryParse<OrderType>(x.OrderType, true, out var orderType) && orderType != OrderType.OnlineOrder);
 
         RuleFor(x => x.OrderItems)
-            .Must(list => list == null || list.All(item => item.ProductId != Guid.Empty && item.Quantity > 0))
-            .WithMessage("There should be at least 1 Order Item with Quantity above 0");
+            .NotNull().WithMessage("Order Items are required")
+            .Must(list => list.All(item => item.ProductId != Guid.Empty && item.Quantity > 0))
+            .WithMessage("Each Order Item must have a valid ProductId and Quantity above 0");
         
         RuleFor(x => x.OrderItems)
             .Must(list => list.All(item => item.PosId != Guid.Empty))

@@ -41,7 +41,16 @@ public class UpdateApplicationUserPermissionsEndpoint(
         }
 
         List<Permission> permissions = [];
-        permissions.AddRange(req.PermissionsTypes.Select(permission => new Permission(Enum.Parse<PermissionType>(permission))));
+        
+        var permissionsQuery = await applicationDbContext
+            .Permissions
+            .Where(p => req
+                .PermissionsTypes
+                .Select(Enum.Parse<PermissionType>)
+            .Contains(p.PermissionType))
+            .ToListAsync(ct);
+        
+        permissions.AddRange(permissionsQuery);
         
         var result = user.UpdatePermission(tenant!, loggedInUser, permissions.ToArray());
 
@@ -63,10 +72,5 @@ public class UpdateApplicationUserPermissionsRequestValidator : Validator<Update
             .NotEmpty()
             .Must(list => list.All(p => Enum.TryParse<PermissionType>(p, out _)))
             .WithMessage("All permissions must be valid PermissionType values.");
-        
-        // RuleFor(x => x.OperationType)
-        //     .NotEmpty()
-        //     .Must(op => op is "Add" or "Remove")
-        //         .WithMessage("OperationType must be either 'Add' or 'Remove'.");
     }
 }

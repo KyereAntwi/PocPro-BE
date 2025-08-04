@@ -1,5 +1,3 @@
-using DevSync.PocPro.Shops.Shared.ValueObjects;
-
 namespace DevSync.PocPro.Shops.ReportsModule.Features.V1.TotalPendingOrders;
 
 public class TotalPendingOrdersEndpoint(

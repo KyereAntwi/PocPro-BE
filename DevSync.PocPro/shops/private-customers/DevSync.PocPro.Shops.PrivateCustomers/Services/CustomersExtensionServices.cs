@@ -1,5 +1,3 @@
-using DevSync.PocPro.Shops.Shared.ValueObjects;
-
 namespace DevSync.PocPro.Shops.PrivateCustomers.Services;
 
 public class CustomersExtensionServices(CustomerModuleDbContext dbContext) 
