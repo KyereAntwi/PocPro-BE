@@ -30,19 +30,8 @@ public class GetProductsEndpoint(
         {
             query = query.DistinctBy(q => q.Identifier); // ensure products are distinct
         }
-
-        int totalCount = 0;
-
-        try
-        {
-            totalCount = query.Count();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
         
+        var totalCount = query.Count();
         var pagedList = await query
             .Skip((req.Page - 1) * req.PageSize)
             .Take(req.PageSize)
@@ -74,12 +63,14 @@ public class GetProductsEndpoint(
     {
         if (!string.IsNullOrWhiteSpace(req.Brand))
         {
-            query = query.Where(p => p.Brand!.Id == Guid.Parse(req.Brand));
+            query = query
+                .Where(p => p.Brand!.Id == Guid.Parse(req.Brand));
         }
     
         if (!string.IsNullOrWhiteSpace(req.Category))
         {
-            query = query.Where(p => p.Category!.Id == Guid.Parse(req.Category));
+            query = query
+                .Where(p => p.Category!.Id == Guid.Parse(req.Category));
         }
     
         if (!string.IsNullOrWhiteSpace(req.SearchText))

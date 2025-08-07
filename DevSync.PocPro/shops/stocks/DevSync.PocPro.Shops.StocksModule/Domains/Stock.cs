@@ -24,6 +24,16 @@ public class Stock : BaseEntity<StockId>
     {
         QuantityLeftInStock -= quantity;
     }
+    
+    internal void ReversePurchase(int quantity)
+    {
+        QuantityLeftInStock += quantity;
+    }
+    
+    internal void ResetQuantityLeftInStock()
+    {
+        QuantityLeftInStock = 0;
+    }
 
     public Supplier Supplier { get; private set; }
     public ProductId ProductId { get; private set; }

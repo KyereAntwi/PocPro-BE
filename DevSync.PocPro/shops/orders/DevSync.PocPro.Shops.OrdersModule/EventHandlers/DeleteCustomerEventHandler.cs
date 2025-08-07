@@ -1,6 +1,5 @@
 using System.Text;
 using System.Text.Json;
-using DevSync.PocPro.Shared.Domain.Utils;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;

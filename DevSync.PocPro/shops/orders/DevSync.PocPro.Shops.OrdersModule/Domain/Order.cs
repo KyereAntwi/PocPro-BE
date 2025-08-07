@@ -64,6 +64,11 @@ public class Order : BaseEntity<OrderId>
 
     public Result UpdateOrderDeliveryStatus(OrderStatus status)
     {
+        if (status == OrderStatus)
+        {
+            return Result.Fail("Order status is already set to the requested status");
+        }
+        
         if (status == OrderStatus.Cancelled && OrderStatus != OrderStatus.Pending)
         {
             return Result.Fail("Only pending orders can be cancelled");

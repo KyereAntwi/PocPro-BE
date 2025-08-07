@@ -52,45 +52,23 @@ public class StockProductEndpoint(
             supplier,
             PointOfSaleId.Of(req.PosId), 
             req.QuantityPurchased,
-            req.QuantityPurchased,
             req.CostPerPrice,
             req.SellingPerPrice,
             req.TaxRate,
             req.ExpiryAt);
         
         shopDbContext.Products.Update(product);
-
-        try
-        {
-            await shopDbContext.SaveChangesAsync(ct);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        await shopDbContext.SaveChangesAsync(ct);
         
         try
         {
-            var brandTask = shopDbContext.Brands.FindAsync(product.BrandId, ct);
-            var categoryTask = shopDbContext.Categories.FindAsync(product.CategoryId, ct);
-            var posIsOnlineEnabledTask = posServices.PosIsOnlineEnabledAsync(PointOfSaleId.Of(req.PosId), ct);
-            var tenantTask = tenantServices.GetTenantByUserIdAsync(userId!);
-            var ratingsTask = reviewsServices.GetProductRatingAsync(product.Id, ct);
-            
-            await Task.WhenAll(
-                brandTask.AsTask(),
-                categoryTask.AsTask(),
-                posIsOnlineEnabledTask,
-                tenantTask,
-                ratingsTask
-            );
-            
-            var brand = await brandTask;
-            var category = await categoryTask;
-            var posIsOnlineEnabled = await posIsOnlineEnabledTask;
-            var tenant = await tenantTask;
-            var ratings = await ratingsTask;
+            var brand = await shopDbContext.Brands.FindAsync(product.BrandId, ct);
+            var category = await shopDbContext.Categories.FindAsync(product.CategoryId, ct);
+            var posIsOnlineEnabled = await posServices.PosIsOnlineEnabledAsync(PointOfSaleId.Of(req.PosId), ct);
+            var tenant = await tenantServices.GetTenantByUserIdAsync(userId!);
+            var ratings = await reviewsServices.GetProductRatingAsync(product.Id, ct);
+
+            var quantityLeft = product.TotalNumberLeftOnShelf(PointOfSaleId.Of(req.PosId));
             
             var _event = new AddProductToQueryEvent
             {
@@ -103,7 +81,7 @@ public class StockProductEndpoint(
                 BrandTitle = brand is null ? string.Empty : brand.Title,
                 CategoryId = category!.Id.Value,
                 CategoryTitle = category.Title,
-                QuantityLeft = product.TotalNumberLeftOnShelf(PointOfSaleId.Of(req.PosId)),
+                QuantityLeft = quantityLeft,
                 PosId = req.PosId,
                 BarcodeNumber = product.BarcodeNumber ?? string.Empty,
                 IsOnline = posIsOnlineEnabled,

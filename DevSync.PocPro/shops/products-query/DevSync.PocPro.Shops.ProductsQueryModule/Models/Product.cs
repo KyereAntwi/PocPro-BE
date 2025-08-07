@@ -15,5 +15,6 @@ public class Product
     public Guid PosId { get; set; }
     public string? BarcodeNumber { get; set; }
     public float Ratings { get; set; }
+    public int PurchaseCount { get; set; } = 0;
     public List<string> Keywords { get; set; } = [];
 }

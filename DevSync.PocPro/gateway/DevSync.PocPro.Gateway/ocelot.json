@@ -731,6 +731,17 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/gateway/v1/orders/{Id}",
+      "UpstreamHttpMethod": ["Put"],
+      "DownstreamPathTemplate": "/api/v1/orders/{Id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ]
+    },
+    {
       "UpstreamPathTemplate": "/gateway/v1/customers",
       "UpstreamHttpMethod": ["Post"],
       "DownstreamPathTemplate": "/api/v1/customers",

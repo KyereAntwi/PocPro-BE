@@ -15,7 +15,8 @@ public record GetOrderResponse(
     Guid? CustomerId,
     DateTimeOffset? CreatedAt,
     DateTimeOffset? UpdatedAt,
-    string CreatedBy);
+    string CreatedBy,
+    string PaymentMethod);
 
 public record OrderItemDto(Guid Id, Guid ProductId, int Quantity, decimal Price);
 
