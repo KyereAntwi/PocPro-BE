@@ -6,4 +6,5 @@ namespace DevSync.PocPro.Shops.Shared.Interfaces;
 public interface IPurchaseServices
 {
     Task<Result> MakePurchaseOnProducts(IEnumerable<MakePurchaseOnProductsRequest> requests, CancellationToken cancellationToken = default);
+    Task<Result> ReversePurchaseOnProducts(IEnumerable<MakePurchaseOnProductsRequest> requests, CancellationToken cancellationToken = default);
 }

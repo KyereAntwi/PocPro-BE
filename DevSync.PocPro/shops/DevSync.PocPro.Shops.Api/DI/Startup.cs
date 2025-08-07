@@ -5,6 +5,7 @@ using DevSync.PocPro.Shops.OrdersModule.DI;
 using DevSync.PocPro.Shops.PointOfSales.DI;
 using DevSync.PocPro.Shops.PrivateCustomers.DI;
 using DevSync.PocPro.Shops.ProductsQueryModule.DI;
+using DevSync.PocPro.Shops.ProductsQueryModule.EventHandlers;
 using DevSync.PocPro.Shops.ReportsModule.DI;
 using DevSync.PocPro.Shops.Reviews.DI;
 using DevSync.PocPro.Shops.Shared.Utils;
@@ -63,6 +64,7 @@ public static class Startup
         builder.Services.AddHostedService<PurchaseMadeOnProductEventHandler>();
         builder.Services.AddHostedService<SendProductRatedEventHandler>();
         builder.Services.AddHostedService<ProductUpdateEventHandler>();
+        builder.Services.AddHostedService<OrderCanceledEventHandler>();
         
         builder.AddServiceDefaults();
         builder.Services.AddOpenApi();

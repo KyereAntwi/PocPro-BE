@@ -6,11 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-//#if DEBUG
-//builder.Configuration.AddJsonFile("ocelot.development.json", optional: false, reloadOnChange: true);
-//#else
+#if DEBUG
+builder.Configuration.AddJsonFile("ocelot.development.json", optional: false, reloadOnChange: true);
+#else
 builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true); 
-//#endif
+#endif
 
 builder.Services
     .AddOcelot(builder.Configuration)

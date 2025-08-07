@@ -45,16 +45,30 @@ public class Product : BaseEntity<ProductId>
         BrandId = brandId;
     }
 
-    public Result<Guid> StockProduct(Supplier supplier, PointOfSaleId pointOfSaleId, int quantityPurchased, int quantityLeftInStock, decimal costPrice, decimal sellingPrice,
-        decimal taxRate, DateTimeOffset expirationDate)
+    public Result<Guid> StockProduct(
+        Supplier supplier, PointOfSaleId pointOfSaleId, int quantityPurchased, decimal costPrice, decimal sellingPrice, decimal taxRate, DateTimeOffset expirationDate)
     {
         if (DateTime.Now.Date > expirationDate.Date)
         {
             return Result.Fail("This stock's products are expired");
         }
 
+        var totalQuantityLeftInStock = 0;
+        
+        if (_stocks.Count > 0)
+        {
+            var lastStock = _stocks.OrderByDescending(s => s.CreatedAt).First();
+            totalQuantityLeftInStock = lastStock.QuantityLeftInStock + quantityPurchased;
+            
+            lastStock.ResetQuantityLeftInStock();
+        }
+        else
+        {
+            totalQuantityLeftInStock = quantityPurchased;
+        }
+
         var newStock = new Stock(
-            supplier, Id, pointOfSaleId, quantityPurchased, quantityLeftInStock, costPrice, sellingPrice, taxRate,
+            supplier, Id, pointOfSaleId, quantityPurchased, totalQuantityLeftInStock, costPrice, sellingPrice, taxRate,
             expirationDate);
         
         _stocks.Add(newStock);
@@ -63,20 +77,39 @@ public class Product : BaseEntity<ProductId>
 
     public Result MakePurchase(int quantity, PointOfSaleId pointOfSaleId)
     {
-        var stocks = _stocks.Where(stock => stock.PointOfSaleId == pointOfSaleId).ToArray();
+        var stocks = _stocks
+            .Where(stock => stock.PointOfSaleId == pointOfSaleId)
+            .OrderByDescending(s => s.CreatedAt)
+            .ToArray();
         
         if (stocks.Length == 0)
         {
             return Result.Fail($"There are no stocks for product and given POS with Id {pointOfSaleId.Value}");
         }
-
-        if (!stocks.Select(s => s.QuantityLeftInStock).Any())
+        
+        if (stocks.First().QuantityLeftInStock < quantity)
         {
-            return Result.Fail("There are no products left to purchase from");
+            return Result.Fail("There are no products left to purchase from or the quantity requested is more than available in stock");
         }
         
-        // make purchase on the latest stock
-        stocks.OrderBy(s => s.CreatedAt).Last().MakePurchase(quantity);
+        stocks.First().MakePurchase(quantity);
+        
+        return Result.Ok();
+    }
+    
+    public Result ReversePurchase(int quantity, PointOfSaleId pointOfSaleId)
+    {
+        var stocks = _stocks
+            .Where(stock => stock.PointOfSaleId == pointOfSaleId)
+            .OrderByDescending(s => s.CreatedAt)
+            .ToArray();
+        
+        if (stocks.Length == 0)
+        {
+            return Result.Fail($"There are no stocks for product and given POS with Id {pointOfSaleId.Value}");
+        }
+        
+        stocks.First().ReversePurchase(quantity);
         
         return Result.Ok();
     }
@@ -86,7 +119,14 @@ public class Product : BaseEntity<ProductId>
         var stocks = pointOfSaleId == null 
             ? _stocks.ToArray() 
             : _stocks.Where(stock => stock.PointOfSaleId == pointOfSaleId).ToArray();
-        return stocks.Length > 0 ?  stocks.Sum(s => s.QuantityLeftInStock) : 0;
+
+        if (stocks.Length == 0)
+        {
+            return 0;
+        }
+
+        var mostRecentStock = stocks.OrderByDescending(s => s.CreatedAt).First();
+        return mostRecentStock.QuantityLeftInStock;
     }
 
     public decimal CurrentSellingPrice(PointOfSaleId? pointOfSaleId = null)

@@ -11,6 +11,6 @@ public class ReviewsServices(IProductReviewsModuleDbContext dbContext)
             .ToListAsync(cancellationToken);
         
         var totalSumOfRatings = query.Sum(r => r.StarRating);
-        return totalSumOfRatings / query.Count;
+        return query.Count > 0 ?  totalSumOfRatings / query.Count : 0;
     }
 }

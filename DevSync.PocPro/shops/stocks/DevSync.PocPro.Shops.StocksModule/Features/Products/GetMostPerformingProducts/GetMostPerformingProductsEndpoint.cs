@@ -8,7 +8,7 @@ public class GetMostPerformingProductsEndpoint(
 {
     public override void Configure()
     {
-        Get("/api/v1/products/most-performing");
+        Get("/api/v1/products/deprecated/most-performing");
         AllowAnonymous();
     }
 

@@ -24,7 +24,7 @@ public class GetOrderByOrderNumberEndpoint(IOrderModuleDbContext orderModuleDbCo
                         item.ProductPrice)),
                 o.Type.ToString(),
                 o.OrderStatus.ToString(),
-                o.Status.ToString() ?? StatusType.Active.ToString(),
+                o.Status.ToString() ?? nameof(StatusType.Active),
                 o.OrderNumber,
                 o.ShippingAddress == null ? null : new ShippingAddressDto(
                     o.ShippingAddress.ContactName,
@@ -38,7 +38,8 @@ public class GetOrderByOrderNumberEndpoint(IOrderModuleDbContext orderModuleDbCo
                 o.CustomerId == null ? null : o.CustomerId.Value,
                 o.CreatedAt,
                 o.UpdatedAt,
-                o.CreatedBy ?? string.Empty))
+                o.CreatedBy ?? string.Empty,
+                o.PaymentMethod.ToString()))
             .AsNoTracking()
             .FirstOrDefaultAsync(ct);
 
