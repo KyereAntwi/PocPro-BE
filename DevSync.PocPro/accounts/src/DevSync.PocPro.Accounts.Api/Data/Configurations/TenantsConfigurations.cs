@@ -15,5 +15,9 @@ public class TenantsConfigurations : IEntityTypeConfiguration<Tenant>
         builder.Property(t => t.Status)
             .HasConversion(t => t.ToString(),
                 dbType => Enum.Parse<StatusType>(dbType!));
+
+        builder
+            .HasOne(x => x.SubAccount)
+            .WithOne();
     }
 }

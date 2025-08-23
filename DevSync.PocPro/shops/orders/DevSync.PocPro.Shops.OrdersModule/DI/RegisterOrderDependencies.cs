@@ -2,27 +2,13 @@ namespace DevSync.PocPro.Shops.OrdersModule.DI;
 
 public static class RegisterOrderDependencies
 {
-    public static IServiceCollection RegisterOrderModule(this IServiceCollection services)
+    public static IServiceCollection RegisterOrderModule(this IServiceCollection services, IConfigurationBuilder configuration)
     {
         services.AddDbContext<OrdersModuleDbContext>();
 
         services.AddScoped<IOrderModuleDbContext, OrdersModuleDbContext>();
         services.AddScoped<IOrdersServices, OrderExternalServices>();
-        services.AddTransient<IExternalServices, ExternalServices>();
-        
-        services.AddGrpcClient<PointOfSaleService.PointOfSaleServiceClient>(options =>
-        {
-            options.Address = new Uri("https://localhost:7001");
-        }).AddPolicyHandler(_ => Policy<HttpResponseMessage>
-            .Handle<Grpc.Core.RpcException>()
-            .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
-        
-        services.AddGrpcClient<ProductService.ProductServiceClient>(options =>
-        {
-            options.Address = new Uri("https://localhost:7001");
-        }).AddPolicyHandler(_ => Policy<HttpResponseMessage>
-            .Handle<Grpc.Core.RpcException>()
-            .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
+        services.AddScoped<IPaymentServices, PaymentService>();
         
         return services;
     }

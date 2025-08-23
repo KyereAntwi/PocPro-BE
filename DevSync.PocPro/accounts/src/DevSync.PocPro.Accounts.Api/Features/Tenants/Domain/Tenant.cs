@@ -18,6 +18,7 @@ public class Tenant : BaseEntity<TenantId>
     public string UniqueIdentifier { get; private set; }
     public string ConnectionString { get; private set; }
     public SubscriptionType? SubscriptionType { get; private set; }
+    public SubAccount? SubAccount { get; private set; }
     
     public Result UpdateSubscription(SubscriptionType subscriptionType, string userId)
     {
@@ -27,6 +28,28 @@ public class Tenant : BaseEntity<TenantId>
         }
         
         SubscriptionType = subscriptionType;
+        
+        return Result.Ok();
+    }
+
+    public Result UpdateSubAccount(SubAccount subAccount, string userId)
+    {
+        if (!CreatedBy!.Equals(userId))
+        {
+            return Result.Fail("Only the creator can update the sub-account.");
+        }
+        
+        if (SubAccount is null)
+        {
+            subAccount = SubAccount!;
+        }
+        else
+        {
+            SubAccount.BusinessName = subAccount.BusinessName;
+            SubAccount.SettlementBank = subAccount.SettlementBank;
+            SubAccount.AccountNumber = subAccount.AccountNumber;
+            SubAccount.PercentageCharge = subAccount.PercentageCharge;
+        }
         
         return Result.Ok();
     }

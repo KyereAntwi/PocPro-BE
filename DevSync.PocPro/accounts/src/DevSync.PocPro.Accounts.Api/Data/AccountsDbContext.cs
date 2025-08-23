@@ -51,4 +51,5 @@ public class AccountsDbContext : DbContext, IApplicationDbContext
     public DbSet<ApplicationUser> ApplicationUsers => Set<ApplicationUser>();
     public DbSet<Tenant> Tenants => Set<Tenant>();
     public DbSet<Permission> Permissions => Set<Permission>();
+    public DbSet<SubAccount> SubAccounts => Set<SubAccount>();
 }

@@ -9,7 +9,9 @@ public record CreateOrderRequest(
     string CustomerId,
     double AmountReceived,
     string OrderNumber,
-    Guid PosId);
+    Guid PosId,
+    string? PromoCode = "",
+    string? PaymentRef = "");
 
 public record OrderItemRequest(Guid ProductId, int Quantity, Guid PosId, decimal Price);
 

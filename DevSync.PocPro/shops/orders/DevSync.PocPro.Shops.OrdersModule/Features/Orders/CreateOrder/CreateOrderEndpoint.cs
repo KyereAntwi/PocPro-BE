@@ -4,7 +4,9 @@ public class CreateOrderEndpoint(
     IOrderModuleDbContext orderModuleDbContext, 
     IHttpContextAccessor httpContextAccessor, 
     ITenantServices tenantServices,
-    IPurchaseServices purchaseServices) 
+    IPurchaseServices purchaseServices,
+    IPromoCodesServices promoCodesServices,
+    IPaymentServices paymentServices) 
     : Endpoint<CreateOrderRequest, BaseResponse<IEnumerable<Guid>>>
 {
     public override void Configure()
@@ -39,6 +41,21 @@ public class CreateOrderEndpoint(
             return;
         }
 
+        if (!string.IsNullOrWhiteSpace(req.PaymentRef))
+        {
+            var paymentVerificationResult = await paymentServices.VerifyHttpAsync(req.PaymentRef, ct);
+            if (!paymentVerificationResult)
+            {
+                await SendAsync(
+                    new BaseResponse<IEnumerable<Guid>>("Order Failed", false)
+                    {
+                        Errors = ["Payment verification failed. Please check your payment reference."]
+                    },
+                    StatusCodes.Status400BadRequest, ct);
+                return;
+            }
+        }
+
         List<OrderItem> orderItems = [];
         orderItems.AddRange(req.OrderItems.Select(item => new OrderItem(item.ProductId, item.Quantity, item.Price)));
 
@@ -51,6 +68,24 @@ public class CreateOrderEndpoint(
             req.ShippingAddress.PhoneNumber
         ) : null;
 
+        if (!string.IsNullOrWhiteSpace(req.PromoCode) && !string.IsNullOrWhiteSpace(userId))
+        {
+            // validate promo code and apply it only when there is a userId - authenticated user
+            var promoUseResponse = await promoCodesServices
+                .UsePromoCodeAsync(req.PromoCode, userId, ct);
+
+            if (!promoUseResponse)
+            {
+                await SendAsync(
+                    new BaseResponse<IEnumerable<Guid>>("Order Failed", false)
+                    {
+                        Errors = ["Invalid, expired or used promo code"]
+                    },
+                    StatusCodes.Status400BadRequest, ct);
+                return;
+            }
+        }
+
         var attemptPurchaseRequest = 
             req.OrderItems.Select(item => new MakePurchaseOnProductsRequest(
                 item.ProductId, 
@@ -61,7 +96,6 @@ public class CreateOrderEndpoint(
                 .ToList();
 
         var attemptPurchaseOnProductsResult = await purchaseServices.MakePurchaseOnProducts(attemptPurchaseRequest, ct);
-
         if (!attemptPurchaseOnProductsResult.IsSuccess)
         {
             await SendAsync(
@@ -69,7 +103,7 @@ public class CreateOrderEndpoint(
                 {
                     Errors = attemptPurchaseOnProductsResult.Errors.Select(e => e.Message)
                 },
-                StatusCodes.Status422UnprocessableEntity, ct);
+                StatusCodes.Status400BadRequest, ct);
             return;
         }
 
@@ -105,7 +139,8 @@ public class CreateOrderEndpoint(
                     customerId: string.IsNullOrWhiteSpace(req.CustomerId) ? Guid.Empty : Guid.Parse(req.CustomerId),
                     pointOfSaleId: id,
                     amountReceived: req.AmountReceived,
-                    orderNumber: req.OrderNumber);
+                    orderNumber: req.OrderNumber,
+                    promoCode: req.PromoCode);
             }
         }
         else
@@ -183,9 +218,20 @@ public class CreateOrderRequestValidator: Validator<CreateOrderRequest>
                 return true;
             }).WithMessage("FullName, PhoneNumber, and AddressLine1 are required for OnlineOrder.");
         
-        RuleFor(x => x.ShippingAddress.Region)
+        RuleFor(x => x.ShippingAddress!.Region)
             .Must(region => Enum.TryParse<Region>(region, true, out _))
             .When(x => x.ShippingAddress != null)
             .WithMessage("Region must be a valid region type");
+        
+        RuleFor(x => x.PromoCode)
+            .MaximumLength(50)
+            .When(x => !string.IsNullOrWhiteSpace(x.PromoCode))
+            .WithMessage("Promo code must not exceed 50 characters");
+
+        RuleFor(x => x.PaymentRef)
+            .NotEmpty().WithMessage("Payment ref should not be null or empty when order is an online order")
+            .NotNull()
+            .When(x => Enum.TryParse<OrderType>(x.OrderType, true, out var orderType) &&
+                       orderType == OrderType.OnlineOrder);
     }
 }

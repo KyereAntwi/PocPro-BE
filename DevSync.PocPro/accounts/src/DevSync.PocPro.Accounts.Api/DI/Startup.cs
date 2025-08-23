@@ -74,6 +74,11 @@ public static class Startup
                     .AllowCredentials());
         });
 
+        builder.Services.AddGrpcClient<PaymentService.PaymentServiceClient>(options =>
+        {
+            options.Address = new Uri("https://devsync-paymentserviceapi.azurewebsites.net");
+        });
+
         builder.Services.AddGrpc();
         builder.Services.AddFastEndpoints();
         

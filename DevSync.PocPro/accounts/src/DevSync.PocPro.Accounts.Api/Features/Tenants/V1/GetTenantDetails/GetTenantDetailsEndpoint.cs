@@ -42,7 +42,7 @@ public class GetTenantDetailsEndpoint(IApplicationDbContext applicationDbContext
         await SendOkAsync(new BaseResponse<GetTenantDetailsResponse>("Success", true)
         {
             Data = 
-                new GetTenantDetailsResponse(tenant.ConnectionString, tenant.Id.Value, tenant.UniqueIdentifier, tenant.SubscriptionType.ToString())
+                new GetTenantDetailsResponse(tenant.ConnectionString, tenant.Id.Value, tenant.UniqueIdentifier, tenant.SubscriptionType.ToString(), null)
         }, cancellation: ct);
     }
 }

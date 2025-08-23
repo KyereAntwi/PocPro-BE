@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option csharp_namespace = "DevSync.PocPro.Shops.Shard.Grpc";
+
+package orders;
+
+service PaymentService {
+  rpc VerifyPayment (VerifyPaymentRequest) returns (VerifyPaymentResponse);
+  rpc InitializePayment (InitializePaymentRequest) returns (InitializePaymentResponse);
+}
+
+message VerifyPaymentRequest {
+  string paymentReference = 1;
+  string app = 2;
+}
+
+message InitializePaymentRequest {
+  string email = 1;
+  string amount = 2;
+  string subAccount = 3;
+}
+
+message InitializePaymentResponse {
+  bool isSuccess = 1;
+  string authorizationUrl = 2;
+  string accessCode = 3;
+  string reference = 4;
+}
+
+message VerifyPaymentResponse {
+  string subAccount = 1;
+  string paymentReference = 2;
+  string status = 3;
+  float amountPaid = 4;
+  string currency = 5;
+  string customerEmail = 6;
+  bool isSuccess = 7;
+  string errorMessage = 8;
+}
