@@ -19,7 +19,13 @@ public class GetTenantDetailsByIdentifierEndpoint(IApplicationDbContext applicat
 
     public override  async Task HandleAsync(GetTenantDetailsByIdentifierRequest req, CancellationToken ct)
     {
-        var tenant = await applicationDbContext.Tenants.FirstOrDefaultAsync(t => t.UniqueIdentifier == req.Identifier, ct);
+        var tenant = await applicationDbContext
+            .Tenants
+            .Include(t => t.SubAccount)
+            .AsSplitQuery()
+            .AsNoTracking()
+            .Where(t => t.UniqueIdentifier == req.Identifier)
+            .FirstOrDefaultAsync(ct);
         
         if (tenant == null)
         {
@@ -29,7 +35,12 @@ public class GetTenantDetailsByIdentifierEndpoint(IApplicationDbContext applicat
 
         await SendOkAsync(new BaseResponse<GetTenantDetailsResponse>("Success", true)
         {
-            Data = new GetTenantDetailsResponse(tenant.ConnectionString, tenant.Id.Value, tenant.UniqueIdentifier, tenant.SubscriptionType.ToString())
+            Data = new GetTenantDetailsResponse(
+                tenant.ConnectionString, 
+                tenant.Id.Value, 
+                tenant.UniqueIdentifier, 
+                tenant.SubscriptionType.ToString(),
+                tenant.SubAccount?.AccountNumber)
         }, cancellation: ct);
     }
 }

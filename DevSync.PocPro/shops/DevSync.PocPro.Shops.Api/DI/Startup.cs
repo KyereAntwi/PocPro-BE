@@ -6,11 +6,14 @@ using DevSync.PocPro.Shops.PointOfSales.DI;
 using DevSync.PocPro.Shops.PrivateCustomers.DI;
 using DevSync.PocPro.Shops.ProductsQueryModule.DI;
 using DevSync.PocPro.Shops.ProductsQueryModule.EventHandlers;
+using DevSync.PocPro.Shops.PromoCodesModule.DI;
 using DevSync.PocPro.Shops.ReportsModule.DI;
 using DevSync.PocPro.Shops.Reviews.DI;
+using DevSync.PocPro.Shops.Shard.Grpc;
 using DevSync.PocPro.Shops.Shared.Utils;
 using DevSync.PocPro.Shops.StocksModule.Services;
 using DevSync.PocPro.Shops.UserWishlistModule.DI;
+using Polly;
 
 namespace DevSync.PocPro.Shops.Api.DI;
 
@@ -36,7 +39,7 @@ public static class Startup
         
         builder.Services.AddStockModule(builder.Configuration);
         builder.Services.AddNotificationsModule(builder.Configuration);
-        builder.Services.RegisterOrderModule();
+        builder.Services.RegisterOrderModule(builder.Configuration);
         builder.Services.AddPosDependencies();
         builder.Services.AddCustomerModule();
         builder.Services.AddWishListModule();
@@ -44,6 +47,7 @@ public static class Startup
         builder.Services.AddGeneralSettingsModule();
         builder.Services.AddProductQueryDependencies(builder.Configuration);
         builder.Services.AddReviewsModuleDependencies();
+        builder.Services.AddPromoCodesModuleDependencies();
 
         builder.Services.AddScoped<IMasterExtensions, MasterExtensions>();
         builder.Services.AddScoped<IPurchaseServices, PurchaseServices>();
@@ -69,12 +73,19 @@ public static class Startup
         builder.AddServiceDefaults();
         builder.Services.AddOpenApi();
 
-        // builder.Services.AddGrpcClient<TenantService.TenantServiceClient>(options =>
-        // {
-        //     options.Address = new Uri("https://devsyncaccountsapi-ccguashuc8a5gpfs.uksouth-01.azurewebsites.net");
-        // }).AddPolicyHandler(_ => Policy<HttpResponseMessage>
-        //         .Handle<Grpc.Core.RpcException>()
-        //         .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
+        builder.Services.AddGrpcClient<TenantService.TenantServiceClient>(options =>
+        {
+            options.Address = new Uri("https://devsyncaccountsapi-ccguashuc8a5gpfs.uksouth-01.azurewebsites.net");
+        }).AddPolicyHandler(_ => Policy<HttpResponseMessage>
+                .Handle<Grpc.Core.RpcException>()
+                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
+        
+        builder.Services.AddGrpcClient<PaymentService.PaymentServiceClient>(options =>
+        {
+            options.Address = new Uri("https://localhost:7096");
+        }).AddPolicyHandler(_ => Policy<HttpResponseMessage>
+            .Handle<Grpc.Core.RpcException>()
+            .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
         
         builder.Services.AddAuthentication()
             .AddJwtBearer(options =>

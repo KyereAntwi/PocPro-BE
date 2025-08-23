@@ -11,7 +11,10 @@ using Polly.Retry;
 namespace DevSync.PocPro.Shops.Shared.Services;
 
 public class TenantServices(
-    HttpClient httpClient, ILogger<TenantServices> logger, IHttpContextAccessor httpContextAccessor, TenantServiceSettings tenantServiceSettings) 
+    HttpClient httpClient, 
+    ILogger<TenantServices> logger, 
+    IHttpContextAccessor httpContextAccessor, 
+    TenantServiceSettings tenantServiceSettings) 
     : ITenantServices
 {
     private readonly AsyncRetryPolicy<HttpResponseMessage> _retryPolicy = Policy
@@ -38,7 +41,11 @@ public class TenantServices(
             }
             var data = await response.Content.ReadFromJsonAsync<BaseResponse<TenantDto>>();
             var tenantDto = data!.Data;
-            return tenantDto != null ? new Tenant(tenantDto.ConnectionString, tenantDto.UniqueIdentifier, tenantDto.SubscriptionType) : null;
+            return tenantDto != null ? new Tenant(
+                tenantDto.ConnectionString, 
+                tenantDto.UniqueIdentifier, 
+                tenantDto.SubscriptionType,
+                tenantDto.SubAccount) : null;
         }
         catch (Exception e)
         {
@@ -67,7 +74,11 @@ public class TenantServices(
             }
             var data = await response.Content.ReadFromJsonAsync<BaseResponse<TenantDto>>();
             var tenantDto = data!.Data;
-            return tenantDto != null ? new Tenant(tenantDto.ConnectionString, identifier, tenantDto.SubscriptionType) : null;
+            return tenantDto != null ? new Tenant(
+                tenantDto.ConnectionString, 
+                identifier, 
+                tenantDto.SubscriptionType,
+                tenantDto.SubAccount) : null;
         }
         catch (Exception e)
         {
@@ -80,14 +91,6 @@ public class TenantServices(
     {
         try
         {
-            // var response = await _retryPolicy.ExecuteAsync(() =>
-            //     httpClient.GetAsync($"{Baseurl}/api/v1/accounts/tenants")
-            // );
-            
-            // var request = new HttpRequestMessage(HttpMethod.Get, $"{Baseurl}/api/v1/accounts/tenants");
-            // AddAuthorizationHeader(request);
-            // var response = await _retryPolicy.ExecuteAsync(() => httpClient.SendAsync(request));
-            
             var url = $"{tenantServiceSettings.BaseUrl}/api/v1/accounts/tenants";
             
             var response = await _retryPolicy.ExecuteAsync(() => {
@@ -103,7 +106,11 @@ public class TenantServices(
             }
             var data = await response.Content.ReadFromJsonAsync<BaseResponse<IEnumerable<TenantDto>>>();
             var tenants = data!.Data ?? [];
-            return tenants?.Select(t => new Tenant(t.ConnectionString, t.UniqueIdentifier, t.SubscriptionType)) ?? [];
+            return tenants?.Select(t => new Tenant(
+                t.ConnectionString, 
+                t.UniqueIdentifier, 
+                t.SubscriptionType,
+                t.SubAccount)) ?? [];
         }
         catch (Exception e)
         {
@@ -116,14 +123,6 @@ public class TenantServices(
     {
         try
         {
-            // var response = await _retryPolicy.ExecuteAsync(() =>
-            //     httpClient.GetAsync($"{Baseurl}/api/v1/accounts/tenants/user/{userId}/permissions/{permissionType}")
-            // );
-            
-            // var request = new HttpRequestMessage(HttpMethod.Get, $"{Baseurl}/api/v1/accounts/users/{userId}/permissions/{permissionType}");
-            // AddAuthorizationHeader(request);
-            // var response = await _retryPolicy.ExecuteAsync(() => httpClient.SendAsync(request));
-
             var url = $"{tenantServiceSettings.BaseUrl}/api/v1/accounts/users/{userId}/permissions/{permissionType}";
             
             var response = await _retryPolicy.ExecuteAsync(() => {
@@ -164,6 +163,7 @@ public class TenantDto
     public string ConnectionString { get; set; } = string.Empty;
     public string UniqueIdentifier { get; set; } = string.Empty;
     public string SubscriptionType { get; set; } = string.Empty;
+    public string? SubAccount { get; set; }
 }
 
 public class HasPermissionDto

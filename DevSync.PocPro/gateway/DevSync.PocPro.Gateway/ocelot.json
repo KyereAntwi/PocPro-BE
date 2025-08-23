@@ -272,6 +272,17 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/gateway/v1/orders/initialize-payment",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/v1/orders/initialize-payment",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ]
+    },
+    {
       "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}",
       "UpstreamHttpMethod": ["Put"],
       "DownstreamPathTemplate": "/api/v1/products/{ProductId}",
@@ -1034,6 +1045,63 @@
       },
       "FileCacheOptions": {
         "TtlSeconds": 120
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/v1/promo-codes",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/v1/promo-codes",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 10,
+        "Limit": 10
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 120
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/v1/promo-codes/{Id}",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/v1/promo-codes/{Id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 10,
+        "Limit": 10
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 120
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/v1/promo-codes",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/v1/promo-codes",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncproshopapi-ftgjb6bdf0b2d7av.uksouth-01.azurewebsites.net"
+        }
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 10,
+        "Limit": 10
       }
     }
   ]

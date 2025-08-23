@@ -10,4 +10,4 @@ public interface ITenantServices
     Task<bool> UserHasRequiredPermissionAsync(PermissionType permissionType, string userId);
 }
 
-public record Tenant(string ConnectionString, string UniqueIdentifier, string SubscriptionType);
+public record Tenant(string ConnectionString, string UniqueIdentifier, string SubscriptionType, string? SubAccount);

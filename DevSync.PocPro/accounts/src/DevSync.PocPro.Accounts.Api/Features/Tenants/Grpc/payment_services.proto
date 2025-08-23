@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option csharp_namespace = "DevSync.PocPro.Accounts.Api.Features.Tenants.Grpc";
+
+package tenants;
+
+service PaymentService {
+  rpc CreateSubAccount (CreateSubAccountRequest) returns (CreateSubAccountResponse);
+}
+
+message CreateSubAccountRequest {
+  string businessName = 1;
+  string settlementBank = 2;
+  string accountNumber = 3;
+  float percentageCharge = 4;
+  string app = 5;
+  string tenantIdentifier = 6;
+}
+
+message CreateSubAccountResponse {
+  bool isSuccess = 1;
+  string status = 3;
+  string errorMessage = 4;
+}

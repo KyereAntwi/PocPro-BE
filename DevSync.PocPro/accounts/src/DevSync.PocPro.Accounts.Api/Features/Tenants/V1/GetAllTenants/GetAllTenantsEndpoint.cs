@@ -18,7 +18,8 @@ public class GetAllTenantsEndpoint(IApplicationDbContext applicationDbContext)
                 t.ConnectionString,
                 t.Id.Value,
                 t.UniqueIdentifier,
-                t.SubscriptionType.ToString()))
+                t.SubscriptionType.ToString(),
+                null))
             .AsNoTracking()
             .ToListAsync(ct);
 

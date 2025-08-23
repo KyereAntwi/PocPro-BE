@@ -211,6 +211,9 @@ namespace DevSync.PocPro.Shops.Api.Data.Migrations
                     b.Property<Guid?>("PosSessionId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("PromoCode")
+                        .HasColumnType("text");
+
                     b.Property<string>("Status")
                         .HasColumnType("text");
 
@@ -517,6 +520,100 @@ namespace DevSync.PocPro.Shops.Api.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("DevSync.PocPro.Shops.PromoCodesModule.Domain.PromoCode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("CodeType")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasDefaultValue("SingleUsePerUser");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("DiscountPercentage")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTimeOffset>("ExpiryDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PromoCodes");
+                });
+
+            modelBuilder.Entity("DevSync.PocPro.Shops.PromoCodesModule.Domain.PromoCodeUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("PromoCodeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PromoCodeId");
+
+                    b.ToTable("PromoCodeUsers");
                 });
 
             modelBuilder.Entity("DevSync.PocPro.Shops.Reviews.Domains.ProductReview", b =>
@@ -1025,6 +1122,15 @@ namespace DevSync.PocPro.Shops.Api.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DevSync.PocPro.Shops.PromoCodesModule.Domain.PromoCodeUser", b =>
+                {
+                    b.HasOne("DevSync.PocPro.Shops.PromoCodesModule.Domain.PromoCode", null)
+                        .WithMany("PromoCodeUsers")
+                        .HasForeignKey("PromoCodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DevSync.PocPro.Shops.StocksModule.Domains.Contact", b =>
                 {
                     b.HasOne("DevSync.PocPro.Shops.StocksModule.Domains.Supplier", null)
@@ -1079,6 +1185,11 @@ namespace DevSync.PocPro.Shops.Api.Data.Migrations
                     b.Navigation("Managers");
 
                     b.Navigation("Sessions");
+                });
+
+            modelBuilder.Entity("DevSync.PocPro.Shops.PromoCodesModule.Domain.PromoCode", b =>
+                {
+                    b.Navigation("PromoCodeUsers");
                 });
 
             modelBuilder.Entity("DevSync.PocPro.Shops.StocksModule.Domains.Product", b =>

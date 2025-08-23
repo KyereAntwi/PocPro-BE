@@ -1,3 +1,5 @@
+using DevSync.PocPro.Shops.PromoCodesModule.Data;
+using DevSync.PocPro.Shops.PromoCodesModule.Domain;
 using DevSync.PocPro.Shops.Reviews.Data;
 using DevSync.PocPro.Shops.Reviews.Domains;
 
@@ -18,6 +20,7 @@ public class MainShopTemplateDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserWishListModuleDbContext).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(GeneralSettingsModuleDbContext).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProductReviewsModuleDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(PromoCodeModuleDbContext).Assembly);
         
         base.OnModelCreating(modelBuilder);
     }
@@ -42,4 +45,6 @@ public class MainShopTemplateDbContext : DbContext
     public DbSet<SocialLink> SocialLinks => Set<SocialLink>();
     public DbSet<ProductReview> ProductReviews => Set<ProductReview>();
     public DbSet<Rating> Ratings => Set<Rating>();
+    public DbSet<PromoCode> PromoCodes => Set<PromoCode>();
+    public DbSet<PromoCodeUser> PromoCodeUsers => Set<PromoCodeUser>();
 }

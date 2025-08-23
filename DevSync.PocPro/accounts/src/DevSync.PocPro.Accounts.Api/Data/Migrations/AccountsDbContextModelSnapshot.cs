@@ -131,164 +131,264 @@ namespace DevSync.PocPro.Accounts.Api.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("01973b9e-06cd-73f8-92f7-c988e26ce9a9"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 645, DateTimeKind.Unspecified).AddTicks(2690), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec0-7697-9123-ec6f41fa3993"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 504, DateTimeKind.Unspecified).AddTicks(6530), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "MANAGE_PERMISSIONS",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-7691-ba07-b54fbc0797a4"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6710), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-7aea-84a4-06c7c582ec20"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(1930), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "VIEW_USERS",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-719e-894e-f9854a36bbbb"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6730), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-7e8f-9f01-95760b3629e4"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(1940), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "MANAGE_USERS",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-7225-b878-6bfce2302b17"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6730), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-7dec-b627-66d19a3d096d"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(1950), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "VIEW_TENANTS",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-7345-86fa-9236c56aa1f2"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6740), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-72ac-9d2b-feeecce53a1e"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(1960), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "MANAGE_TENANTS",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-739c-ab58-cb413a91189a"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6750), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-78ae-b1ce-feb136996f1a"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(1970), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "VIEW_PRODUCTS",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-7050-9f91-fb19b3cd3d01"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6760), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-709f-bc16-6ea9663cf024"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(1970), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "MANAGE_PRODUCTS",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-7115-92e2-4c1d4fbf944a"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6760), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-745c-aaa3-a18cc0b660c1"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(1980), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "MANAGE_CATEGORIES",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-7bbb-b63f-868550e714e2"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6770), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-7e3d-ad95-cbb06d3363c9"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(1990), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "MANAGE_SUPPLIERS",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-7cd6-b48c-3babb81c170d"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6780), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-7507-9f4c-f49535d5eded"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(1990), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "VIEW_SUPPLIERS",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-7f3f-8043-a14aa13481bb"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6780), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-755e-8cad-34792b3b875b"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(2000), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "VIEW_STOCKS",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-73f1-ae83-82196ee711bf"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6790), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-7436-b0e6-a0a29801d7e7"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(2010), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "MANAGE_POS",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-7eb1-92f4-989c082289a2"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6800), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-797f-bb30-b007dd24c15e"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(2010), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "GET_POS",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-7324-a0e7-a537ddfddc66"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6810), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-7ed9-8951-ceb35f322d5d"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(2020), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "MANAGE_SALES",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-765b-8982-85a3235a3258"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6810), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-7835-805e-3f85acf10011"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(2030), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "VIEW_SALES",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-72cd-a3eb-e3deccc0e139"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6820), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-79c7-b170-3f8d112b8059"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(2040), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "MANAGE_PURCHASES",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-7dbe-b49d-ec880a0d71f4"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6830), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-7688-a9d2-822edbb6c1b2"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(2040), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "VIEW_PURCHASES",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-761d-b2fb-e1279cbf2fc0"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6830), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-7293-94c0-d20e458846f1"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(2050), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "MANAGE_CUSTOMERS",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-74f0-83fa-6b533ee20314"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6840), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-77f3-8eda-099831000ff4"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(2060), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "VIEW_CUSTOMERS",
                             Status = "Active"
                         },
                         new
                         {
-                            Id = new Guid("01973b9e-06d7-7907-80de-1cdc2d9a2ec6"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 4, 15, 45, 1, 655, DateTimeKind.Unspecified).AddTicks(6850), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0198adc5-0ec6-7b60-98da-de3d761552c1"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(2060), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "System",
                             PermissionType = "VIEW_ORDERS",
                             Status = "Active"
+                        },
+                        new
+                        {
+                            Id = new Guid("0198adc5-0ec6-769c-a562-aed0ab245436"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(2070), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "VIEW_SESSIONS",
+                            Status = "Active"
+                        },
+                        new
+                        {
+                            Id = new Guid("0198adc5-0ec6-7633-bd25-8dfc45aa5ce1"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(2080), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "MANAGE_BRANDS",
+                            Status = "Active"
+                        },
+                        new
+                        {
+                            Id = new Guid("0198adc5-0ec6-750c-b77c-91cf0ef21bcd"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(2080), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "VIEW_REPORTS",
+                            Status = "Active"
+                        },
+                        new
+                        {
+                            Id = new Guid("0198adc5-0ec6-71fd-b39c-326e15bdcb72"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(2090), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "MANAGE_SETTINGS",
+                            Status = "Active"
+                        },
+                        new
+                        {
+                            Id = new Guid("0198adc5-0ec6-7fb0-be60-bd58ef9ed984"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(2100), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "MANAGE_PROMO_CODES",
+                            Status = "Active"
+                        },
+                        new
+                        {
+                            Id = new Guid("0198adc5-0ec6-723c-82db-518df87a760d"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 8, 15, 15, 47, 9, 510, DateTimeKind.Unspecified).AddTicks(2100), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedBy = "System",
+                            PermissionType = "MANAGE_SUBACCOUNTS",
+                            Status = "Active"
                         });
+                });
+
+            modelBuilder.Entity("DevSync.PocPro.Accounts.Api.Features.Tenants.Domain.SubAccount", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AccountNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("BusinessName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<float>("PercentageCharge")
+                        .HasColumnType("real");
+
+                    b.Property<string>("SettlementBank")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId")
+                        .IsUnique();
+
+                    b.ToTable("SubAccounts");
                 });
 
             modelBuilder.Entity("DevSync.PocPro.Accounts.Api.Features.Tenants.Domain.Tenant", b =>
@@ -346,6 +446,20 @@ namespace DevSync.PocPro.Accounts.Api.Data.Migrations
                         .HasForeignKey("PermissionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DevSync.PocPro.Accounts.Api.Features.Tenants.Domain.SubAccount", b =>
+                {
+                    b.HasOne("DevSync.PocPro.Accounts.Api.Features.Tenants.Domain.Tenant", null)
+                        .WithOne("SubAccount")
+                        .HasForeignKey("DevSync.PocPro.Accounts.Api.Features.Tenants.Domain.SubAccount", "TenantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DevSync.PocPro.Accounts.Api.Features.Tenants.Domain.Tenant", b =>
+                {
+                    b.Navigation("SubAccount");
                 });
 #pragma warning restore 612, 618
         }

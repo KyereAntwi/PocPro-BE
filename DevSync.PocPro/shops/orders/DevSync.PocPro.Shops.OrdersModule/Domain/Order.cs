@@ -17,7 +17,8 @@ public class Order : BaseEntity<OrderId>
         Guid pointOfSaleId = default,
         string? customerName = null,
         double amountReceived = 0,
-        string orderNumber = "")
+        string orderNumber = "",
+        string? promoCode = "")
     {
         if (orderItems.Count == 0)
         {
@@ -46,7 +47,8 @@ public class Order : BaseEntity<OrderId>
             OrderNumber = string.IsNullOrWhiteSpace(orderNumber) ? OrderServices.GenerateOrderNumber() : orderNumber,
             CustomerName = customerName,
             AmountReceived = amountReceived,
-            Status = StatusType.Active
+            Status = StatusType.Active,
+            PromoCode = promoCode
         };
 
         foreach (var orderItem in orderItems)
@@ -85,6 +87,7 @@ public class Order : BaseEntity<OrderId>
     public CustomerId? CustomerId { get; private set; }
     public PointOfSaleId? PointOfSaleId { get; private set; }
     public PaymentMethod PaymentMethod { get; private set; }
-    public string? CustomerName { get; set; }
-    public double AmountReceived { get; set; }
+    public string? CustomerName { get; private set; }
+    public double AmountReceived { get; private set; }
+    public string? PromoCode { get; private set; }
 }

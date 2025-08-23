@@ -41,6 +41,7 @@
 
     <ItemGroup>
         <Protobuf Include="Features\Tenants\Grpc\tenant_services.proto" GrpcServices="Server" />
+        <Protobuf Include="Features\Tenants\Grpc\payment_services.proto" GrpcServices="Client" />
     </ItemGroup>
 
     <ItemGroup>
