@@ -2,3 +2,4 @@
 
 global using DevSync.PocPro.Shared.Domain.Events;
 global using DevSync.PocPro.Shared.Domain.Exceptions;
+global using FluentResults;

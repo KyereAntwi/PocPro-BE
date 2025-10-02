@@ -11,6 +11,7 @@ public class GetTenantDetailsEndpoint(IApplicationDbContext applicationDbContext
             .Produces<BaseResponse<GetTenantDetailsResponse>>()
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound));
+        AllowAnonymous();
     }
 
     public override async Task HandleAsync(GetTenantDetailsRequest req, CancellationToken ct)

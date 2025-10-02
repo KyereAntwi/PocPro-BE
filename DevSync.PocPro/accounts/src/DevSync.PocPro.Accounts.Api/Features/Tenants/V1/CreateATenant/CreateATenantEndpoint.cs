@@ -1,13 +1,7 @@
-using DevSync.PocPro.Accounts.Api.Features.Tenants.V1.GetTenantDetails;
-using DevSync.PocPro.Shared.Domain.Utils;
-
 namespace DevSync.PocPro.Accounts.Api.Features.Tenants.V1.CreateATenant;
 
 public class CreateATenantEndpoint(
-    IApplicationDbContext applicationDbContext, 
-    ILogger<CreateATenantEndpoint> logger,
-    RabbitMqConnectionFactory rabbitMqConnection,
-    TenantDatabaseSettings tenantDatabaseSettings) 
+    Shared.Domain.CQRS.ICommandHandler<CreateATenantRequest, CreateATenantResponse> handler) 
     : Endpoint<CreateATenantRequest, BaseResponse<CreateATenantResponse>>
 {
     public override void Configure()
@@ -23,42 +17,23 @@ public class CreateATenantEndpoint(
 
     public override async Task HandleAsync(CreateATenantRequest req, CancellationToken ct)
     {
-        var existingUniqueIdentifier = await applicationDbContext.Tenants
-            .Where(t => t.UniqueIdentifier.ToLower() == req.UniqueIdentifier.ToLower()).FirstOrDefaultAsync(ct);
-
-        if (existingUniqueIdentifier != null)
-        {
-            await SendErrorsAsync((int)HttpStatusCode.BadRequest, ct);
-            return;
-        }
+        var result = await handler.HandleAsync(req, ct);
         
-        var connectionString = $"Host={tenantDatabaseSettings.Server};Port={tenantDatabaseSettings.Port};Database={req.UniqueIdentifier};Username={tenantDatabaseSettings.Username};Password={tenantDatabaseSettings.Password};SSL Mode=Require;Trust Server Certificate=true;";
-        _ = Enum.TryParse<SubscriptionType>(req.SubscriptionType, out var subscription);
-        var tenant = Tenant.Create(req.UniqueIdentifier, connectionString, subscription);
-        
-        await applicationDbContext.Tenants.AddAsync(tenant, ct);
-        await applicationDbContext.SaveChangesAsync(ct);
-
-        try
+        if (result.IsFailed)
         {
-            var integrationEvent = new GenerateTenantDatabaseEvent
+            await SendAsync(new BaseResponse<CreateATenantResponse>("Failed to create tenant", false)
             {
-                TenantId = tenant.Id.Value,
-                DatabaseName = tenant.UniqueIdentifier,
-                ConnectionString = connectionString
-            };
-            var publisher = new EventPublisher(rabbitMqConnection);
-            await publisher.PublishAsync(integrationEvent, "shop_exchange", "generate_database", ct);
-        }
-        catch (Exception e)
-        {
-            logger.LogError(e.Message, $"Error publishing integration event {nameof(GenerateTenantDatabaseEvent)}");
+                Errors = result.Errors.Select(e => e.Message).ToList()
+            }, StatusCodes.Status400BadRequest, ct);
         }
 
-        await SendCreatedAtAsync<GetTenantDetailsEndpoint>(new { tenant.Id }, 
+        await SendCreatedAtAsync<GetTenantDetailsEndpoint>(new
+            {
+                Id = result.Value.Id
+            }, 
             new BaseResponse<CreateATenantResponse>("Tenant created successfully", true)
             {
-                Data = new CreateATenantResponse(tenant.Id.Value)
+                Data = new CreateATenantResponse(result.Value.Id)
             }, cancellation: ct);
     }
 }
