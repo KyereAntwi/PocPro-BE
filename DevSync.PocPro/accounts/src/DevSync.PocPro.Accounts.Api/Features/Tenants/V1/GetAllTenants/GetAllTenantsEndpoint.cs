@@ -1,8 +1,6 @@
-using DevSync.PocPro.Accounts.Api.Features.Tenants.V1.GetTenantDetails;
-
 namespace DevSync.PocPro.Accounts.Api.Features.Tenants.V1.GetAllTenants;
 
-public class GetAllTenantsEndpoint(IApplicationDbContext applicationDbContext) 
+public class GetAllTenantsEndpoint(IQueryHandler<GetAllTenantsQuery, List<GetTenantDetailsResponse>> handler) 
     : EndpointWithoutRequest<BaseResponse<IEnumerable<GetTenantDetailsResponse>>>
 {
     public override void Configure()
@@ -12,20 +10,10 @@ public class GetAllTenantsEndpoint(IApplicationDbContext applicationDbContext)
 
     public override async Task HandleAsync(CancellationToken ct)
     {
-        var allTenants = await applicationDbContext
-            .Tenants
-            .Select(t => new GetTenantDetailsResponse(
-                t.ConnectionString,
-                t.Id.Value,
-                t.UniqueIdentifier,
-                t.SubscriptionType.ToString(),
-                null))
-            .AsNoTracking()
-            .ToListAsync(ct);
-
+        var allTenants = await handler.HandleAsync(null!, ct);
         await SendOkAsync(new BaseResponse<IEnumerable<GetTenantDetailsResponse>>("Success", true)
         {
-            Data = allTenants
+            Data = allTenants.Value
         }, ct);
     }
 }

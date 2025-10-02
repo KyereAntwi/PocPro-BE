@@ -1,6 +1,7 @@
 namespace DevSync.PocPro.Accounts.Api.Features.Tenants.V1.CheckExistingUniqueIdentifier;
 
-public class CheckExistingUniqueIdentifierEndpoint(IApplicationDbContext applicationDbContext) 
+public class CheckExistingUniqueIdentifierEndpoint(
+    IQueryHandler<CheckExistingUniqueIdentifierQuery, CheckExistingUniqueIdentifierResponse> handler) 
     : Endpoint<CheckExistingUniqueIdentifierRequest, BaseResponse<CheckExistingUniqueIdentifierResponse>>
 {
     public override void Configure()
@@ -10,12 +11,10 @@ public class CheckExistingUniqueIdentifierEndpoint(IApplicationDbContext applica
 
     public override async Task HandleAsync(CheckExistingUniqueIdentifierRequest req, CancellationToken ct)
     {
-        var exists = await applicationDbContext.Tenants.Where(t => t.UniqueIdentifier == req.UniqueIdentifier)
-            .FirstOrDefaultAsync(ct);
-        
+        var exists = await handler.HandleAsync(new CheckExistingUniqueIdentifierQuery(req.UniqueIdentifier), ct);
         await SendOkAsync(new BaseResponse<CheckExistingUniqueIdentifierResponse>("Existing unique identifier",true)
         {
-            Data = new CheckExistingUniqueIdentifierResponse(exists != null),
+            Data = new CheckExistingUniqueIdentifierResponse(exists.Value.UniqueIdentifierExists),
         }, ct);
     }
 }

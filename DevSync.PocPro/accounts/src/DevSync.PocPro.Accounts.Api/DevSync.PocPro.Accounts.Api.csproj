@@ -45,6 +45,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="CQRS\Commands\" />
       <Folder Include="EventsHandlers\Handlers\" />
     </ItemGroup>
 

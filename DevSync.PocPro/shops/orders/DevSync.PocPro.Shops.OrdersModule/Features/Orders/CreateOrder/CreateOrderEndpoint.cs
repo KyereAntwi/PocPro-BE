@@ -167,7 +167,6 @@ public class CreateOrderEndpoint(
             
         response.Add(newOrder.Value.Id.Value);
         await orderModuleDbContext.Orders.AddAsync(newOrder.Value, ct);
-        
         await orderModuleDbContext.SaveChangesAsync(ct);
 
         await SendOkAsync(new BaseResponse<IEnumerable<Guid>>("Order placed successfully", true)

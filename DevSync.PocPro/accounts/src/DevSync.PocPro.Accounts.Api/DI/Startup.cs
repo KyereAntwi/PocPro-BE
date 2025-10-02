@@ -1,8 +1,11 @@
+using DevSync.PocPro.Accounts.Api.CQRS.Handlers;
 using DevSync.PocPro.Accounts.Api.Features.Tenants.Grpc;
+using DevSync.PocPro.Accounts.Api.Features.Tenants.V1.CheckExistingUniqueIdentifier;
 using DevSync.PocPro.Accounts.Api.Services;
 using DevSync.PocPro.Shared.Domain.Middlewares;
-using DevSync.PocPro.Shared.Domain.Utils;
 using Scalar.AspNetCore;
+using GetTenantDetailsResponse = DevSync.PocPro.Accounts.Api.Features.Tenants.V1.GetTenantDetails.GetTenantDetailsResponse;
+using CreateSubAccountRequest = DevSync.PocPro.Accounts.Api.Features.Tenants.V1.CreateSubAccount.CreateSubAccountRequest;
 
 namespace DevSync.PocPro.Accounts.Api.DI;
 
@@ -33,6 +36,16 @@ public static class Startup
         
         builder.AddServiceDefaults();
         builder.Services.AddOpenApi();
+
+        builder.Services.AddScoped<IQueryHandler<GetAllTenantsQuery, List<GetTenantDetailsResponse>>, GetAllTenantsQueryHandler>();
+        builder.Services
+            .AddScoped<IQueryHandler<CheckExistingUniqueIdentifierQuery, CheckExistingUniqueIdentifierResponse>,
+                CheckExistingUniqueIdentifierQueryHandler>();
+        builder.Services
+            .AddScoped<Shared.Domain.CQRS.ICommandHandler<CreateATenantRequest, CreateATenantResponse>,
+                CreateATenantCommandHandler>();
+        builder.Services
+            .AddScoped<Shared.Domain.CQRS.ICommandHandler<CreateSubAccountRequest, Guid>, CreateSubAccountCommandHandler>();
         
         builder.Services.AddScoped<IApplicationDbContext, AccountsDbContext>();
         builder.Services.AddHttpClient<IIdentityServices, IdentityServices>();
