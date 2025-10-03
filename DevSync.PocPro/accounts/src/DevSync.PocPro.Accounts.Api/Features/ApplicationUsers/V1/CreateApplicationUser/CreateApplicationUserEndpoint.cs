@@ -1,6 +1,7 @@
 namespace DevSync.PocPro.Accounts.Api.Features.ApplicationUsers.V1.CreateApplicationUser;
 
-public class CreateApplicationUserEndpoint(IApplicationDbContext applicationDbContext) : Endpoint<CreateApplicationUserRequest>
+public class CreateApplicationUserEndpoint(
+    IApplicationDbContext applicationDbContext) : Endpoint<CreateApplicationUserRequest>
 {
     public override void Configure()
     {

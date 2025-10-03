@@ -1,9 +1,7 @@
 namespace DevSync.PocPro.Accounts.Api.Features.ApplicationUsers.V1.AddApplicationUser;
 
 public class AddApplicationUserEndpoint(
-    IApplicationDbContext applicationDbContext, 
-    IHttpContextAccessor httpContextAccessor,
-    IIdentityServices identityServices) 
+    Shared.Domain.CQRS.ICommandHandler<AddApplicationUserRequest, AddApplicationUserResponse> handler) 
     : Endpoint<AddApplicationUserRequest, BaseResponse<AddApplicationUserResponse>>
 {
     public override void Configure()
@@ -19,81 +17,23 @@ public class AddApplicationUserEndpoint(
 
     public override async Task HandleAsync(AddApplicationUserRequest req, CancellationToken ct)
     {
-        var userId = httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+        var result = await handler.HandleAsync(req, ct);
 
-        var newUserId = string.Empty;
-        
-        if (!req.TenantAccount)
+        if (result.IsFailed)
         {
-            var loggedInUser = await applicationDbContext
-                .ApplicationUsers
-                .Include(a => a.Permissions)
-                .AsSplitQuery()
-                .AsNoTracking()
-                .FirstOrDefaultAsync(a => a.UserId == userId, ct);
-            if (loggedInUser == null)
+            await SendAsync(new BaseResponse<AddApplicationUserResponse>("Failed to add application user", false)
             {
-                await SendNotFoundAsync(cancellation: ct);
-                return;
-            }
-            
-            if (!loggedInUser.HasPermission(PermissionType.MANAGE_USERS))
-            {
-                await SendForbiddenAsync(cancellation: ct);
-                return;
-            }
-            
-            try
-            {
-               newUserId = await identityServices.RegisterUserLoginAsync(req.Username, req.Email!, req.Password!,
-                    httpContextAccessor.HttpContext?.Request.Headers.Authorization.FirstOrDefault()!);
-            }
-            catch (Exception)
-            {
-                await SendErrorsAsync(StatusCodes.Status500InternalServerError, cancellation: ct);
-            }
+                Errors = result.Errors.Select(e => e.Message).ToList()
+            }, StatusCodes.Status400BadRequest, ct);
         }
-        
-        var existingUser = await applicationDbContext.ApplicationUsers.FirstOrDefaultAsync(a => a.UserId == req.Username, ct);
-
-        if (existingUser != null)
-        {
-            await SendErrorsAsync(StatusCodes.Status400BadRequest, ct);
-            return;
-        }
-        
-        List<Permission> permissions = [];
-        
-        var photoUrl = string.Empty;
-        if (req.PhotoFile != null)
-        {
-            //TODO - to be implemented
-        }
-        
-        if (req.PermissionTypes != null && req.PermissionTypes.Any())
-        {
-            var permissionTypeEnums = req.PermissionTypes
-                .Select(Enum.Parse<PermissionType>)
-                .ToList();
-
-            permissions = await applicationDbContext.Permissions
-                .Where(p => permissionTypeEnums.Contains(p.PermissionType))
-                .ToListAsync(ct);
-        }
-
-        var result = ApplicationUser.Create(req.FirstName, req.LastName, req.OtherNames ?? string.Empty, req.Email ?? string.Empty, newUserId, photoUrl,
-            permissions, TenantId.Of(req.TenantId));
-        
-        await applicationDbContext.ApplicationUsers.AddAsync(result, ct);
-        await applicationDbContext.SaveChangesAsync(ct);
 
         await SendCreatedAtAsync<GetApplicationUserDetailsEndpoint>(new
             {
-                result.Id,
+                result.Value.Id,
             },
             new BaseResponse<AddApplicationUserResponse>("Application created successfully", true)
             {
-                Data = new AddApplicationUserResponse(result.Id.Value)
+                Data = result.Value
             }, cancellation: ct);
     }
 }
