@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using DevSync.PocPro.Shared.Domain.Middlewares;
 using DevSync.PocPro.Shops.GeneralSettings.DI;
 using DevSync.Pocpro.Shops.Notifications.DI;
@@ -72,6 +73,15 @@ public static class Startup
         
         builder.AddServiceDefaults();
         builder.Services.AddOpenApi();
+        
+        builder.Services.AddHttpClient("vercel", client =>
+        {
+            client.BaseAddress = new Uri(builder.Configuration["Vercel:ApiUrl"]!);
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", builder.Configuration["Vercel:ApiKey"]);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        });
+
 
         builder.Services.AddGrpcClient<TenantService.TenantServiceClient>(options =>
         {
