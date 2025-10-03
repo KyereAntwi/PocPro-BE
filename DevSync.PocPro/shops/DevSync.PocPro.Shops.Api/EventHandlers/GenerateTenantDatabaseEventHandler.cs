@@ -45,6 +45,7 @@ public class GenerateTenantDatabaseEventHandler
 
                 await _tenantRegistrationServices.GenerateTenantDatabase(eventObj.DatabaseName, stoppingToken);
                 await _tenantRegistrationServices.ApplyMigrationAsync(eventObj.ConnectionString, stoppingToken);
+                await _tenantRegistrationServices.DeployTenantFrontendAsync(eventObj.DatabaseName, stoppingToken);
             }
             catch (Exception ex)
             {
