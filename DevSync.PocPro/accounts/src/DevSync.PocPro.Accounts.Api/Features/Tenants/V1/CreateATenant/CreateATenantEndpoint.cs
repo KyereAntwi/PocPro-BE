@@ -1,7 +1,9 @@
 namespace DevSync.PocPro.Accounts.Api.Features.Tenants.V1.CreateATenant;
 
 public class CreateATenantEndpoint(
-    Shared.Domain.CQRS.ICommandHandler<CreateATenantRequest, CreateATenantResponse> handler) 
+    Shared.Domain.CQRS.ICommandHandler<CreateATenantRequest, CreateATenantResponse> handler,
+    ApiAuthentication apiAuthentication,
+    IHttpContextAccessor httpContextAccessor) 
     : Endpoint<CreateATenantRequest, BaseResponse<CreateATenantResponse>>
 {
     public override void Configure()
@@ -13,10 +15,21 @@ public class CreateATenantEndpoint(
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status500InternalServerError)
         );
+        AllowAnonymous();
     }
 
     public override async Task HandleAsync(CreateATenantRequest req, CancellationToken ct)
     {
+        string? appKey = httpContextAccessor.HttpContext?.Request.Headers["Api-Key"].FirstOrDefault();
+
+        if (
+            string.IsNullOrWhiteSpace(appKey) || 
+            !string.Equals(appKey, apiAuthentication.OnBoardingAppKey)) 
+        { 
+            await SendUnauthorizedAsync(ct);
+            return;
+        }
+
         var result = await handler.HandleAsync(req, ct);
         
         if (result.IsFailed)

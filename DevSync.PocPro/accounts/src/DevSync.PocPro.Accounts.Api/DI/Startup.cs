@@ -6,6 +6,8 @@ using DevSync.PocPro.Shared.Domain.Middlewares;
 using Scalar.AspNetCore;
 using GetTenantDetailsResponse = DevSync.PocPro.Accounts.Api.Features.Tenants.V1.GetTenantDetails.GetTenantDetailsResponse;
 using CreateSubAccountRequest = DevSync.PocPro.Accounts.Api.Features.Tenants.V1.CreateSubAccount.CreateSubAccountRequest;
+using DevSync.PocPro.Accounts.Api.Features.ApplicationUsers.V1.AddApplicationUser;
+using DevSync.PocPro.Accounts.Api.Features.ApplicationUsers.V1.AddApplicationUserViaOnBoarding;
 
 namespace DevSync.PocPro.Accounts.Api.DI;
 
@@ -38,14 +40,11 @@ public static class Startup
         builder.Services.AddOpenApi();
 
         builder.Services.AddScoped<IQueryHandler<GetAllTenantsQuery, List<GetTenantDetailsResponse>>, GetAllTenantsQueryHandler>();
-        builder.Services
-            .AddScoped<IQueryHandler<CheckExistingUniqueIdentifierQuery, CheckExistingUniqueIdentifierResponse>,
-                CheckExistingUniqueIdentifierQueryHandler>();
-        builder.Services
-            .AddScoped<Shared.Domain.CQRS.ICommandHandler<CreateATenantRequest, CreateATenantResponse>,
-                CreateATenantCommandHandler>();
-        builder.Services
-            .AddScoped<Shared.Domain.CQRS.ICommandHandler<CreateSubAccountRequest, Guid>, CreateSubAccountCommandHandler>();
+        builder.Services.AddScoped<IQueryHandler<CheckExistingUniqueIdentifierQuery, CheckExistingUniqueIdentifierResponse>,CheckExistingUniqueIdentifierQueryHandler>();
+        builder.Services.AddScoped<Shared.Domain.CQRS.ICommandHandler<CreateATenantRequest, CreateATenantResponse>,CreateATenantCommandHandler>();
+        builder.Services.AddScoped<Shared.Domain.CQRS.ICommandHandler<CreateSubAccountRequest, Guid>, CreateSubAccountCommandHandler>();
+        builder.Services.AddScoped<Shared.Domain.CQRS.ICommandHandler<AddApplicationUserRequest, AddApplicationUserResponse>, AddApplicationUserToTenantCommandHandler>();
+        builder.Services.AddScoped<Shared.Domain.CQRS.ICommandHandler<AddApplicationUserViaOnBoardingRequest, Guid>, AddApplicationUserViaOnBoardingCommandHandler>();
         
         builder.Services.AddScoped<IApplicationDbContext, AccountsDbContext>();
         builder.Services.AddHttpClient<IIdentityServices, IdentityServices>();

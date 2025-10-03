@@ -5,7 +5,7 @@
   "Routes": [
     {
       "UpstreamPathTemplate": "/gateway/v1/accounts/users",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/accounts/users",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -15,8 +15,19 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/gateway/v1/accounts/users/via-onboarding",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/v1/accounts/users/via-onboarding",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "devsyncaccountsapi-ccguashuc8a5gpfs.uksouth-01.azurewebsites.net"
+        }
+      ]
+    },
+    {
       "UpstreamPathTemplate": "/gateway/v1/accounts/users/{UserId}",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/accounts/users/{UserId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -33,7 +44,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/accounts/users/{UserId}/permissions",
-      "UpstreamHttpMethod": ["Put"],
+      "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/v1/accounts/users/{UserId}/permissions",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -44,7 +55,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/accounts/users/{UserId}",
-      "UpstreamHttpMethod": ["Put"],
+      "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/v1/accounts/users/{UserId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -55,7 +66,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/accounts/tenants",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/accounts/tenants",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -66,7 +77,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/accounts/tenants/{Id}/users",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/accounts/tenants/{Id}/users",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -86,7 +97,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/accounts/tenants/{UserId}",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/accounts/tenants/{UserId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -106,7 +117,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/accounts/tenants/byidentifier/{Identifier}",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/accounts/tenants/byidentifier/{Identifier}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -123,7 +134,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/accounts/tenants/check-existing-unique-identifier/{UniqueIdentifier}",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/accounts/tenants/check-existing-unique-identifier/{UniqueIdentifier}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -134,7 +145,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/categories",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/categories",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -145,7 +156,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/brands",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/brands",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -156,7 +167,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/categories/{Id}",
-      "UpstreamHttpMethod": ["Delete"],
+      "UpstreamHttpMethod": [ "Delete" ],
       "DownstreamPathTemplate": "/api/v1/categories/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -167,7 +178,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/categories",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/categories",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -181,7 +192,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/brands",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/brands",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -195,7 +206,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/categories/{Id}",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/categories/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -212,7 +223,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/brands/{Id}",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/brands/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -229,7 +240,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/categories/{Id}",
-      "UpstreamHttpMethod": ["Put"],
+      "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/v1/categories/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -240,7 +251,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/brands/{Id}",
-      "UpstreamHttpMethod": ["Put"],
+      "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/v1/brands/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -251,7 +262,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/products",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/products",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -262,7 +273,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/orders/bulk",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/orders/bulk",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -273,7 +284,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/orders/initialize-payment",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/orders/initialize-payment",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -284,7 +295,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}",
-      "UpstreamHttpMethod": ["Put"],
+      "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/v1/products/{ProductId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -295,7 +306,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/products/{ProductId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -312,7 +323,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/products",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/products",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -326,7 +337,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/online-products",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/online/products",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -340,7 +351,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/most-performing/products",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/products/most-performing",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -354,7 +365,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}/stocks/{StockId}",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/products/{ProductId}/stocks/{StockId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -371,7 +382,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}/stocks",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/products/{ProductId}/stocks",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -382,7 +393,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}/stocks",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/products/{ProductId}/stocks",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -402,7 +413,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}/ratings",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/products/{ProductId}/ratings",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -413,7 +424,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}/reviews",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/products/{ProductId}/reviews",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -424,7 +435,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}/reviews/{Id}",
-      "UpstreamHttpMethod": ["Delete"],
+      "UpstreamHttpMethod": [ "Delete" ],
       "DownstreamPathTemplate": "/api/v1/products/{ProductId}/reviews/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -435,7 +446,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/products/{ProductId}/reviews/{Id}",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/products/{ProductId}/reviews/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -455,7 +466,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/suppliers",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/suppliers",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -466,7 +477,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/suppliers",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/suppliers",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -486,7 +497,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/suppliers/{Id}",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/suppliers/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -503,7 +514,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/pointofsales/{Id}/sessions",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/pointofsales/{Id}/sessions",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -514,7 +525,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/pointofsales/{Id}/sessions",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/pointofsales/{Id}/sessions",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -534,7 +545,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/pointofsales/{Id}/managers",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/pointofsales/{Id}/managers",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -554,7 +565,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/pointofsales/{Id}/sessions/active",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/pointofsales/{Id}/sessions/active",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -574,7 +585,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/pointofsales",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/pointofsales",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -585,7 +596,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/pointofsales/{Id}/sessions/{SessionId}",
-      "UpstreamHttpMethod": ["Put"],
+      "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/v1/pointofsales/{Id}/sessions/{SessionId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -596,7 +607,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/pointofsales",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/pointofsales",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -616,7 +627,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/pointofsales/{Id}",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/pointofsales/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -633,7 +644,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/pointofsales/{Id}",
-      "UpstreamHttpMethod": ["Put"],
+      "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/v1/pointofsales/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -650,7 +661,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/pointofsales/{Id}/managers/add",
-      "UpstreamHttpMethod": ["Put"],
+      "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/v1/pointofsales/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -667,7 +678,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/pointofsales/{Id}/managers/remove",
-      "UpstreamHttpMethod": ["Put"],
+      "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/v1/pointofsales/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -684,7 +695,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/orders/{Id}",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/orders/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -701,7 +712,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/orders/by-order-number/{OrderNumber}",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/orders/by-order-number/{OrderNumber}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -718,7 +729,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/orders",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/orders",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -732,7 +743,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/orders",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/orders",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -743,7 +754,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/orders/{Id}",
-      "UpstreamHttpMethod": ["Put"],
+      "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/v1/orders/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -754,7 +765,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/customers",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/customers",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -765,7 +776,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/customers/{Id}",
-      "UpstreamHttpMethod": ["Delete"],
+      "UpstreamHttpMethod": [ "Delete" ],
       "DownstreamPathTemplate": "/api/v1/customers/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -776,7 +787,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/customers",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/customers",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -796,7 +807,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/customers/{Id}",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/customers/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -813,7 +824,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/customers/{Id}",
-      "UpstreamHttpMethod": ["Put"],
+      "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/v1/customers/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -824,7 +835,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/wishlists",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/wishlists",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -844,7 +855,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/wishlists",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/wishlists",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -861,7 +872,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/wishlists/{Id}",
-      "UpstreamHttpMethod": ["Delete"],
+      "UpstreamHttpMethod": [ "Delete" ],
       "DownstreamPathTemplate": "/api/v1/wishlists/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -878,7 +889,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/settings",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/settings",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -895,7 +906,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/settings",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/settings",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -909,7 +920,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/reports/sales-overview",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/reports/sales-overview",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -929,7 +940,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/reports/total-amount-of-stocks-left",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/reports/total-amount-of-stocks-left",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -949,7 +960,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/reports/total-customers",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/reports/total-customers",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -969,7 +980,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/reports/total-pending-orders",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/reports/total-pending-orders",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -989,7 +1000,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/reports/total-sales",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/reports/total-sales",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -1009,7 +1020,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/reports/total-sales-by-payment-method",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/reports/total-sales-by-payment-method",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -1029,7 +1040,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/reports/total-sales-count",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/reports/total-sales-count",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -1049,7 +1060,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/promo-codes",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/promo-codes",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -1069,7 +1080,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/promo-codes/{Id}",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v1/promo-codes/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -1089,7 +1100,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/v1/promo-codes",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/v1/promo-codes",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
